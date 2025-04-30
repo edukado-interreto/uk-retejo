@@ -6,6 +6,8 @@ from decouple import AutoConfig, Config, RepositoryEnv, RepositorySecret
 
 __all__ = ["NamedEmail", "config"]
 
+ENV_FILE = ".env.django"
+
 
 class NamedEmail:
     """Process email in angle brackets with full name before it.
@@ -37,4 +39,9 @@ if Path("/run/secrets/").exists():
     config = Config(RepositorySecret())
 else:
     # Local development
-    config = Config(RepositoryEnv(".env.django"))
+    try:
+        config = Config(RepositoryEnv(ENV_FILE))
+    except FileNotFoundError as error:
+        print(error)
+    finally:
+        config = AutoConfig()
