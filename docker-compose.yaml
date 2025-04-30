@@ -1,0 +1,48 @@
+name: "uk-retejo"
+
+secrets:
+  postgres-password:
+    file: ./secrets/postgres-password
+
+volumes:
+  assets:
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$PORT"
+    volumes:
+      - ./assets:/app/assets:z
+      - .:/app:z
+    ports:
+      - $PORT:$PORT
+    environment:
+      - DEBUG=True
+      - SECRETS_DIR=./secrets
+    env_file:
+      - .env.django
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17-alpine
+    secrets:
+      - postgres-password
+    volumes:
+      - .docker/postgres_data:/var/lib/postgresql/data/:z
+    environment:
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD_FILE=/run/secrets/$POSTGRES_PASSWORD_FILE
+    restart: unless-stopped
+
+  daisyui:
+    image: debian:bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app:z
+    tty: true
+    command: /bin/sh -c "./ui/tailwindcss --watch -i ui/input.css -o config/static/uk-retejo.css"

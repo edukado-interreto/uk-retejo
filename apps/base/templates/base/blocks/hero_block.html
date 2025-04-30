@@ -1,0 +1,7 @@
+{% load static wagtailcore_tags wagtailimages_tags  %}{% image self.background width-2048 as background %}
+<section id="uk-hero" class="pt-24 text-center mb-22" style="background: center / cover no-repeat url('{% get_media_prefix %}{{ background.file }}');">
+    <h1 data-aos="fade-up" class="mt-24 title font-bold uppercase text-2xl lg:text-8xl text-white mb-8 mx-20 lg:mx-[20vw]">{{ self.title }}</h1>
+    <p data-aos="fade-up" data-aos-delay="500" class="description text-xl lg:text-3xl font-bold text-center text-white animated">
+      <time datetime="{{ self.start_date }}">{{ self.dates }}</time> — {{ self.location }}
+    </p>
+</section>
