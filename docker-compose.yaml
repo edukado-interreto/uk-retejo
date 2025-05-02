@@ -4,9 +4,6 @@ secrets:
   postgres-password:
     file: ./secrets/postgres-password
 
-volumes:
-  assets:
-
 services:
   django:
     build:

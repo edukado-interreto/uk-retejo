@@ -1,6 +1,8 @@
 from pathlib import Path
 
+from decouple import Csv
 from dj_database_url import parse as db_url
+
 from config.decouple import config
 
 CONFIG_DIR = Path(__file__).parent
@@ -67,8 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-from os import environ
-
 DATABASES = {"default": config("DATABASE_URL", cast=db_url)}
 
 
@@ -96,8 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
 
-# SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv, default=["*"])
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
