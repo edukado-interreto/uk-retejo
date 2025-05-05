@@ -10,6 +10,7 @@ BASE_DIR = CONFIG_DIR.parent
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool, default=False)
+HOST = config("HOST", default="http://localhost:8000")
 
 INSTALLED_APPS = [
     "apps.base",
@@ -98,6 +99,7 @@ LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="*")
+CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv(), default="http://*")
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -134,6 +136,10 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 WAGTAIL_SITE_NAME = "110-a UK 2025"
 
+# Base URL to use when referring to full URLs within the Wagtail admin backend -
+# e.g. in notification emails. Don't include '/admin' or a trailing slash
+WAGTAILADMIN_BASE_URL = HOST
+
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {
@@ -141,10 +147,6 @@ WAGTAILSEARCH_BACKENDS = {
         "BACKEND": "wagtail.search.backends.database",
     }
 }
-
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = "http://example.com"
 
 # Allowed file extensions for documents in the document library.
 # This can be omitted to allow all files, but note that this may present a security risk
