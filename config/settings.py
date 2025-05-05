@@ -167,3 +167,30 @@ WAGTAILDOCS_EXTENSIONS = [
     "xlsx",
     "zip",
 ]
+
+if not DEBUG:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "root": {"level": "INFO", "handlers": ["file"]},
+        "handlers": {
+            "file": {
+                "level": "INFO",
+                "class": "logging.FileHandler",
+                "filename": config("DJANGO_LOG_FILE", default="/var/log/uk-retejo.log"),
+                "formatter": "app",
+            },
+        },
+        "loggers": {
+            "django": {"handlers": ["file"], "level": "INFO", "propagate": True},
+        },
+        "formatters": {
+            "app": {
+                "format": (
+                    "%(asctime)s [%(levelname)-8s] "
+                    "(%(module)s.%(funcName)s) %(message)s"
+                ),
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
+        },
+    }
