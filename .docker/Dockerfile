@@ -2,7 +2,6 @@
 FROM python:3.12-slim-bookworm
 
 # Add user that will be used in the container.
-RUN groupadd www-data -g 33
 RUN useradd wagtail -u 1029 -g 33  # baptiste:www-data on ikso.net
 
 # Port used by this container to serve HTTP.
