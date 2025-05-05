@@ -25,7 +25,7 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
  && rm -rf /var/lib/apt/lists/*
 
 # Install the application server.
-RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip install "gunicorn==20.0.4"
+RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip install "gunicorn==23.0.0"
 
 # Install the project requirements.
 COPY requirements.txt /
@@ -45,4 +45,12 @@ COPY --chown=wagtail:wagtail . .
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail
 
-CMD set -xe; python manage.py migrate --noinput; gunicorn config.wsgi:application
+COPY --chmod=755 <<EOT /entrypoint.sh
+#!/usr/bin/env bash
+set -xe
+python manage.py collectstatic --noinput &
+python manage.py migrate --noinput &
+gunicorn config.wsgi:application
+EOT
+
+ENTRYPOINT ["/entrypoint.sh"]
