@@ -89,5 +89,7 @@ urllib3==2.4.0
     # via requests
 wagtail==6.4.1
     # via uk-retejo
+whitenoise==6.9.0
+    # via uk-retejo
 willow==1.10.0
     # via wagtail
