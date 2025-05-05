@@ -96,7 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv, default=["*"])
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="*")
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
