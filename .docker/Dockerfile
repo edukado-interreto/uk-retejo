@@ -2,6 +2,7 @@
 FROM python:3.12-slim-bookworm
 
 # Add user that will be used in the container.
+RUN groupadd www-data -g 33
 RUN useradd wagtail -u 1029 -g 33  # baptiste:www-data on ikso.net
 
 # Port used by this container to serve HTTP.
@@ -37,10 +38,10 @@ WORKDIR /app
 # Set this directory to be owned by the "wagtail" user. This Wagtail project
 # uses SQLite, the folder needs to be owned by the user that
 # will be writing to the database file.
-RUN chown wagtail:wagtail /app
+RUN chown wagtail:www-data /app
 
 # Copy the source code of the project into the container.
-COPY --chown=wagtail:wagtail . .
+COPY --chown=wagtail:www-data . .
 
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail
