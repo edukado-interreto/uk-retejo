@@ -32,8 +32,10 @@ migrations:
 migrate:
 	$(django) migrate
 
-pdb:
-	$(dc) attach uk-retejo-django-1
+attach:
+	$(dc) attach django
+
+pdb: attach
 
 download-tailwind:
 	wget -O ui/tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64

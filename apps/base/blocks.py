@@ -83,8 +83,25 @@ class HeroBlock(StructBlock):
         return context
 
 
+class PresentationBlock(StructBlock):
+    title = CharBlock(classname="title", required=True)
+    subtitle = CharBlock(classname="subtitle", required=True)
+    main_image = ImageBlock(required=True)
+    first_image = ImageBlock(required=False)
+    second_image = ImageBlock(required=False)
+    third_image = ImageBlock(required=False)
+    paragraph = RichTextBlock(icon="pilcrow")
+    button_text = CharBlock(required=False, help_text="Text on the More button")
+    button_page = PageChooserBlock(required=False, help_text="Link to a page")
+
+    class Meta:
+        icon = "info-circle"
+        template = "base/blocks/presentation_block.html"
+
+
 class BaseStreamBlock(StreamBlock):
     hero_block = HeroBlock()
+    presentation_block = PresentationBlock()
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(icon="pilcrow")
     image_block = CaptionedImageBlock()

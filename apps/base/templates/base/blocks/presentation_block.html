@@ -1,0 +1,23 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+<section class="uk-presentation flex flex-wrap justify-center py-12 lg:py-24 mb-4">
+    <div data-aos="fade-up" class="figures ms-6 me-18 md:me-24 mb-8">
+        {% image self.main_image width-565 class="main-image" loading="lazy" decoding="async" %}
+        <div class="sub-figures">
+            <ul>
+                <li data-aos="fade-up" data-aos-delay="400">{% image self.first_image height-106 width="106" class="" loading="lazy" decoding="async" %}</li>
+                <li data-aos="fade-up" data-aos-delay="800">{% image self.second_image height-158 width="158" class="" loading="lazy" decoding="async" %}</li>
+                <li data-aos="fade-up" data-aos-delay="1200">{% image self.third_image height-218 width="218" class="" loading="lazy" decoding="async" %}</li>
+                <ul>
+        </div>
+    </div>
+    <div data-aos="fade-up" class="content mx-8 my-4 flex flex-col justify-between items-start">
+        <article class="prose text-xl flex flex-col mb-8">
+            <h2 class="title text-info-content">{{ self.title }}</h2>
+            <h3 class="subtitle text-primary -order-1">{{ self.subtitle }}</h3>
+            {{ self.paragraph|richtext }}
+        </article>
+        {% if self.button_page %}
+            <a href="{% pageurl self.button_page %}" class="justify-self-end-self btn btn-info text-white btn-xl uppercase">{{ self.button_text }}</a>
+        {% endif %}
+    </div>
+</section>
