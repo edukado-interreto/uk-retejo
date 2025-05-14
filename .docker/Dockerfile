@@ -2,17 +2,20 @@
 FROM python:3.12-slim-bookworm
 
 # Add user that will be used in the container.
-RUN useradd wagtail -u 1029 -g 33  # baptiste:www-data on ikso.net
+ARG USER_ID=1029
+ARG GROUP_ID=33
+RUN grep :$GROUP_ID: /etc/group || groupadd $GROUP_ID -g $GROUP_ID
+RUN useradd wagtail -u $USER_ID -g $GROUP_ID  # baptiste:www-data on ikso.net
 
 # Port used by this container to serve HTTP.
-EXPOSE 8000
+EXPOSE $PORT
 
 # Set environment variables.
 # 1. Force Python stdout and stderr streams to be unbuffered.
 # 2. Set PORT variable that is used by Gunicorn. This should match "EXPOSE"
 #    command.
 ENV PYTHONUNBUFFERED=1 \
-    PORT=8000
+    PORT=$PORT
 
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
@@ -34,13 +37,8 @@ RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip install -r /require
 # Use /app folder as a directory where the source code is stored.
 WORKDIR /app
 
-# Set this directory to be owned by the "wagtail" user. This Wagtail project
-# uses SQLite, the folder needs to be owned by the user that
-# will be writing to the database file.
 RUN chown wagtail:www-data /app
-
-# Copy the source code of the project into the container.
-COPY --chown=wagtail:www-data . .
+COPY --chown=wagtail:www-data . /app
 
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail

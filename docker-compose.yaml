@@ -9,15 +9,22 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+      args:
+      - USER_ID=$USER_ID
+      - GROUP_ID=$GROUP_ID
+    entrypoint: ""
     command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$PORT"
     volumes:
-      - ./assets:/app/assets:z
+      # - ./assets:/app/assets:z
       - .:/app:z
     ports:
       - $PORT:$PORT
     environment:
       - DEBUG=True
       - SECRETS_DIR=./secrets
+      - USER_ID=$USER_ID
+      - GROUP_ID=$GROUP_ID
+      - PORT=$PORT
     env_file:
       - .env.django
     depends_on:
