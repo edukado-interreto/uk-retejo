@@ -1,13 +1,38 @@
+from django.core.exceptions import ValidationError
+from django.utils.timezone import now
 from wagtail.blocks import (
     CharBlock,
     ChoiceBlock,
     DateBlock,
+    PageChooserBlock,
     RichTextBlock,
     StreamBlock,
     StructBlock,
+    URLBlock,
 )
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageBlock
+
+
+class CallToActionBlock(StructBlock):
+    url = URLBlock(required=False, help_text="Link to another website page")
+    page = PageChooserBlock(required=False, help_text="Link to a page")
+    text = CharBlock(required=True, help_text="Text to display in the button")
+
+    def clean(self, value):
+        result = super().clean(value)
+        if not (result["page"] or result["url"]):
+            raise ValidationError(
+                "You must specify either an internal page or an external URL"
+            )
+        return result
+
+
+class CountdownBlock(StructBlock):
+    title = CharBlock(required=True, help_text="Countdown title")
+    subtitle = CharBlock(
+        required=False, help_text="Countdown sub-title (actually above)"
+    )
 
 
 class CaptionedImageBlock(StructBlock):
@@ -45,10 +70,17 @@ class HeroBlock(StructBlock):
     end_date = DateBlock(blank=True, required=False)
     location = CharBlock(blank=True, required=False)
     background = ImageBlock(blank=True, required=False)
+    call_to_action = CallToActionBlock(blank=True, required=False)
+    countdown = CountdownBlock(blank=True, required=False)
 
     class Meta:
         icon = "home"
         template = "base/blocks/hero_block.html"
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(value, parent_context)
+        context["started"] = value["start_date"] >= now().date()
+        return context
 
 
 class BaseStreamBlock(StreamBlock):

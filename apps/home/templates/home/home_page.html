@@ -6,3 +6,7 @@
 {% block content %}
   {{ page.body }}
 {% endblock content %}
+
+{% block extra_js %}
+  <script src="{% static 'countdown.js' %}"></script>
+{% endblock %}

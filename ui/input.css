@@ -8,3 +8,39 @@
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+.countdown-wrap-layout {
+  .countdown-container {
+    @apply flex items-center justify-around w-full;
+  }
+
+  .countdown-heading {
+    @apply mx-6 my-4 lg:my-10
+  }
+
+  .event-countdown {
+    @apply flex mb-8 my-4 lg:my-10 w-full lg:w-2/3;
+  }
+
+  .countdown-section {
+    @apply grow text-center relative inline-block;
+
+    &::before {
+      content: "";
+      transform: translateY(-50%) rotate(9deg);
+      @apply bg-white w-px h-18 absolute right-0 top-1/2;
+    }
+
+    &:last-child::before {
+      display: none;
+    }
+
+    .value {
+      @apply text-xl lg:text-4xl font-bold
+    }
+
+    .unit {
+      @apply mt-2 text-sm lg:text-xl font-medium
+    }
+  }
+}

@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  //////////////
+  // Navigation
+  //////////////
   const navbar = document.getElementById("navbar")
 
   // Function to handle the scroll event
