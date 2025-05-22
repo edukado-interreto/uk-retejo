@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
   "dj-database-url>=2.3.0",
   "django>=5.2,<6",
+  "fontawesomefree>=6.6.0",
   "psycopg>=3.2.6",
   "python-decouple>=3.8",
   "wagtail>=6.4,<6.5",

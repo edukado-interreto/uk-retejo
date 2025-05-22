@@ -99,9 +99,58 @@ class PresentationBlock(StructBlock):
         template = "base/blocks/presentation_block.html"
 
 
+class PerkBlock(StructBlock):
+    icon = ChoiceBlock(
+        choices=[
+            ("", "Select an icon"),
+            ("fa-solid fa-users", "Users"),
+            ("fa-regular fa-comments", "Comments"),
+            ("fa-regular fa-star", "Star"),
+            ("fa-solid fa-masks-theater", "Theater masks"),
+            ("fa-solid fa-earth-africa", "Earth africa"),
+        ]
+    )
+    color = ChoiceBlock(
+        choices=[
+            ("", "Select a color"),
+            ("warning", "Yellow"),  # text-warning
+            ("info", "Blue"),  # text-info
+            ("success", "Green"),  # text-success
+            ("secondary", "Pink"),  # text-secondary
+        ]
+    )
+    title = CharBlock(classname="title", required=True)
+    paragraph = RichTextBlock(icon="pilcrow")
+
+    class Meta:
+        icon = "check"
+        template = "base/blocks/perk_block.html"
+
+
+class PerksStreamBlock(StreamBlock):
+    perk = PerkBlock(blank=True, required=False)
+
+
+class PerksBlock(StructBlock):
+    background = ImageBlock(blank=True, required=False)
+    embed_block = EmbedBlock(
+        help_text="Insert a URL to embed. For example, https://www.youtube.com/watch?v=xm4qTLcXKc4",
+        icon="media",
+        max_width=640,
+        max_height=360,
+    )
+    title = CharBlock(classname="title", required=True)
+    perks = PerksStreamBlock()
+
+    class Meta:
+        icon = "circle-check"
+        template = "base/blocks/perks_block.html"
+
+
 class BaseStreamBlock(StreamBlock):
     hero_block = HeroBlock()
     presentation_block = PresentationBlock()
+    perks_block = PerksBlock()
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(icon="pilcrow")
     image_block = CaptionedImageBlock()

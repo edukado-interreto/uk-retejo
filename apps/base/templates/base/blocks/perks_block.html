@@ -1,0 +1,12 @@
+{% load static wagtailcore_tags wagtailembeds_tags wagtailimages_tags %}{% image self.background width-2048 as background %}
+
+<section class="uk-perks py-12 lg:py-24 mb-4 bg-base-200" style="background: center / cover no-repeat url('{% get_media_prefix %}{{ background.file }}');">
+
+      <div class="mx-auto w-9/10 md:w-3/4 lg:w-1/2 responsive-object aspect-video"> {% embed self.embed_block.url %} </div>
+
+    <h2 class="my-12 text-white text-center text-xl lg:text-4xl font-bold">{{ self.title }}</h2>
+
+    <div class="perks grid grid-cols-1 lg:grid-cols-3 gap-5 mx-5">
+        {% for perk in self.perks %} {{ perk }} {% endfor %}
+    </div>
+</section>

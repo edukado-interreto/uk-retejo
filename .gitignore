@@ -2,4 +2,5 @@
 .env.django
 assets/
 secrets/
+.docker/*_data
 .python-version

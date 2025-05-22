@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     "apps.base",
     "apps.home",
     "apps.search",
+    "fontawesomefree",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -164,6 +165,7 @@ WAGTAILDOCS_EXTENSIONS = [
     "xlsx",
     "zip",
 ]
+# WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 if not DEBUG:
     LOGGING = {
