@@ -2,8 +2,7 @@
 <section id="uk-hero" class="pt-24 pb-24 mb-22"
     style="background: center / cover no-repeat url('{% get_media_prefix %}{{ background.file }}');">
     <h1 data-aos="fade-up"
-        class="mt-24 title font-bold uppercase text-center text-2xl lg:text-8xl text-white mb-8 mx-20 lg:mx-[20vw]">{{ self.title }}
-    </h1>
+        class="mt-8 md:mt-24 title font-bold uppercase text-center text-2xl md:text-4xl lg:text-8xl text-white mb-8 mx-20 lg:mx-[20vw]">{{ self.title }}</h1>
     {% if self.start_date %}
     <p data-aos="fade-up" data-aos-delay="500"
         class="description my-12 text-xl lg:text-3xl font-bold text-center text-white animated">
@@ -24,7 +23,7 @@
     {% endif %}
 
     {% if not self.started and self.start_date %}
-    <div class="countdown-wrap-layout max-w-[1300px] mx-auto text-white rounded-full bg-info" data-aos="fade-up" data-aos-delay="1300">
+    <div class="countdown-wrap-layout" data-aos="fade-up" data-aos-delay="1300">
             <div class="countdown-container flex-col lg:flex-row justify-evenly">
                 <div class="countdown-heading">
                     {% if self.countdown.subtitle %}<div class="sub-title mb-1 text-xl">{{ self.countdown.subtitle }}</div>{% endif %}

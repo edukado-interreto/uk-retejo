@@ -1,11 +1,12 @@
 {% load static wagtailimages_tags %}<div class="photoswipe pswp-gallery grid grid-cols-2 md:grid-cols-4">
 {% for figure in self %}
-  {% widthratio figure.value.file.get_image_dimensions.1  figure.value.file.get_image_dimensions.0 100 as ratio %}
+  {% widthratio figure.value.file.get_image_dimensions.1  figure.value.file.get_image_dimensions.0 100 as ratio %} {# ratio = height / width in % #}
+  {% widthratio 200 1 forloop.counter as delay %} {# delay = 200ms x index #}
   <a href="{% get_media_prefix %}{{figure.value.file }}"
       data-pswp-width="{{ figure.value.file.get_image_dimensions.0 }}"
       data-pswp-height="{{ figure.value.file.get_image_dimensions.1 }}"
       class="block {% if ratio|add:0 < 50 %}col-span-2{% endif %}"
-      target="_blank">
+      target="_blank"  data-aos="fade-up" data-aos-delay="{{ delay }}">
     {% if ratio|add:0 < 50 %}
       {% image figure.value fill-800x400 %}
     {% else %}
