@@ -36,7 +36,19 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+.drawer-side {
+  .menu {
+    @apply divide-y divide-stone-200;
+
+    .menu-item {
+      @apply font-bold p-2;
+    }
+  }
+}
+
 .countdown-wrap-layout {
+  @apply max-w-[600px] lg:max-w-[1300px] mx-auto text-white rounded-none md:rounded-[4em] lg:rounded-full bg-info;
+
   .countdown-container {
     @apply flex items-center justify-around w-full;
   }
@@ -67,7 +79,7 @@
     }
 
     .unit {
-      @apply mt-2 text-sm lg:text-xl font-medium
+      @apply mt-2 text-sm md:text-xl font-medium
     }
   }
 }
