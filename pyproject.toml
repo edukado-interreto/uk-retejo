@@ -10,7 +10,7 @@ dependencies = [
   "fontawesomefree>=6.6.0",
   "psycopg>=3.2.6",
   "python-decouple>=3.8",
-  "wagtail>=6.4,<6.5",
+  "wagtail>=7.0,<8",
   "whitenoise>=6.9.0",
 ]
 

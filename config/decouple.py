@@ -1,5 +1,4 @@
 import re
-from collections import ChainMap
 from pathlib import Path
 
 from decouple import AutoConfig, Config, RepositoryEnv, RepositorySecret
@@ -29,7 +28,7 @@ class NamedEmail:
         _match = self._match(value)
         if _match is None:
             return self.post_process()
-        if self.post_process == dict:
+        if isinstance(self.post_process, dict):
             return self.post_process(_match.groupdict())
         return self.post_process(_match.groups())
 

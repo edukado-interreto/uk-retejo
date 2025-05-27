@@ -1,17 +1,20 @@
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from wagtail.blocks import (
+    BooleanBlock,
     CharBlock,
     ChoiceBlock,
     DateBlock,
+    IntegerBlock,
     PageChooserBlock,
     RichTextBlock,
     StreamBlock,
     StructBlock,
     URLBlock,
 )
+from wagtail.blocks.stream_block import StreamValue
 from wagtail.embeds.blocks import EmbedBlock
-from wagtail.images.blocks import ImageBlock
+from wagtail.images.blocks import ImageBlock, ImageChooserBlock
 
 
 class CallToActionBlock(StructBlock):
@@ -147,10 +150,62 @@ class PerksBlock(StructBlock):
         template = "base/blocks/perks_block.html"
 
 
+class FactBlock(StructBlock):
+    title = CharBlock()
+    description = CharBlock()
+    icon = ChoiceBlock(
+        choices=[
+            ("", "Select an icon"),
+            ("fa-solid fa-users", "Group"),
+            ("fa-regular fa-square", "Square"),
+            ("fa-regular fa-clock", "Clock"),
+            ("fa-solid fa-cloud-sun", "Weather"),
+            ("fa-regular fa-comment", "Speech"),
+            ("fa-solid fa-coins", "Currencies"),
+            ("fa-solid fa-plug-circle-bolt", "Electricity"),
+            ("fa-solid fa-water", "Water"),
+            ("fa-solid fa-phone", "Phone"),
+        ]
+    )
+
+    class Meta:
+        template = "base/blocks/fact_block.html"
+
+
+class FactsStreamBlock(StreamBlock):
+    fact = FactBlock(blank=True, required=False)
+
+    class Meta:
+        icon = "tasks"
+        template = "base/blocks/facts_block.html"
+
+
+class PictureWallStreamBlock(StreamBlock):
+    image = ImageChooserBlock(required=True)
+
+    class Meta:
+        icon = "image"
+        template = "base/blocks/picture_wall_block.html"
+
+
+class AboutBlock(StructBlock):
+    title = CharBlock(blank=True, required=False)
+    subtitle = CharBlock(blank=True, required=False)
+    facts = FactsStreamBlock(blank=True, required=False)
+    pictures = PictureWallStreamBlock(blank=True, required=False)
+    event_map = URLBlock(blank=True, required=False)
+    directions = RichTextBlock(blank=True, required=False)
+
+    class Meta:
+        icon = "globe"
+        template = "base/blocks/about_block.html"
+
+
 class BaseStreamBlock(StreamBlock):
     hero_block = HeroBlock()
     presentation_block = PresentationBlock()
     perks_block = PerksBlock()
+    about_block = AboutBlock()
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(icon="pilcrow")
     image_block = CaptionedImageBlock()

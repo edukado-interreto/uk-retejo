@@ -231,3 +231,73 @@
     }
   }
 }
+
+.uk-about {
+  .title {
+    @apply text-4xl font-bold;
+  }
+
+  .event-map {
+    @apply relative w-full lg:w-6/7 mx-auto;
+
+    iframe {
+      @apply h-[50vh] md:h-[660px];
+    }
+
+    .address-box {
+      padding: 60px 54px;
+      @apply md:absolute start-4 md:start-32 md:top-42 bg-blue-700 text-white md:rounded-[50px] md:rounded-tl-none;
+
+      h2,
+      h3,
+      h4 {
+        @apply text-2xl font-bold mb-3;
+      }
+
+      ul>li {
+        @apply relative ps-8 text-xl font-bold mt-8 mb-2;
+
+        &::before {
+          /* fa-circle */
+          content: "\f111";
+          font-family: "Font Awesome 6 Free";
+          @apply absolute start-0 top-0 font-semibold text-xs text-white mt-2;
+        }
+
+        &>a::after {
+          /* fa-arrow-right */
+          content: "\f061";
+          font-family: "Font Awesome 6 Free";
+          @apply font-semibold text-white ms-4;
+        }
+      }
+
+      p {
+        @apply ps-8 text-xl;
+      }
+    }
+  }
+
+  .subtitle {
+    @apply text-xl uppercase;
+  }
+}
+
+.fact {
+  .title {
+    @apply text-2xl font-bold;
+  }
+
+  .description {
+    @apply text-lg text-base-content/70;
+  }
+}
+
+.photoswipe {
+  @apply mb-8;
+
+  img {
+    @apply w-full;
+  }
+
+}

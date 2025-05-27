@@ -31,6 +31,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'animate.min.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'aos.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'fontawesomefree/css/all.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'photoswipe/photoswipe.css' %}" />
 
   {% block extra_css %}{% endblock %}
 </head>
@@ -62,6 +63,17 @@
   {# Animate On Scroll #}
   <script src="{% static 'aos.js' %}"></script>
   <script>AOS.init({once:true,duration:1000});</script>
+
+  {# Photoswipe gallery #}
+  <script type="module" async>
+    import PhotoSwipeLightbox from '{% static "photoswipe/photoswipe-lightbox.esm.js" %}';
+    import PhotoSwipe from '{% static "photoswipe/photoswipe.esm.js" %}';
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: ".pswp-gallery",
+      children: "a",
+      pswpModule: PhotoSwipe
+    });
+    lightbox.init();</script>
 
   {% block extra_js %}{% endblock %}
 </body>

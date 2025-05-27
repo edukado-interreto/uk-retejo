@@ -1,0 +1,12 @@
+{% load static wagtailcore_tags %}
+<div class="fact">
+  <div class="info-box flex content-center">
+    <div class="icon-box w-[60px] me-4 flex items-center justify-end">
+      <i class="{{ self.icon }} text-rose-600 text-5xl"></i>
+    </div>
+    <div class="content-box flex-1">
+      <h3 class="title text-info-content text-2xl font-bold">{{ self.title }}</h3>
+      <p class="description">{{ self.description }}</p>
+    </div>
+  </div>
+</div>
