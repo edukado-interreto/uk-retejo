@@ -42,6 +42,6 @@ async function loadVue(base) {
   }
 }
 
-loadVue('{% static "/aligxilo" %}')
+loadVue('{% get_static_prefix %}aligxilo')
 </script>
 {% endblock %}
