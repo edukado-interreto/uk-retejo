@@ -1,5 +1,4 @@
 from pathlib import Path
-
 from decouple import Csv
 from dj_database_url import parse as db_url
 
@@ -114,7 +113,7 @@ STATICFILES_DIRS = [
     CONFIG_DIR / "static",
 ]
 
-STATIC_ROOT = BASE_DIR / "assets/static"
+STATIC_ROOT = BASE_DIR / "collected_static"  # stays inside Docker image
 STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "assets/media"
