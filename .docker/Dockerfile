@@ -42,6 +42,7 @@ COPY --chown=wagtail:www-data . /app
 
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail
+RUN mkdir collected_static
 
 COPY --chmod=755 <<EOT /entrypoint.sh
 #!/usr/bin/env bash
