@@ -12,6 +12,7 @@ DEBUG = config("DEBUG", cast=bool, default=False)
 HOST = config("HOST", default="http://localhost:8000")
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     "apps.base",
     "apps.home",
     "apps.search",
@@ -39,15 +40,15 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -109,14 +110,11 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATICFILES_DIRS = [
-    CONFIG_DIR / "static",
-]
-
-STATIC_ROOT = BASE_DIR / "collected_static"  # stays inside Docker image
+STATICFILES_DIRS = [CONFIG_DIR / "static"]
+# STATIC_ROOT = BASE_DIR / "assets" / "static"
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = BASE_DIR / "assets/media"
+MEDIA_ROOT = BASE_DIR / "assets" / "media"
 MEDIA_URL = "/media/"
 
 STORAGES = {
@@ -124,9 +122,10 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
+WHITENOISE_USE_FINDERS = True
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex
 # page models can exceed this limit within Wagtail's page editor.

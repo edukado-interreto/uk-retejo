@@ -1,14 +1,28 @@
 from django.conf import settings
 from django.urls import include, path
 from django.contrib import admin
+from django.http import HttpRequest, HttpResponse
 
+from whitenoise.responders import StaticFile
+from whitenoise.middleware import WhiteNoiseMiddleware
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from apps.search import views as search_views
+from config.settings import CONFIG_DIR
+
+
+def favicon(request: HttpRequest):
+    static_file = StaticFile(
+        path=CONFIG_DIR / "static" / "favicon.ico",
+        headers=[("Content-Type", "image/x-icon")],
+    )
+    return WhiteNoiseMiddleware.serve(static_file, request)
+
 
 urlpatterns = [
+    path("favicon.ico", favicon),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),

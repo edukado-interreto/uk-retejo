@@ -46,7 +46,6 @@ USER wagtail
 COPY --chmod=755 <<EOT /entrypoint.sh
 #!/usr/bin/env bash
 set -xe
-python manage.py collectstatic --noinput &
 python manage.py migrate --noinput &
 gunicorn config.wsgi:application
 EOT

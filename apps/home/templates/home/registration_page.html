@@ -21,7 +21,7 @@ let manifest = null;
 async function loadManifest(base) {
   if (!manifest) {
     try {
-      const response = await fetch(`${base}/manifest.json`);
+      const response = await fetch(`${base}aligxilo/manifest.json`);
       manifest = await response.json();
     } catch (error) {
       console.error("Failed to load manifest.json:", error);
@@ -42,6 +42,6 @@ async function loadVue(base) {
   }
 }
 
-loadVue('{% get_static_prefix %}aligxilo')
+loadVue('{% get_static_prefix %}')
 </script>
 {% endblock %}
