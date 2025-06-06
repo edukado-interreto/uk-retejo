@@ -10,7 +10,8 @@ install: download-tailwind
 	mkdir -p assets/media assets/static .docker/postgres_data secrets
 	head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 > secrets/postgres-password
 
-lock:
+update:
+	uv lock --upgrade
 	uv export --no-hashes > requirements.txt
 
 ui:
