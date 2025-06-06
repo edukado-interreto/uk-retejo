@@ -1,0 +1,32 @@
+{
+  "src/components/form/parts/FormBooking.css": {
+    "file": "assets/FormBooking-27e7f581.css",
+    "src": "src/components/form/parts/FormBooking.css"
+  },
+  "src/components/form/parts/FormBooking.vue": {
+    "css": [
+      "assets/FormBooking-27e7f581.css"
+    ],
+    "file": "assets/FormBooking-53caab3d.js",
+    "imports": [
+      "src/main-embedded.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/components/form/parts/FormBooking.vue"
+  },
+  "src/main-embedded.css": {
+    "file": "assets/main-embedded-8ce56300.css",
+    "src": "src/main-embedded.css"
+  },
+  "src/main-embedded.js": {
+    "css": [
+      "assets/main-embedded-8ce56300.css"
+    ],
+    "dynamicImports": [
+      "src/components/form/parts/FormBooking.vue"
+    ],
+    "file": "assets/main-embedded-8b0fec75.js",
+    "isEntry": true,
+    "src": "src/main-embedded.js"
+  }
+}

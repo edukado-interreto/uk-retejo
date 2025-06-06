@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}homepage{% endblock %}
+
+{% block content %}
+  {{ page.body }}
+{% endblock content %}
+
+{% block extra_js %}
+  <script src="{% static 'countdown.js' %}"></script>
+{% endblock %}

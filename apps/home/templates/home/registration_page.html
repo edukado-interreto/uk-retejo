@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}registration{% endblock %}
+
+{% block content %}
+  <div class="pt-24 w-full md:w-3/4 lg:w-1/2 mx-auto">
+    <h2 class="pt-12 text-center font-bold text-xl md:text-4xl">{{ page.title }}</h2>
+
+    {{ page.body|richtext }}
+
+    {{ page.raw_html|safe }}
+    <div id="vue-aligxilo"></div>
+  </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+let manifest = null;
+
+async function loadManifest(base) {
+  if (!manifest) {
+    try {
+      const response = await fetch(`${base}/manifest.json`);
+      manifest = await response.json();
+    } catch (error) {
+      console.error("Failed to load manifest.json:", error);
+      return null;
+    }
+  }
+  return manifest;
+}
+
+function isEntryPoint(key) {
+  return Object.keys(manifest[key]).includes("isEntry") && manifest[key].isEntry
+} 
+
+async function loadVue(base) {
+  manifest = await loadManifest(base);
+  for (const key in manifest) {
+    if (isEntryPoint(key)) return import(`${base}/${manifest[key].file}`)
+  }
+}
+
+loadVue('{% static "/aligxilo" %}')
+</script>
+{% endblock %}
