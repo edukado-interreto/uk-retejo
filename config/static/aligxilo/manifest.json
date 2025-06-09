@@ -7,7 +7,7 @@
     "css": [
       "aligxilo/FormBooking-27e7f581.css"
     ],
-    "file": "aligxilo/FormBooking-b211914e.js",
+    "file": "aligxilo/FormBooking-a2f3281b.js",
     "imports": [
       "src/main-embedded.js"
     ],
@@ -15,17 +15,17 @@
     "src": "src/components/form/parts/FormBooking.vue"
   },
   "src/main-embedded.css": {
-    "file": "aligxilo/main-embedded-8ce56300.css",
+    "file": "aligxilo/main-embedded-407260a3.css",
     "src": "src/main-embedded.css"
   },
   "src/main-embedded.js": {
     "css": [
-      "aligxilo/main-embedded-8ce56300.css"
+      "aligxilo/main-embedded-407260a3.css"
     ],
     "dynamicImports": [
       "src/components/form/parts/FormBooking.vue"
     ],
-    "file": "aligxilo/main-embedded-f6ed609e.js",
+    "file": "aligxilo/main-embedded-e195fb01.js",
     "isEntry": true,
     "src": "src/main-embedded.js"
   }
