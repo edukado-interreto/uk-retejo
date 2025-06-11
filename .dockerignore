@@ -1,2 +1,3 @@
+.docker/*_data
 config/test_data/api/loaddata.json
 config/dev/data
