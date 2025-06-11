@@ -5,43 +5,28 @@
 
 {% block content %}
   <div class="pt-24 w-full md:w-3/4 lg:w-1/2 mx-auto">
-    <h2 class="pt-12 text-center font-bold text-xl md:text-4xl">{{ page.title }}</h2>
+    <h2 class="pt-12 pb-24 text-center font-bold text-xl md:text-4xl">{{ page.title }}</h2>
 
     {{ page.body|richtext }}
 
     {{ page.raw_html|safe }}
-    <div id="vue-aligxilo"></div>
   </div>
 {% endblock content %}
 
-{% block extra_js %}
-<script>
-let manifest = null;
+{% block extra_css %}
+<script type="module">
+  import loadVue from '{% static "load-vue.js" %}';
+  const INSTRUCTIONS = `
+The "Raw html" field of this page should contain:
+  <div id="vue-registration" data-entrypoint="registration.js"></div>
+or
+  <div id="vue-edit" data-entrypoint="edit.js"></div>`
 
-async function loadManifest(base) {
-  if (!manifest) {
-    try {
-      const response = await fetch(`${base}aligxilo/manifest.json`);
-      manifest = await response.json();
-    } catch (error) {
-      console.error("Failed to load manifest.json:", error);
-      return null;
-    }
+  const mountpoint = document.querySelector("[data-entrypoint]")
+  if (mountpoint !== null) {
+    loadVue('{% get_static_prefix %}', mountpoint.dataset.entrypoint)
+  } else {
+    console.error(`Missing HTML tag for JS entrypoint. ${INSTRUCTIONS}`)
   }
-  return manifest;
-}
-
-function isEntryPoint(key) {
-  return Object.keys(manifest[key]).includes("isEntry") && manifest[key].isEntry
-} 
-
-async function loadVue(base) {
-  manifest = await loadManifest(base);
-  for (const key in manifest) {
-    if (isEntryPoint(key)) return import(`${base}/${manifest[key].file}`)
-  }
-}
-
-loadVue('{% get_static_prefix %}')
-</script>
+  </script>
 {% endblock %}

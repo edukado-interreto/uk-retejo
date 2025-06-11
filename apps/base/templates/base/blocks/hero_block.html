@@ -13,8 +13,7 @@
     {% if not self.started %}
         <div class="text-center my-12" data-aos="fade-up" data-aos-delay="900">
             {% if self.call_to_action.page %}
-                <a href="{% pageurl self.call_to_action.page %}" class="btn btn-info text-white btn-xl uppercase">{{
-            self.call_to_action.text }}</a>
+                <a href="{% pageurl self.call_to_action.page %}" class="btn btn-info text-white btn-xl uppercase">{{ self.call_to_action.text }}</a>
             {% elif self.call_to_action.url %}
                 <a href="{{ self.call_to_action.url }}" class="btn btn-info text-white btn-xl uppercase" target="_blank"
                 rel="noopener noreferrer">{{ self.call_to_action.text }}</a>

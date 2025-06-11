@@ -1,24 +1,22 @@
 from django.conf import settings
-from django.urls import include, path
 from django.contrib import admin
-from django.http import HttpRequest, HttpResponse
+from django.core.files.storage import storages
+from django.shortcuts import redirect
+from django.urls import include, path
+from django.views.decorators.cache import cache_page
 
-from whitenoise.responders import StaticFile
-from whitenoise.middleware import WhiteNoiseMiddleware
-from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail.models.pages import HttpRequest
 
 from apps.search import views as search_views
-from config.settings import CONFIG_DIR
+from config.dev import urls as dev_urls
 
 
-def favicon(request: HttpRequest):
-    static_file = StaticFile(
-        path=CONFIG_DIR / "static" / "favicon.ico",
-        headers=[("Content-Type", "image/x-icon")],
-    )
-    return WhiteNoiseMiddleware.serve(static_file, request)
+@cache_page(60 * 60 * 24 * 30)
+def favicon(_request: HttpRequest):
+    return redirect(storages["staticfiles"].url("favicon.ico"), permanent=True)
 
 
 urlpatterns = [
@@ -29,7 +27,6 @@ urlpatterns = [
     path("search/", search_views.search, name="search"),
 ]
 
-
 if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -38,7 +35,10 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns = urlpatterns + [
+    # API for testing
+    urlpatterns += [path("api/2025/", include(dev_urls))]
+
+urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:

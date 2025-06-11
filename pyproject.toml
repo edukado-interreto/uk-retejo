@@ -17,3 +17,6 @@ dependencies = [
 [[project.authors]]
 name = "Baptiste Darthenay"
 email = "baptiste.darthenay@gmail.com"
+
+[tool.ruff.lint.isort]
+known-third-party = ["django", "wagtail"]

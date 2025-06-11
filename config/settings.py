@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
+    "wagtail.contrib.routable_page",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -125,6 +126,7 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
+# No need for collectstatic and STATIC_ROOT
 WHITENOISE_USE_FINDERS = True
 
 # Django sets a maximum of 1000 fields per form by default, but particularly complex
