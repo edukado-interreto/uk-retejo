@@ -6,23 +6,22 @@ all: run
 run:
 	$(dc) up --build
 
-install: download-tailwind
+install:
 	mkdir -p assets/media assets/static .docker/postgres_data secrets
 	head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 > secrets/postgres-password
+	npm -C ui install
 
 update:
 	uv lock --upgrade
 	uv export --no-hashes > requirements.txt
+	npm -C ui upgrade
+	wget -P ui https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
 
-ui:
-	./ui/tailwindcss --minify -i ui/input.css -o config/static/uk-retejo.css
+css:
+	npx -C ui @tailwindcss/cli --minify -i ui/app.css -o config/static/uk-retejo.css
 
-watch-daisyui:
-	./ui/tailwindcss --watch -i ui/input.css -o config/static/uk-retejo.css
-
-update-daisyui:
-	wget https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
-	wget https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+tailwind:
+	npx -C ui @tailwindcss/cli --watch -i ui/app.css -o config/static/uk-retejo.css
 
 admin:
 	$(django) createsuperuser
@@ -37,7 +36,3 @@ attach:
 	$(dc) attach django
 
 pdb: attach
-
-download-tailwind:
-	wget -O ui/tailwindcss https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
-	chmod +x ui/tailwindcss

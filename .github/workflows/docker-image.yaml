@@ -26,14 +26,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          # or  ${{ secrets.GH_CONTAINER_REPOSITORY_TOKEN }} ?
 
       - name: Build and push Docker image
         id: docker-build
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: .docker/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/wagtail:latest
+          tags: ghcr.io/${{ github.repository }}/django:latest
+          build_args: |
+            GIT_COMMIT=${{ github.sha }}
+            GIT_BRANCH=${{ github.ref_name }}
 

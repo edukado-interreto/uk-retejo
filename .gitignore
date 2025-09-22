@@ -4,3 +4,4 @@ assets/
 secrets/
 .docker/*_data
 .python-version
+ui/node_modules

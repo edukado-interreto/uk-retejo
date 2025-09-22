@@ -3,14 +3,8 @@
 @source "../{apps,config}/**/*.py";
 @plugin "@tailwindcss/typography";
 
-@plugin "./daisyui.js" {
+@plugin "daisyui" {
   themes: light --default, dark --prefersdark, cmyk;
-}
-
-
-/* Optional for custom themes – Docs: https://daisyui.com/docs/themes/#how-to-add-a-new-custom-theme */
-@plugin "./daisyui-theme.js" {
-  /* custom theme here */
 }
 
 @keyframes line-anime {

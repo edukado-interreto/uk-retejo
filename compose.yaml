@@ -8,7 +8,7 @@ services:
   django:
     build:
       context: .
-      dockerfile: .docker/Dockerfile
+      target: development
       args:
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
@@ -43,10 +43,11 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/$POSTGRES_PASSWORD_FILE
     restart: unless-stopped
 
-  daisyui:
-    image: debian:bookworm-slim
-    working_dir: /app
+  tailwind:
+    image: node:22-alpine
+    working_dir: /app/ui
     volumes:
       - .:/app:z
     tty: true
-    command: /bin/sh -c "./ui/tailwindcss --watch -i ui/input.css -o config/static/uk-retejo.css"
+    user: $USER_ID
+    command: /bin/sh -c "npm i; npx @tailwindcss/cli --watch -i app.css -o ../config/static/uk-retejo.css"

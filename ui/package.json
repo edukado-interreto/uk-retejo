@@ -1,8 +1,31 @@
 {
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16"
-  },
-  "dependencies": {
-    "photoswipe": "^5.4.4"
-  }
+	"name": "ui",
+	"version": "0.1.0",
+	"description": "Tailwind & DaisyUI to compile app.css to static/uk-retejo.css",
+	"scripts": {
+		"build:css": "npx @tailwindcss/cli -i app.css -o ../config/static/uk-retejo.css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/edukado-interreto/uk-retejo.git"
+	},
+	"keywords": [
+		"tailwind",
+		"daisyui",
+		"css"
+	],
+	"author": "Baptiste Darthenay",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/edukado-interreto/uk-retejo/issues"
+	},
+	"homepage": "https://github.com/edukado-interreto/uk-retejo#readme",
+	"devDependencies": {
+		"@tailwindcss/cli": "^4.1.13",
+		"@tailwindcss/typography": "^0.5.18",
+		"daisyui": "^5.1.14"
+	},
+	"dependencies": {
+		"photoswipe": "^5.4.4"
+	}
 }
