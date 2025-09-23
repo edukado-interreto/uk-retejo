@@ -41,7 +41,7 @@ FROM base AS production
 
 ARG GIT_COMMIT=none
 ARG GIT_BRANCH=none
-ENV GIT_COMMIT=$GIT_COMMIT GIT_BRANCH=$GIT_BRANCH
+ENV GIT_COMMIT=$GIT_COMMIT GIT_BRANCH=$GIT_BRANCH PORT=8000
 
 COPY --from=base $PYSETUP_PATH $PYSETUP_PATH
 
@@ -58,14 +58,14 @@ RUN useradd appuser -u $USER_ID -g $GROUP_ID
 
 USER appuser
 
-ADD . /app
+ADD --chown=appuser:$GROUP_ID . /app
 WORKDIR /app
 
 COPY --chmod=755 <<EOT /entrypoint.sh
 #!/usr/bin/env bash
 set -xe
 python manage.py migrate --noinput &
-gunicorn config.wsgi:application
+gunicorn config.wsgi:application -b 127.0.0.1:$PORT
 EOT
 
 ENTRYPOINT ["/entrypoint.sh"]

@@ -168,21 +168,21 @@ WAGTAILDOCS_EXTENSIONS = [
 ]
 # WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
+# https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-definition
+# Use the console logging in production too
 if not DEBUG:
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
-        "root": {"level": "INFO", "handlers": ["file"]},
+        "root": {"level": "INFO", "handlers": ["console"]},
         "handlers": {
-            "file": {
+            "console": {
                 "level": "INFO",
-                "class": "logging.FileHandler",
-                "filename": config("DJANGO_LOG_FILE", default="/var/log/uk-retejo.log"),
-                "formatter": "app",
+                "class": "logging.StreamHandler",
             },
         },
         "loggers": {
-            "django": {"handlers": ["file"], "level": "INFO", "propagate": True},
+            "django": {"handlers": ["console"], "level": "INFO", "propagate": True},
         },
         "formatters": {
             "app": {
