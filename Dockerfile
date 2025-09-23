@@ -49,6 +49,8 @@ ARG GROUP_ID=33  # On ikso.net: www-data
 RUN grep :$GROUP_ID: /etc/group || groupadd $GROUP_ID -g $GROUP_ID
 RUN useradd appuser -u $USER_ID -g $GROUP_ID
 
+COPY --from=base $PYSETUP_PATH $PYSETUP_PATH
+
 WORKDIR $PYSETUP_PATH
 RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip install "gunicorn==23.0.0"
 
