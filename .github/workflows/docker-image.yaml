@@ -34,7 +34,7 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}/django:latest
-          build_args: |
+          build-args: |
             GIT_COMMIT=${{ github.sha }}
             GIT_BRANCH=${{ github.ref_name }}
 

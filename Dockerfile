@@ -43,17 +43,22 @@ ARG GIT_COMMIT=none
 ARG GIT_BRANCH=none
 ENV GIT_COMMIT=$GIT_COMMIT GIT_BRANCH=$GIT_BRANCH
 
+COPY --from=base $PYSETUP_PATH $PYSETUP_PATH
+
+WORKDIR $PYSETUP_PATH
+RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip install "gunicorn==23.0.0"
+
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 # Add user that will be used in the container.
 ARG USER_ID=1030  # On ikso.net: compose
 ARG GROUP_ID=33  # On ikso.net: www-data
 RUN grep :$GROUP_ID: /etc/group || groupadd $GROUP_ID -g $GROUP_ID
 RUN useradd appuser -u $USER_ID -g $GROUP_ID
 
-COPY --from=base $PYSETUP_PATH $PYSETUP_PATH
+USER appuser
 
-WORKDIR $PYSETUP_PATH
-RUN --mount=type=cache,mode=0777,target=/root/.cache/pip pip install "gunicorn==23.0.0"
-
+ADD . /app
 WORKDIR /app
 
 COPY --chmod=755 <<EOT /entrypoint.sh
