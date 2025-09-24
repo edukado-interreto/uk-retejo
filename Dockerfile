@@ -92,8 +92,14 @@ USER $USER
 COPY --chmod=755 <<EOT /entrypoint.sh
 #!/usr/bin/env bash
 set -xe
+
+export GRANIAN_INTERFACE=wsgi
+export GRANIAN_HOST=0.0.0.0
+export GRANIAN_PORT=$PORT
+export GRANIAN_BLOCKING_THREADS=3
+
 python manage.py migrate --noinput &
-granian --interface wsgi --blocking-threads 3 --host 0.0.0.0 --port $PORT config.wsgi:application
+granian config.wsgi:application
 EOT
 
 ENTRYPOINT ["/entrypoint.sh"]
