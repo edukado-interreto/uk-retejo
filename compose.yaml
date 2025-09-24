@@ -15,16 +15,9 @@ services:
     entrypoint: ""
     command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$PORT"
     volumes:
-      # - ./assets:/app/assets:z
       - .:/app:z
     ports:
       - $PORT:$PORT
-    environment:
-      - DEBUG=True
-      - SECRETS_DIR=./secrets
-      - USER_ID=$USER_ID
-      - GROUP_ID=$GROUP_ID
-      - PORT=$PORT
     env_file:
       - .env.django
     depends_on:
@@ -50,4 +43,4 @@ services:
       - .:/app:z
     tty: true
     user: $USER_ID
-    command: /bin/sh -c "npm i; npx @tailwindcss/cli --watch -i app.css -o ../config/static/uk-retejo.css"
+    command: /bin/sh -c "npm i; npm run watch:css"

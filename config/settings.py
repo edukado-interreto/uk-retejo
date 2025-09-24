@@ -1,14 +1,18 @@
+from functools import partial
 from pathlib import Path
-from decouple import Csv
-from dj_database_url import parse as db_url
 
-from config.decouple import config
+from dj_database_url import parse as db_url_parse
+from toml_decouple import TomlDecouple
+
+parse_db_url = partial(db_url_parse, conn_max_age=600, conn_health_checks=True)
+
+config = TomlDecouple(prefix="UK_").load()
 
 CONFIG_DIR = Path(__file__).parent
 BASE_DIR = CONFIG_DIR.parent
 
-SECRET_KEY = config("SECRET_KEY")
-DEBUG = config("DEBUG", cast=bool, default=False)
+SECRET_KEY = config.SECRET_KEY
+DEBUG = config.DEBUG
 HOST = config("HOST", default="http://localhost:8000")
 
 INSTALLED_APPS = [
@@ -74,7 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASES = {"default": config("DATABASE_URL", cast=db_url)}
+DATABASES = {"default": config("DATABASE_URL", to=parse_db_url)}
 
 
 # Password validation
@@ -101,8 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv(), default="*")
-CSRF_TRUSTED_ORIGINS = config("CSRF_TRUSTED_ORIGINS", cast=Csv(), default="http://*")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", ["localhost"])
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = config.CSRF_TRUSTED_ORIGINS
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -112,7 +117,6 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [CONFIG_DIR / "static"]
-# STATIC_ROOT = BASE_DIR / "assets" / "static"
 STATIC_URL = "/static/"
 
 MEDIA_ROOT = BASE_DIR / "assets" / "media"
@@ -136,7 +140,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "110-a UK 2025"
+WAGTAIL_SITE_NAME = "Universala Kongreso"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash

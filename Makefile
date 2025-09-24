@@ -13,15 +13,16 @@ install:
 
 update:
 	uv lock --upgrade
-	uv export --no-hashes > requirements.txt
+	./minimal-uv-pyproject -o .docker/pyproject.toml
 	npm -C ui upgrade
+	rm ui/daisyui-theme.js
 	wget -P ui https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
 
 css:
-	npx -C ui @tailwindcss/cli --minify -i ui/app.css -o config/static/uk-retejo.css
+	npm -C ui run build:css
 
 tailwind:
-	npx -C ui @tailwindcss/cli --watch -i ui/app.css -o config/static/uk-retejo.css
+	npm -C ui run watch:css
 
 admin:
 	$(django) createsuperuser

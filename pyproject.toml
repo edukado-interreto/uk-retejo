@@ -2,21 +2,22 @@
 name = "uk-retejo"
 version = "0.1.0"
 description = "La retejo de UK"
+authors = { name = "Baptiste Darthenay", email = "baptiste.darthenay@gmail.com" }
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "dj-database-url>=2.3.0",
   "django>=5.2,<6",
   "fontawesomefree>=6.6.0",
-  "psycopg>=3.2.6",
+  "psycopg[binary]>=3.2.6",
   "python-decouple>=3.8",
+  "toml-decouple>=0.4.0",
   "wagtail>=7.0,<8",
   "whitenoise>=6.9.0",
 ]
 
-[[project.authors]]
-name = "Baptiste Darthenay"
-email = "baptiste.darthenay@gmail.com"
-
 [tool.ruff.lint.isort]
 known-third-party = ["django", "wagtail"]
+
+[dependency-groups]
+production = ["granian>=2.5.4"]

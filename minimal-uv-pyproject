@@ -1,0 +1,70 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["tomlkit",]
+# ///
+
+
+import argparse
+import sys
+import tomlkit as t
+
+REQUIRED_FIELDS = ["name", "version", "requires-python", "dependencies"]
+
+
+def main(
+    project_file: str,
+    output: str | None,
+    version: str,
+    groups: list[str] | None,
+) -> None:
+    with open(project_file) as original:
+        pyproject: t.TOMLDocument = t.load(original)
+
+    new = t.document()
+
+    new["project"] = {field: pyproject["project"][field] for field in REQUIRED_FIELDS}
+    new["project"]["version"] = version
+
+    if dependency_groups := pyproject.get("dependency-groups"):
+        if groups is None:
+            new["dependency-groups"] = dependency_groups
+        else:
+            try:
+                new["dependency-groups"] = {
+                    group: dependency_groups[group] for group in groups
+                }
+            except KeyError as error:
+                err = error.args[0]
+                avail = ", ".join(dependency_groups.keys())
+                msg = f"Error:\n  Unknown dependency group: {err} Existing groups: {avail}."
+                print(msg, file=sys.stderr)
+                sys.exit(1)
+
+    if output is None:
+        print(t.dumps(new))
+    else:
+        with open(output, "w") as out_file:
+            t.dump(new, out_file)
+
+
+if __name__ == "__main__":
+    cli = argparse.ArgumentParser(description="Generate a minimalist pyproject.toml")
+    cli.add_argument("project_file", nargs="?", default="pyproject.toml")
+    cli.add_argument("-o", "--output", nargs="?")
+    cli.add_argument("-v", "--version", default="0")
+    cli.add_argument(
+        "-g",
+        "--groups",
+        action="append",
+        help="Dependency groups to include (default: ALL)",
+    )
+
+    args = cli.parse_args()
+
+    main(
+        project_file=args.project_file,
+        output=args.output,
+        version=args.version,
+        groups=args.groups,
+    )

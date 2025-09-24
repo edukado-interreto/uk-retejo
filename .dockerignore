@@ -1,4 +1,9 @@
-.docker/*_data
+assets
 config/test_data/api/loaddata.json
 config/dev/data
+secrets
 ui
+.docker/*_data
+.venv
+.ruff_cache
+.git
