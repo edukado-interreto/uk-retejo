@@ -13,7 +13,7 @@ install:
 
 update:
 	uv lock --upgrade
-	./minimal-uv-pyproject -o .docker/pyproject.toml
+	./minimal-uv-pyproject -o .docker/pyproject.toml pyproject.toml
 	npm -C ui upgrade
 	rm ui/daisyui-theme.js
 	wget -P ui https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js

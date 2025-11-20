@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", ["localhost"])
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", ["localhost", "127.0.0.1", "0.0.0.0"])
 if not DEBUG:
     CSRF_TRUSTED_ORIGINS = config.CSRF_TRUSTED_ORIGINS
 

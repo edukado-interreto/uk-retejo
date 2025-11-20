@@ -12,10 +12,12 @@ services:
       args:
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
+      - PORT=$PORT
     entrypoint: ""
     command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$PORT"
     volumes:
       - .:/app:z
+      - ./assets:/app/assets:z
     ports:
       - $PORT:$PORT
     env_file:
@@ -23,6 +25,7 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
+    stop_grace_period: 1s
 
   postgres:
     image: postgres:17-alpine
@@ -30,6 +33,7 @@ services:
       - postgres-password
     volumes:
       - .docker/postgres_data:/var/lib/postgresql/data/:z
+      # - .docker/postgresql:/var/lib/postgresql/18/docker:z
     environment:
       - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_USER=$POSTGRES_USER
