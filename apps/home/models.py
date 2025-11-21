@@ -1,14 +1,21 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 
 from apps.home.blocks import HomeStreamBlock
+from apps.base.blocks import BaseStreamBlock
 
 
 class BasicPage(Page):
-    body = RichTextField(blank=True)
+    body = StreamField(
+        BaseStreamBlock(),
+        blank=True,
+        use_json_field=True,
+        help_text=_("body"),
+    )
 
     content_panels = Page.content_panels + [FieldPanel("body")]
 

@@ -4,7 +4,7 @@ django := $(dc) exec django ./manage.py
 all: run
 
 run:
-	$(dc) up --build
+	$(dc) up --build django
 
 install:
 	mkdir -p assets/media assets/static .docker/postgres_data secrets
@@ -23,6 +23,11 @@ css:
 
 tailwind:
 	npm -C ui run watch:css
+
+fontawesome:
+	mkdir -p config/static/fontawesome/css
+	cp ui/node_modules/@fortawesome/fontawesome-free/css/all.min.css config/static/fontawesome/css/all.min.css
+	cp -r ui/node_modules/@fortawesome/fontawesome-free/webfonts config/static/fontawesome/
 
 admin:
 	$(django) createsuperuser

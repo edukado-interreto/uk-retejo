@@ -1,18 +1,15 @@
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from wagtail.blocks import (
-    BooleanBlock,
     CharBlock,
     ChoiceBlock,
     DateBlock,
-    IntegerBlock,
     PageChooserBlock,
     RichTextBlock,
     StreamBlock,
     StructBlock,
     URLBlock,
 )
-from wagtail.blocks.stream_block import StreamValue
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageBlock, ImageChooserBlock
 
@@ -103,12 +100,15 @@ class PresentationBlock(StructBlock):
 
 
 class PerkBlock(StructBlock):
+    title = CharBlock(classname="title", required=True)
+    paragraph = RichTextBlock(icon="pilcrow")
     icon = ChoiceBlock(
         choices=[
             ("", "Select an icon"),
             ("fa-solid fa-users", "Users"),
             ("fa-regular fa-comments", "Comments"),
             ("fa-regular fa-star", "Star"),
+            ("fa-regular fa-lightbulb", "Light bulb"),
             ("fa-solid fa-masks-theater", "Theater masks"),
             ("fa-solid fa-earth-africa", "Earth africa"),
         ]
@@ -122,8 +122,6 @@ class PerkBlock(StructBlock):
             ("secondary", "Pink"),  # text-secondary
         ]
     )
-    title = CharBlock(classname="title", required=True)
-    paragraph = RichTextBlock(icon="pilcrow")
 
     class Meta:
         icon = "check"
@@ -202,10 +200,6 @@ class AboutBlock(StructBlock):
 
 
 class BaseStreamBlock(StreamBlock):
-    hero_block = HeroBlock()
-    presentation_block = PresentationBlock()
-    perks_block = PerksBlock()
-    about_block = AboutBlock()
     heading_block = HeadingBlock()
     paragraph_block = RichTextBlock(icon="pilcrow")
     image_block = CaptionedImageBlock()

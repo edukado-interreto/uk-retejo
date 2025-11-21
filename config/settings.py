@@ -20,7 +20,6 @@ INSTALLED_APPS = [
     "apps.base",
     "apps.home",
     "apps.search",
-    "fontawesomefree",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.routable_page",
