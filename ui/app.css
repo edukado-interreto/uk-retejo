@@ -5,6 +5,8 @@
 
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, cmyk;
+  /* HACK https://github.com/saadeghi/daisyui/issues/3882#issuecomment-3382480890  */
+  exclude: properties;
 }
 
 @keyframes line-anime {
