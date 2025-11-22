@@ -13,6 +13,8 @@ from wagtail.blocks import (
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageBlock, ImageChooserBlock
 
+from apps.base.models import FontAwesomeIcon
+
 
 class CallToActionBlock(StructBlock):
     url = URLBlock(required=False, help_text="Link to another website page")
@@ -102,17 +104,7 @@ class PresentationBlock(StructBlock):
 class PerkBlock(StructBlock):
     title = CharBlock(classname="title", required=True)
     paragraph = RichTextBlock(icon="pilcrow")
-    icon = ChoiceBlock(
-        choices=[
-            ("", "Select an icon"),
-            ("fa-solid fa-users", "Users"),
-            ("fa-regular fa-comments", "Comments"),
-            ("fa-regular fa-star", "Star"),
-            ("fa-regular fa-lightbulb", "Light bulb"),
-            ("fa-solid fa-masks-theater", "Theater masks"),
-            ("fa-solid fa-earth-africa", "Earth africa"),
-        ]
-    )
+    icon = ChoiceBlock(choices=FontAwesomeIcon.get_icon_choices)
     color = ChoiceBlock(
         choices=[
             ("", "Select a color"),
@@ -151,20 +143,7 @@ class PerksBlock(StructBlock):
 class FactBlock(StructBlock):
     title = CharBlock()
     description = CharBlock()
-    icon = ChoiceBlock(
-        choices=[
-            ("", "Select an icon"),
-            ("fa-solid fa-users", "Group"),
-            ("fa-regular fa-square", "Square"),
-            ("fa-regular fa-clock", "Clock"),
-            ("fa-solid fa-cloud-sun", "Weather"),
-            ("fa-regular fa-comment", "Speech"),
-            ("fa-solid fa-coins", "Currencies"),
-            ("fa-solid fa-plug-circle-bolt", "Electricity"),
-            ("fa-solid fa-water", "Water"),
-            ("fa-solid fa-phone", "Phone"),
-        ]
-    )
+    icon = ChoiceBlock(choices=FontAwesomeIcon.get_icon_choices)
 
     class Meta:
         template = "base/blocks/fact_block.html"

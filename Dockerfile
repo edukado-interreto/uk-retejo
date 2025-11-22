@@ -49,6 +49,8 @@ RUN type python
 # Use /app folder as a directory where the source code is stored.
 WORKDIR /app
 
+USER $USER
+
 
 
 # --- PRODUCTION STAGE ---
