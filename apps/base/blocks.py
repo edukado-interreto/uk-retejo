@@ -11,6 +11,7 @@ from wagtail.blocks import (
     URLBlock,
 )
 from wagtail.embeds.blocks import EmbedBlock
+from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageBlock, ImageChooserBlock
 
 from apps.base.models import FontAwesomeIcon
@@ -124,15 +125,19 @@ class PerksStreamBlock(StreamBlock):
     perk = PerkBlock(blank=True, required=False)
 
 
-class PerksBlock(StructBlock):
-    background = ImageBlock(blank=True, required=False)
-    embed_block = EmbedBlock(
-        help_text="Insert a URL to embed. For example, https://www.youtube.com/watch?v=xm4qTLcXKc4",
-        icon="media",
-        max_width=640,
-        max_height=360,
+class VideoBlock(EmbedBlock):
+    help_text = (
+        "Insert an URL to embed. For example, https://www.youtube.com/watch?v=xm4qTLcXKc4",
     )
+    icon = "media"
+    max_width = 640
+    max_height = 360
+
+
+class PerksBlock(StructBlock):
     title = CharBlock(classname="title", required=True)
+    background = ImageBlock(blank=True, required=False)
+    videos = StreamBlock([("video", VideoBlock())])
     perks = PerksStreamBlock()
 
     class Meta:

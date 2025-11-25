@@ -2,7 +2,11 @@
 
 <section class="uk-perks py-12 lg:py-24 bg-base-200" style="background: center / cover no-repeat url('{% get_media_prefix %}{{ background.file }}');">
 
-      <div class="mx-auto w-9/10 md:w-3/4 lg:w-1/2 responsive-object aspect-video"> {% embed self.embed_block.url %} </div>
+    {% for video in self.videos %}
+        <div id="{{ video.id }}" class="mx-auto my-4 w-9/10 md:w-3/4 lg:w-1/2 responsive-object aspect-video">
+            {% embed video.value.url %}
+        </div>
+    {% endfor %}
 
     <h2 class="my-12 text-white text-center text-xl lg:text-4xl font-bold">{{ self.title }}</h2>
 
