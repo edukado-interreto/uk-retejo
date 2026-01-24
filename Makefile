@@ -38,6 +38,9 @@ migrations:
 migrate:
 	$(django) migrate
 
+shell:
+	$(django) shell_plus
+
 attach:
 	$(dc) attach django
 
