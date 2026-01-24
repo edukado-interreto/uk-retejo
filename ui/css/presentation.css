@@ -1,0 +1,53 @@
+/* === PRESENTATION === */
+
+.uk-presentation {
+  .figures {
+    @apply relative;
+
+    .main-image {
+      border-radius: 0 40px 258px 36px;
+    }
+
+    .sub-figures {
+      ul {
+        @apply list-none;
+
+        li {
+          @apply absolute;
+
+          &:nth-child(n) {
+            @apply max-w-[20vw] top-[10%] right-[-60px];
+          }
+
+          &:nth-child(2n) {
+            @apply max-w-[28vw] top-[34%] right-[-68px];
+          }
+
+          &:nth-child(3n) {
+            @apply max-w-[38vw] top-[64%] right-[-40px];
+          }
+
+          img {
+            @apply rounded-full;
+
+          }
+
+          &:nth-child(1) img,
+          &:nth-child(3) img {
+            @apply border-5 border-warning;
+          }
+
+          &:nth-child(2) img {
+            @apply border-5 border-info;
+          }
+        }
+      }
+    }
+  }
+
+  article {
+    h4:first-of-type {
+      @apply text-error;
+    }
+  }
+}

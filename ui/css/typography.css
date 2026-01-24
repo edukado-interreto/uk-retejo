@@ -1,0 +1,6 @@
+/* === TYPOGRAPY === */
+
+/* H1 */
+.heading-title {
+  @apply text-center font-bold text-info-content text-4xl my-12;
+}

@@ -1,0 +1,10 @@
+/* === PhotoSwipe™ === */
+/* https://photoswipe.com/ */
+
+.photoswipe {
+  @apply mb-8;
+
+  img {
+    @apply w-full;
+  }
+}
