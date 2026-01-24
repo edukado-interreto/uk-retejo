@@ -103,17 +103,20 @@ class PresentationBlock(StructBlock):
 
 
 class PerkBlock(StructBlock):
-    title = CharBlock(classname="title", required=True)
-    paragraph = RichTextBlock(icon="pilcrow")
-    icon = ChoiceBlock(choices=FontAwesomeIcon.get_icon_choices)
+    title = CharBlock(classname="title", required=True, label="Titolo")
+    paragraph = RichTextBlock(icon="pilcrow", label="Teksto")
+    icon = ChoiceBlock(choices=FontAwesomeIcon.get_icon_choices, label="Simbolo")
     color = ChoiceBlock(
         choices=[
-            ("", "Select a color"),
-            ("warning", "Yellow"),  # text-warning
-            ("info", "Blue"),  # text-info
-            ("success", "Green"),  # text-success
-            ("secondary", "Pink"),  # text-secondary
-        ]
+            ("", "(elektu koloron)"),
+            ("sky", "Blua"),
+            ("emerald", "Verda"),
+            ("amber", "Flava"),
+            ("orange", "Oranĝa"),
+            ("rose", "Rozkolora"),
+            ("indigo", "Violkolora"),
+        ],
+        label="Koloro",
     )
 
     class Meta:

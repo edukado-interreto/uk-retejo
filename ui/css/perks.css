@@ -16,30 +16,70 @@
   }
 
   .perk {
-    transition: background .3s,
-      border .3s,
-      border-radius .3s,
-      box-shadow .3s,
-      transform .4s;
+    transition: background .3s, border .3s, border-radius .3s, box-shadow .3s, transform .4s;
 
     .info-box {
-      background-color: #fff;
-      @apply relative rounded-md z-1 px-[30px] py-[75px];
+      @apply relative z-0 px-[30px] py-[75px] flex flex-col h-full;
+      @apply rounded-md bg-white;
 
-      &.secondary::before {
-        @apply bg-secondary;
+      &.sky {
+        @variant before {
+          @apply bg-sky-400;
+        }
+
+        .icon-box i {
+          @apply text-sky-400;
+        }
       }
 
-      &.info::before {
-        @apply bg-info;
+      &.emerald {
+        @variant before {
+          @apply bg-emerald-400;
+        }
+
+        .icon-box i {
+          @apply text-emerald-400;
+        }
       }
 
-      &.success::before {
-        @apply bg-success;
+      &.amber {
+        @variant before {
+          @apply bg-amber-400;
+        }
+
+        .icon-box i {
+          @apply text-amber-400;
+        }
       }
 
-      &.warning::before {
-        @apply bg-warning;
+      &.orange {
+        @variant before {
+          @apply bg-orange-400;
+        }
+
+        .icon-box i {
+          @apply text-orange-400;
+        }
+      }
+
+      &.rose {
+        @variant before {
+          @apply bg-rose-400;
+        }
+
+        .icon-box i {
+          @apply text-rose-400;
+        }
+      }
+
+      &.indigo {
+        @variant before {
+          @apply bg-indigo-400;
+        }
+
+        .icon-box i {
+          @apply text-indigo-400;
+        }
       }
 
       &::before {
