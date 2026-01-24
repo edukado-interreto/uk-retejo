@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 from wagtail.blocks import (
     CharBlock,
     ChoiceBlock,
@@ -11,7 +12,6 @@ from wagtail.blocks import (
     URLBlock,
 )
 from wagtail.embeds.blocks import EmbedBlock
-from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageBlock, ImageChooserBlock
 
 from apps.base.models import FontAwesomeIcon
@@ -191,3 +191,24 @@ class BaseStreamBlock(StreamBlock):
         help_text="Insert a URL to embed. For example, https://www.youtube.com/watch?v=SGJFWirQ3ks",
         icon="media",
     )
+
+
+class TimelineEventBlock(StructBlock):
+    date = DateBlock()
+    title = CharBlock(
+        blank=True,
+        help_text=_("Lasi malplene por afiŝi tagon"),
+        required=False,
+    )
+    description = RichTextBlock(blank=True)
+
+    class Meta:
+        template = "base/blocks/timeline_event_block.html"
+
+
+class TimelineBlock(StreamBlock):
+    events = TimelineEventBlock(blank=True, required=False)
+
+    class Meta:
+        icon = "calendar-check"
+        template = "base/blocks/timeline_block.html"

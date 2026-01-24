@@ -5,9 +5,46 @@
 
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, cmyk;
-  /* HACK https://github.com/saadeghi/daisyui/issues/3882#issuecomment-3382480890  */
+  /* HACK properties: https://github.com/saadeghi/daisyui/issues/3882#issuecomment-3382480890  */
   exclude: properties;
 }
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-primary: oklch(45.7% 0.299 269.0);
+  --color-secondary: oklch(59.9% 0.242 22.5);
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-primary: oklch(45.7% 0.299 269.0);
+  --color-secondary: oklch(59.9% 0.242 22.5);
+}
+
+@layer theme {
+
+  :root,
+  :host {
+    --font-sans: Raleway, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+}
+
+
+/* === TYPOGRAPY === */
+
+.heading-title {
+  @apply text-center font-bold text-info-content text-4xl my-12;
+}
+
+
+
+/* === COUNTDOWN === */
 
 @keyframes line-anime {
   to {
@@ -299,6 +336,176 @@
   .description {
     @apply text-lg text-base-content/70;
   }
+}
+
+.vertical-timeline {
+  @apply md:max-w-[80vw] mx-auto px-4 md:px-12 py-24;
+
+  &::before {
+    /* vertical bar for timeline */
+    @apply hidden md:block;
+    content: '';
+    position: absolute;
+    left: 50%;
+    background-color: #e6e6e6;
+    transform: translateX(-50%);
+    top: 20rem;
+    width: 2px;
+    height: calc(100% - 20rem);
+  }
+
+  .event {
+    gap: 80px;
+    display: flex;
+    position: relative;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: space-evenly;
+
+    &:nth-child(odd) {
+      @apply md:text-right md:flex-row-reverse;
+
+      &::before {
+        right: 50%;
+        margin-right: -10px;
+      }
+
+      .info-box::before {
+        right: -20px;
+        border-left: 20px solid #F9F9F9;
+      }
+    }
+
+    &:nth-child(even) {
+
+      flex-direction: right;
+
+      &::before {
+        left: 50%;
+        margin-left: -10px;
+      }
+
+      .info-box::before {
+        left: -20px;
+        border-right: 20px solid #F9F9F9;
+      }
+
+      .heading-box {
+        @apply flex-row-reverse;
+      }
+    }
+
+    &::before {
+      @apply hidden md:block;
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #EBEAEA;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:hover {
+      &::before {
+        background-color: var(--color-primary);
+      }
+
+      &:nth-child(odd) {
+        .info-box::before {
+          border-left: 20px solid var(--color-primary);
+        }
+      }
+
+      &:nth-child(even) {
+        .info-box::before {
+          border-right: 20px solid var(--color-primary);
+        }
+      }
+
+      .info-box {
+        background-color: var(--color-primary);
+      }
+
+      .title,
+      .description {
+        color: white;
+      }
+    }
+
+    .heading-box {
+      @apply hidden md:flex;
+      width: 50%;
+      padding: 0 64px;
+
+      .number {
+        @apply hidden md:block;
+
+        font-size: 2rem;
+        width: 56px;
+        height: 56px;
+        line-height: 56px;
+        border-radius: 50%;
+        background-color: var(--color-primary);
+        color: white;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+
+    .info-box {
+      background-color: #f7f9ff;
+      padding: 45px 40px 40px;
+      border-radius: 10px;
+      position: relative;
+      transition: all 0.3s ease-in-out;
+      flex: 1;
+
+      &::before {
+        @apply hidden md:block;
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        transition: all 0.3s ease-in-out;
+        border-top: 30px solid transparent;
+        border-bottom: 30px solid transparent;
+      }
+
+    }
+
+    .time {
+      color: var(--color-primary);
+      background-color: #E1E8FF;
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 20px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .title {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #041A57;
+      font-size: 26px;
+      line-height: 34px;
+      transition: all 0.3s ease-in-out;
+      margin-top: 0.3em;
+      margin-bottom: 0.8em;
+    }
+  }
+
+  .description {
+    font-size: 1.2em;
+  }
+
 }
 
 .photoswipe {

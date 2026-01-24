@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "apps.base",
     "apps.home",
+    "apps.program",
     "apps.search",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -103,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
+FORMAT_MODULE_PATH = ["config.formats"]
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", ["localhost", "127.0.0.1", "0.0.0.0"])
 if not DEBUG:

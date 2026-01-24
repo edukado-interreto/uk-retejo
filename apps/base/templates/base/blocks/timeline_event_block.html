@@ -1,0 +1,14 @@
+{% load static wagtailcore_tags %}
+
+<li class="event">
+  <div class="heading-box wow fadeInLeft animated">
+    <p class="number">
+    {{ self.date|date:"j"}}
+    </p>
+  </div>
+  <div class="info-box wow fadeInLeft animated">
+    <time class="time" datetime="{{ self.date|date:"SHORT_DATE_FORMAT" }}"> {{ self.date|date:"DATE_FORMAT" }}</time> 
+    <h3 class="title text-info-content text-2xl font-bold">{% firstof self.title self.date|date:"DAY_OF_THE_WEEK"|capfirst %}</h3>
+    <section class="description">{{ self.description }}</section>
+  </div>
+</li>
