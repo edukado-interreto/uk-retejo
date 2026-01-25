@@ -11,9 +11,13 @@ install:
 	head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 > secrets/postgres-password
 	npm -C ui install
 
-update:
+update: update-py update-js
+
+update-py:
 	uv lock --upgrade
 	./minimal-uv-pyproject -o .docker/pyproject.toml pyproject.toml
+
+update-js:
 	npm -C ui upgrade
 	rm ui/daisyui-theme.js
 	wget -P ui https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js

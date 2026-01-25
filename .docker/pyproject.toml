@@ -4,8 +4,9 @@ version = "0"
 requires-python = ">=3.12"
 dependencies = [
   "dj-database-url>=2.3.0",
-  "django>=5.2,<6",
   "django-debug-toolbar>=6.2.0",
+  "django-extensions>=4.1",
+  "django>=5.2,<6",
   "psycopg[binary]>=3.2.6",
   "python-decouple>=3.8",
   "toml-decouple>=0.4.0",
@@ -14,7 +15,4 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
-    "django-extensions>=4.1",
-]
 production = ["granian>=2.5.4"]
