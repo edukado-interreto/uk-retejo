@@ -29,13 +29,12 @@ services:
     stop_grace_period: 1s
 
   postgres:
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     user: $USER_ID:$GROUP_ID
     secrets:
       - postgres-password
     volumes:
-      - .docker/postgres_data:/var/lib/postgresql/data/:z
-      # - .docker/postgresql:/var/lib/postgresql/18/docker:z
+      - .docker/postgresql:/var/lib/postgresql:z
     environment:
       - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_USER=$POSTGRES_USER

@@ -2,6 +2,6 @@
 .env.django
 assets/
 secrets/
-.docker/*_data
+.docker/postgresql
 .python-version
 ui/node_modules
