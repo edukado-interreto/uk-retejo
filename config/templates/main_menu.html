@@ -1,16 +1,35 @@
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags navigation_tags %}
+{% get_site_root as site_root %}
+{% pageurl site_root as root_url %}
 <nav id="navbar"
   class="navbar z-1 bg-base-100 text-base-content sticky top-0 flex h-24 w-full justify-center transition-colors duration-300 print:hidden shadow-md bg-opacity-0 dark">
   <div class="navbar-start lg:justify-center">
-    <a href="/"><img src="{% static 'img/brno2025.png' %}" alt="Universala Kongreso" class="h-18 ps-2"></a>
+    <a href="{{ root_url }}"><img src="{% static 'img/brno2025.png' %}" alt="Universala Kongreso" class="h-18 ps-2"></a>
   </div>
   <div class="navbar-center">
     <div class="hidden lg:block">
-      <ul class="menu menu-horizontal dark:text-white text-lg font-semibold uppercase">
-        <li><a href="/">Ĉefpaĝo</a></li>
+      <ul class="menu menu-horizontal top-menu text-lg font-semibold">
+        {% if page.url != root_url %}
+          <li><a href="{{ root_url }}">Ĉefpaĝo</a></li>
+        {%endif%}
+        {% for section in site_root.get_children.live.in_menu %}
+          <li class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="rounded-field menu-dropdown-toggle">
+              {{ section.title }}
+            </div>
+            <ul class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 w-52 p-2 shadow-sm" tabindex="-1">
+              {% for page in section.get_children.live.in_menu %}
+                <li><a href="{% pageurl page %}" class="text-base-content ">{{ page.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+
+        {% comment %}
         <li><a href="/2025/">Aliĝilo</a></li>
         <li><a href="https://uea.org">UEA</a></li>
         <li><a href="https://iik.uea.org/2025/">Infana Kongreseto</a></li>
+        {% endcomment %}
       </ul>
     </div>
   </div>

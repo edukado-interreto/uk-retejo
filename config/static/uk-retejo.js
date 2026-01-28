@@ -2,10 +2,15 @@ document.addEventListener("DOMContentLoaded", () => {
   //////////////
   // Navigation
   //////////////
+  const body = document.getElementsByTagName("body")[0]
   const navbar = document.getElementById("navbar")
 
   // Function to handle the scroll event
   function handleScroll() {
+    if (!body.classList.contains("homepage")) return
+    const menu_elements = Array.from(document.querySelectorAll("ul.top-menu > li"))
+    menu_elements.map((el) => el.classList.add("dark:text-white"))
+
     if (window.scrollY > 50) {
       navbar.classList.add("bg-base-100", "shadow-md") // Add background and shadow
       navbar.classList.remove("bg-opacity-0", "dark") // Remove transparent background
