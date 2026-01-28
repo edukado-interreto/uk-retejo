@@ -13,6 +13,9 @@ from wagtail.models.pages import HttpRequest
 from apps.search import views as search_views
 from config.dev import urls as dev_urls
 
+if settings.DEBUG:
+    from debug_toolbar.toolbar import debug_toolbar_urls
+
 
 @cache_page(60 * 60 * 24 * 30)
 def favicon(_request: HttpRequest):
@@ -34,6 +37,7 @@ if settings.DEBUG:
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += debug_toolbar_urls()
 
     # API for testing
     urlpatterns += [path("api/2025/", include(dev_urls))]
