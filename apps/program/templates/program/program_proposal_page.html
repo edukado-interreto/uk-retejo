@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}program-proposal-page{% endblock %}
+
+{% block extra_css %}
+<style>
+main {
+  min-height: 90vh;
+  padding-top: 10rem;
+}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+  <h1 class="heading-title">{{ page.title }}</h1>
+
+  <div class="container mx-auto my-24 prose md:prose-lg lg:prose-xl">
+  {{ page.body }}
+  </div>
+{% endblock content %}

@@ -1,0 +1,11 @@
+<summary class="flex justify-between cursor-pointer">
+  <h5 class="inline-block not-prose">{{ self.title }}</h5>
+  {% if self.deadline %}
+  <div class="badge badge-lg badge-secondary font-bold">
+    ĝis la {{ self.deadline | date }} 
+  </div>
+  {% endif %}
+</summary>
+<div data-theme="dark" class="description collapse-content prose lg:prose-xl">
+  {{ self.description }}
+</div>

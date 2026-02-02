@@ -14,6 +14,7 @@
   default: true;
   prefersdark: false;
   color-scheme: light;
+  --spacing: .2rem;
   --color-primary: oklch(45.7% 0.299 269.0);
   --color-secondary: oklch(59.9% 0.242 22.5);
   --menu-active-bg: var(--color-info);
@@ -24,6 +25,7 @@
   default: false;
   prefersdark: true;
   color-scheme: dark;
+  --spacing: .2rem;
   --color-primary: oklch(45.7% 0.299 269.0);
   --color-secondary: oklch(59.9% 0.242 22.5);
   --menu-active-bg: var(--color-info);
@@ -45,5 +47,10 @@
 @import "./css/perks.css";
 @import "./css/photoswipe.css";
 @import "./css/presentation.css";
+@import "./css/program-proposal.css";
 @import "./css/timeline.css";
 @import "./css/typography.css";
+
+.prose {
+  max-width: 80ch !important;
+}

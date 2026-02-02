@@ -44,7 +44,7 @@
     <input id="drawer-menu" type="checkbox" class="drawer-toggle">
     <div class="drawer-content flex flex-col">
       {% include "navigation_desktop.html" with request=request page=page only %}
-      <main class="-mt-24">
+      <main class="-mt-24 relative">
         {% block content %}{% endblock %}
       </main>
     </div>

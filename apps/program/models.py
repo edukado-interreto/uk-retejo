@@ -1,13 +1,17 @@
-from django.utils.translation import gettext_lazy as _
-from wagtail.models import Page
-from wagtail.fields import StreamField
 from wagtail.admin.panels import FieldPanel
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
-from apps.base.blocks import BaseStreamBlock
-from apps.program.blocks import TimelineStreamBlock
+from apps.program.blocks import ProgramProposalStreamBlock, TimelineStreamBlock
 
 
 class TimelinePage(Page):
     body = StreamField(TimelineStreamBlock(), blank=True, use_json_field=True)
+
+    content_panels = Page.content_panels + [FieldPanel("body")]
+
+
+class ProgramProposalPage(Page):
+    body = StreamField(ProgramProposalStreamBlock(), blank=True, use_json_field=True)
 
     content_panels = Page.content_panels + [FieldPanel("body")]

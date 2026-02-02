@@ -215,3 +215,20 @@ class TimelineBlock(StreamBlock):
     class Meta:
         icon = "calendar-check"
         template = "base/blocks/timeline_block.html"
+
+
+class ProgramProposalItemBlock(StructBlock):
+    title = CharBlock()
+    deadline = DateBlock(blank=True, required=False)
+    description = RichTextBlock(blank=True)
+
+    class Meta:
+        template = "base/blocks/program_proposal_item_block.html"
+
+
+class ProgramProposalBlock(StreamBlock):
+    program_type = ProgramProposalItemBlock(blank=True, required=False)
+
+    class Meta:
+        icon = "tasks"
+        template = "base/blocks/program_proposal_block.html"

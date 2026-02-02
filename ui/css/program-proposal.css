@@ -1,0 +1,37 @@
+.program-proposal-page {
+  @apply mb-24;
+
+  h4 {
+    @apply mt-6 px-6 py-4 bg-primary text-primary-content text-center text-2xl font-bold;
+  }
+
+  .block-paragraph_block {
+    @apply my-24;
+  }
+}
+
+.pp {
+  details {
+    @apply rounded-none;
+
+    summary {
+      @apply bg-primary/90 text-primary-content px-6 py-4;
+
+      h5 {
+        @apply text-primary-content text-xl font-bold;
+      }
+    }
+
+    .description {
+      @apply text-base-content bg-primary/80 font-medium;
+
+      & ul:first-of-type {
+        @apply mt-0 pt-3;
+      }
+
+      & li:first-of-type {
+        @apply mt-0 pt-3;
+      }
+    }
+  }
+}
