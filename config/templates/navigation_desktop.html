@@ -1,0 +1,55 @@
+{% load static wagtailcore_tags %}
+{% wagtail_site as site %}
+{% pageurl site.root_page as root_url %}
+<nav id="navbar" class="navbar dark bg-base-100 shadow-md">
+  <div class="navbar-start">
+    <a href="{{ root_url }}"><img src="{% static 'img/brno2025.png' %}" alt="Universala Kongreso" class="h-18 ps-2"></a>
+  </div>
+
+  <div class="navbar-center">
+    <div class="hidden lg:block">
+      <ul class="menu menu-horizontal top-menu text-lg font-semibold">
+        {% if page.url != root_url %}
+          <li><a href="{{ root_url }}" class="menu-btn btn me-2 rounded-full">
+            Ĉefpaĝo
+          </a></li>
+        {% endif %}
+
+        {% for top_page in site.root_page.get_children.live.in_menu %}
+          {% with sub_pages=top_page.get_children.live.in_menu %}
+          {% if sub_pages %}
+          <div class="join mx-2">
+            <a class="join-item menu-btn btn rounded-s-full" href="{% pageurl top_page %}">
+              {{ top_page.title }}
+            </a>
+            <li class="join-item dropdown dropdown-end">
+              <div tabindex="0" role="button" class="menu-btn btn btn-xl rounded-e-full menu-dropdown-toggle">
+                <p class="hidden">malfermi submenuon de {{ top_page.title }}</p>
+              </div>
+              <ul class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 w-52 p-2 shadow-sm" tabindex="-1">
+                {% for sub_page in sub_pages %}
+                  <li><a href="{% pageurl sub_page %}" class="text-lg">{{ sub_page.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          </div>
+          {% else %}
+            <a class="menu-btn btn rounded-full" href="{% pageurl top_page %}">{{ top_page }}</a>
+          {% endif %}
+          {% endwith %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="navbar-end">
+    <a href="/2026/" class="btn btn-info text-white hidden md:flex mx-4 btn-xl uppercase">Aliĝi</a>
+    <label for="drawer-menu" aria-label="open sidebar" class="btn btn-square btn-info text-base-100 lg:hidden mx-4 btn-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+        class="inline-block h-6 w-6 stroke-current">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+        </path>
+      </svg>
+    </label>
+  </div>
+</nav>

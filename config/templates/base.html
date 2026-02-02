@@ -43,21 +43,14 @@
   <div class="drawer drawer-end">
     <input id="drawer-menu" type="checkbox" class="drawer-toggle">
     <div class="drawer-content flex flex-col">
-      {% include "main_menu.html" %}
+      {% include "navigation_desktop.html" with request=request page=page only %}
       <main class="-mt-24">
         {% block content %}{% endblock %}
       </main>
     </div>
 
     <div class="drawer-side">
-      <label for="drawer-menu" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu bg-base-200 min-h-full w-80">
-        <!-- Sidebar content here -->
-        <li class="menu-item"><a href="/">Ĉefpaĝo</a></li>
-        <li class="menu-item"><a href="https://uk.esperanto.net/2025/">Aliĝilo</a></li>
-        <li class="menu-item"><a href="https://uea.org">UEA</a></li>
-        <li class="menu-item"><a href="https://iik.uea.org/2025/">Infana Kongreseto</a></li>
-      </ul>
+      {% include "navigation_mobile.html" with request=request page=page only %}
     </div>
   </div>
 

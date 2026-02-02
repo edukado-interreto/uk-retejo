@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.scrollY > 50) {
       navbar.classList.add("bg-base-100", "shadow-md") // Add background and shadow
-      navbar.classList.remove("bg-opacity-0", "dark") // Remove transparent background
+      navbar.classList.remove("bg-base-100/0", "dark") // Remove transparent background
     } else {
-      navbar.classList.add("bg-opacity-0", "dark") // Make transparent
+      navbar.classList.add("bg-base-100/0", "dark") // Make transparent
       navbar.classList.remove("bg-base-100", "shadow-md") // Remove background and shadow
     }
   }
