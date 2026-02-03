@@ -16,6 +16,9 @@ services:
     entrypoint: ""
     command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$PORT"
     user: $USER_ID:$GROUP_ID
+    secrets:
+      - source: postgres-password
+        target: POSTGRES_PASSWORD
     volumes:
       - .:/app:z
       - ./assets:/app/assets:z

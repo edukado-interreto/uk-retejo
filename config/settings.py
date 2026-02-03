@@ -85,7 +85,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASES = {"default": config("DATABASE_URL", to=parse_db_url)}
+DATABASES = {
+    "default": {
+        **config("DATABASE_URL", to=parse_db_url),
+        "PASSWORD": config("POSTGRES_PASSWORD"),
+    }
+}
 
 
 # Password validation
