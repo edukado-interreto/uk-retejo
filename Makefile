@@ -4,12 +4,10 @@ django := $(dc) exec django ./manage.py
 all: run
 
 run:
-	$(dc) up --build django
+	$(dc) up --build postgres django
 
 install:
-	mkdir -p assets/media assets/static .docker/postgres_data secrets
-	head /dev/urandom | tr -dc A-Za-z0-9 | head -c 64 > secrets/postgres-password
-	npm -C ui install
+	./install.py
 
 update: update-py update-js
 
