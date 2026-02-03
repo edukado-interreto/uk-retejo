@@ -36,6 +36,7 @@ admin:
 
 migrations:
 	$(django) makemigrations
+	uv run ruff format apps
 
 migrate:
 	$(django) migrate
