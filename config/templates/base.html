@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailuserbar %}<!DOCTYPE html>
+{% load static wagtailcore_tags wagtailuserbar menu_tags %}<!DOCTYPE html>
 <html lang="eo">
 <head>
   <meta charset="utf-8">
@@ -13,7 +13,7 @@
     {% endblock %}
     {% block title_suffix %}
     {% wagtail_site as current_site %}
-    {% if current_site and current_site.site_name %}-{{ current_site.site_name }}{% endif %}
+    {% if current_site and current_site.site_name %} - {{ current_site.site_name }}{% endif %}
     {% endblock %}
   </title>
   {% if page.search_description %}
@@ -43,14 +43,15 @@
   <div class="drawer drawer-end">
     <input id="drawer-menu" type="checkbox" class="drawer-toggle">
     <div class="drawer-content flex flex-col">
-      {% include "navigation_desktop.html" with request=request page=page only %}
+      {% include "navigation.html" %}
       <main class="-mt-24 relative">
         {% block content %}{% endblock %}
       </main>
     </div>
 
     <div class="drawer-side">
-      {% include "navigation_mobile.html" with request=request page=page only %}
+      <label for="drawer-menu" aria-label="close sidebar" class="drawer-overlay"></label>
+      {% main_menu template="menus/main/mobile_menu.html" %}
     </div>
   </div>
 

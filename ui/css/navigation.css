@@ -4,6 +4,6 @@
   @apply z-1 text-base-content sticky top-0 flex h-24 w-full justify-center transition-colors duration-300 print:hidden;
 
   .menu-btn {
-    @apply btn-lg btn-ghost bg-base-100/50 border-base-300;
+    @apply btn-ghost bg-base-100/50 border-base-300;
   }
 }

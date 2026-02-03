@@ -1,0 +1,15 @@
+{% load menu_tags %}
+<ul class="menu bg-base-200 min-h-full w-80">
+  {% if request.path != "/" %}<li class="menu-item"><a href="/">Ĉefpaĝo</a></li>{% endif %}
+  {% for item in menu_items %}
+  <li class="menu-item">
+    <a href="{{ item.href }}" class="{{ item.active_class }}">{{ item.text }}</a>
+    {% if item.has_children_in_menu %}
+      <ul>
+        {% sub_menu item %}
+      </ul>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+

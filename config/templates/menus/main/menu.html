@@ -1,0 +1,20 @@
+{% load menu_tags %}
+{% for item in menu_items %}
+  {% if item.has_children_in_menu %}
+  <div class="join mx-2">
+    <a class="join-item menu-btn btn rounded-s-lg" href="{{ item.href }}">
+      {{ item.text }}
+    </a>
+    <li class="join-item dropdown dropdown-end">
+      <div tabindex="0" role="button" class="menu-btn btn rounded-e-lg menu-dropdown-toggle">
+        <p class="hidden">malfermi submenuon de {{ item.page.title }}</p>
+      </div>
+      <ul class="menu dropdown-content bg-base-100 rounded-box z-1 mt-4 p-2 w-max shadow-sm" tabindex="-1">
+        {% sub_menu item %}
+      </ul>
+    </li>
+  </div>
+  {% else %}
+    <a class="menu-btn btn rounded-lg" href="{{ item.href }}">{{ item.page }}</a>
+  {% endif %}
+{% endfor %}

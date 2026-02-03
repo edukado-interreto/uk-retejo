@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
+    "wagtailmenus",
     "modelcluster",
     "taggit",
     "django.contrib.admin",
@@ -78,6 +79,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "wagtailmenus.context_processors.wagtailmenus",
             ],
         },
     },
@@ -184,6 +186,18 @@ WAGTAILDOCS_EXTENSIONS = [
     "zip",
 ]
 # WAGTAILEMBEDS_RESPONSIVE_HTML = True
+
+# Wagtail Menus
+WAGTAILMENUS_ACTIVE_CLASS = "menu-active"
+
+# Ignoring these WARNINGS:
+# wagtailmenus.FlatMenu: (wagtailadmin.W002) FlatMenu.content_panels will have
+# no effect on snippets editing
+# 	HINT: Ensure that FlatMenu uses `panels` instead of `content_panels` or
+# 	set up an `edit_handler` if you want a tabbed editing interface.
+# 	There are no default tabs on non-Page models so there will be no Content tab
+# 	for the content_panels to render in.
+SILENCED_SYSTEM_CHECKS = ["wagtailadmin.W002"]
 
 # https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-definition
 # Use the console logging in production too
