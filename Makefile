@@ -17,8 +17,6 @@ update-py:
 
 update-js:
 	npm -C ui upgrade
-	rm ui/daisyui-theme.js
-	wget -P ui https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
 
 css:
 	npm -C ui run build:css
