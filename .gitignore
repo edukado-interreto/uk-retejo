@@ -2,6 +2,9 @@
 .env.django
 assets/
 secrets/
+.docker/caddy
 .docker/postgresql
 .python-version
 ui/node_modules
+.vite
+uploads/

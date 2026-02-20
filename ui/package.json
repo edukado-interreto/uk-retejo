@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"description": "Tailwind & DaisyUI to compile app.css to static/uk-retejo.css",
 	"scripts": {
-		"watch:css": "npx @tailwindcss/cli -i app.css -o ../config/static/uk-retejo.css --watch -m",
+		"watch:css": "npx @tailwindcss/cli -i app.css -o ../config/static/uk-retejo.css --watch=always -m",
 		"build:css": "npx @tailwindcss/cli -i app.css -o ../config/static/uk-retejo.css --minify"
 	},
 	"repository": {

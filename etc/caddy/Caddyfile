@@ -1,0 +1,25 @@
+{$LOCAL_HOST} {
+	handle /uploads/* {
+		file_server
+	}
+	handle /static/vue/* {
+		reverse_proxy vue:5173
+	}
+	handle {
+		reverse_proxy django:{$DJANGO_PORT} {
+			header_up Host {host}
+		}
+	}
+}
+{$LOCAL_HOST}:24678 {
+	handle {
+		reverse_proxy vue:24678
+	}
+}
+adminer.localhost {
+	handle {
+		reverse_proxy adminer:8080 {
+			header_up Host {host}
+		}
+	}
+}

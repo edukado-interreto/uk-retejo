@@ -10,6 +10,7 @@ dependencies = [
   "django>=6",
   "django-debug-toolbar>=6.2.0",
   "django-extensions>=4.1",
+  "django-vite>=3.1.0",
   "psycopg[binary]>=3.2.6",
   "python-decouple>=3.8",
   "toml-decouple>=0.4.0",
@@ -22,4 +23,7 @@ dependencies = [
 known-third-party = ["django", "wagtail"]
 
 [dependency-groups]
+dev = [
+    "django-cors-headers>=4.9.0",
+]
 production = ["granian>=2.5.4"]

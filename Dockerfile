@@ -1,5 +1,5 @@
 # --- BASE STAGE ---
-FROM python:3.12-slim-bookworm AS base
+FROM python:3.14-alpine AS base
 
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH" \
@@ -8,7 +8,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH" \
 
 
 # --- BUILDER STAGE ---
-FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.14-alpine AS builder
 
 # Install the project into `/app`
 WORKDIR /app
@@ -53,6 +53,21 @@ USER $USER
 
 
 
+# --- VITE STAGE ---
+FROM node:24-alpine AS vite-build
+
+WORKDIR /app
+
+RUN --mount=type=cache,target=/root/.npm,rw \
+    --mount=type=bind,source=uk-aligxilo/package.json,target=package.json \
+    --mount=type=bind,source=uk-aligxilo/package-lock.json,target=package-lock.json \
+    npm ci
+
+COPY uk-aligxilo/ ./uk-aligxilo/
+RUN npm --prefix uk-aligxilo run build
+RUN ls -A
+
+
 # --- PRODUCTION STAGE ---
 FROM base AS production
 
@@ -69,40 +84,44 @@ ENV PYTHONUNBUFFERED=1 \
     GIT_COMMIT=$GIT_COMMIT \
     GIT_BRANCH=$GIT_BRANCH \
     UV_CACHE_DIR=/root/.cache/uv \
-    PORT=8000 
-
-EXPOSE $PORT
+    UV_LINK_MODE=copy
 
 # Add user that will be used in the container.
-RUN grep :$GROUP_ID: /etc/group || groupadd $GROUP_ID -g $GROUP_ID && \
-    useradd $USER -u $USER_ID -g $GROUP_ID
+RUN addgroup -g $GROUP_ID $GROUP_ID && adduser -u $USER_ID -G $GROUP_ID -D $USER
 
 COPY --from=builder --chown=$USER_ID:$GROUP_ID $VIRTUAL_ENV $VIRTUAL_ENV
 
 # Add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
-ADD --chown=$USER:$GROUP_ID . /app
+COPY --chown=$USER:$GROUP_ID manage.py pyproject.toml uv.lock /app/
+COPY --chown=$USER:$GROUP_ID apps /app/apps/
+COPY --chown=$USER:$GROUP_ID config /app/config/
 WORKDIR /app
+RUN ls -lA
 
 RUN \
 --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
 --mount=type=cache,target=$UV_CACHE_DIR \
     uv sync --frozen --no-dev --group production
 
+# Install Vite/Vue project
+ARG VITE_OUT_DIR
+COPY --from=vite-build --chown=$USER:$GROUP_ID /app/$VITE_OUT_DIR ./$VITE_OUT_DIR
+COPY --chmod=+x etc/replace-vite-env.sh /bin/
+
 USER $USER
 
-COPY --chmod=755 <<EOT /entrypoint.sh
-#!/usr/bin/env bash
-set -xe
+EXPOSE 8000
 
-export GRANIAN_INTERFACE=wsgi
-export GRANIAN_HOST=0.0.0.0
-export GRANIAN_PORT=$PORT
-export GRANIAN_BLOCKING_THREADS=3
+COPY --chmod=+x <<EOF /entrypoint.sh
+#!/usr/bin/env sh
+set -e
 
-python manage.py migrate --noinput &
+/bin/replace-vite-env.sh
+
+python manage.py migrate --noinput
+
 granian config.wsgi:application
-EOT
+EOF
 
 ENTRYPOINT ["/entrypoint.sh"]
-

@@ -4,6 +4,9 @@ django := $(dc) exec django ./manage.py
 all: run
 
 run:
+	$(dc) up --build postgres django vue tailwind
+
+django:
 	$(dc) up --build postgres django
 
 install:
@@ -24,6 +27,9 @@ css:
 tailwind:
 	npm -C ui run watch:css
 
+vue:
+	npm run --prefix uk-aligxilo build
+
 fontawesome:
 	mkdir -p config/static/fontawesome/css
 	cp ui/node_modules/@fortawesome/fontawesome-free/css/all.min.css config/static/fontawesome/css/all.min.css
@@ -41,6 +47,9 @@ migrate:
 
 shell:
 	$(django) shell_plus
+
+urls:
+	$(django) show_urls
 
 attach:
 	$(dc) attach django

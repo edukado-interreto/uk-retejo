@@ -5,6 +5,24 @@ secrets:
     file: ./secrets/postgres-password
 
 services:
+
+  proxy:
+    image: caddy:alpine
+    user: $USER_ID:$GROUP_ID
+    environment:
+      - LOCAL_HOST=${LOCAL_HOST}
+      - DJANGO_PORT=$DJANGO_PORT
+    ports:
+      - 443:443
+      - 24678:24678
+    volumes:
+      - ./.docker/caddy/data:/data:z
+      - ./etc/caddy:/etc/caddy:z
+      - ./uploads:/srv/uploads:z
+    networks:
+      - public
+      - backend
+
   django:
     build:
       context: .
@@ -12,24 +30,25 @@ services:
       args:
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
-      - PORT=$PORT
-    entrypoint: ""
-    command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$PORT"
+    command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:$DJANGO_PORT"
     user: $USER_ID:$GROUP_ID
     secrets:
       - source: postgres-password
         target: POSTGRES_PASSWORD
+    working_dir: /app
     volumes:
       - .:/app:z
-      - ./assets:/app/assets:z
-    ports:
-      - $PORT:$PORT
+      - ./uploads:/app/uploads:z
     env_file:
       - .env.django
     depends_on:
+      - proxy
       - postgres
     restart: unless-stopped
-    stop_grace_period: 1s
+    stop_grace_period: 2s
+    networks:
+      - public
+      - backend
 
   postgres:
     image: postgres:18-alpine
@@ -43,12 +62,29 @@ services:
       - POSTGRES_USER=$POSTGRES_USER
       - POSTGRES_PASSWORD_FILE=/run/secrets/$POSTGRES_PASSWORD_FILE
     restart: unless-stopped
+    networks:
+      - backend
 
   tailwind:
-    image: node:22-alpine
+    image: node:24-alpine
     working_dir: /app/ui
     volumes:
       - .:/app:z
     tty: true
     user: $USER_ID:$GROUP_ID
     command: /bin/sh -c "npm i; npm run watch:css"
+
+  vue:
+    image: node:24-alpine
+    user: $USER_ID:$GROUP_ID
+    volumes:
+      - .:/app:z
+    working_dir: /app/uk-aligxilo
+    command: /bin/sh -c "npm i && npm run dev"
+    tty: true
+    networks:
+      - backend
+
+networks:
+  public:
+  backend:

@@ -7,7 +7,7 @@ from string import ascii_letters, digits
 
 IGNORED_DIRS = [
     Path(f"./{name}")
-    for name in ["secrets", ".docker/postgresql", "assets/media", "assets/static"]
+    for name in ["secrets", ".docker/postgresql", "uploads/media"]
 ]
 SECRETS_DIR = IGNORED_DIRS[0]
 SECRETS_FILES = ["POSTGRES_PASSWORD_FILE"]

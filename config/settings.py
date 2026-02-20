@@ -1,10 +1,8 @@
-from functools import partial
+from itertools import product
 from pathlib import Path
 
-from dj_database_url import parse as db_url_parse
 from toml_decouple import TomlDecouple
-
-parse_db_url = partial(db_url_parse, conn_max_age=600, conn_health_checks=True)
+from .utils import django_vite_dev_mode, parse_db_url
 
 config = TomlDecouple(prefix="UK_").load()
 
@@ -14,16 +12,17 @@ BASE_DIR = CONFIG_DIR.parent
 SECRET_KEY = config.SECRET_KEY
 DEBUG = config.DEBUG
 HOST = config("HOST", default="http://localhost:8000")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", [HOST, "localhost", "127.0.0.1", "0.0.0.0"])
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default=[f"https://{h}" for h in ALLOWED_HOSTS],
+)
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
-    "apps.base",
-    "apps.home",
-    "apps.program",
-    "apps.search",
-    "apps.site_settings",
     "debug_toolbar",
     "django_extensions",
+    "django_vite",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.routable_page",
@@ -44,9 +43,16 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.postgres",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "apps.base",
+    "apps.home",
+    "apps.program",
+    "apps.registration",
+    "apps.search",
+    "apps.site_settings",
 ]
 
 
@@ -63,8 +69,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG}
+# DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG}
 
+# CORS headers for Vite dev mode
+if DEBUG:
+    # INSTALLED_APPS = ["corsheaders", *INSTALLED_APPS]
+    # MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware", *MIDDLEWARE]
+    CORS_ALLOWED_ORIGINS = [
+        f"http{secure}://{host}:5173"
+        for secure, host in product(("", "s"), ALLOWED_HOSTS)
+    ]
 
 ROOT_URLCONF = "config.urls"
 
@@ -123,10 +137,6 @@ LANGUAGE_CODE = "eo"
 TIME_ZONE = "Europe/Prague"
 FORMAT_MODULE_PATH = ["config.formats"]
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", ["localhost", "127.0.0.1", "0.0.0.0"])
-if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = config.CSRF_TRUSTED_ORIGINS
-
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 STATICFILES_FINDERS = [
@@ -137,7 +147,7 @@ STATICFILES_FINDERS = [
 STATICFILES_DIRS = [CONFIG_DIR / "static"]
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = BASE_DIR / "assets" / "media"
+MEDIA_ROOT = BASE_DIR / "uploads" / "media"
 MEDIA_URL = "/media/"
 
 STORAGES = {
@@ -202,6 +212,23 @@ WAGTAILMENUS_ACTIVE_CLASS = "menu-active"
 # 	for the content_panels to render in.
 SILENCED_SYSTEM_CHECKS = ["wagtailadmin.W002"]
 
+
+# Vue / Vite integration
+
+
+_VUE_STATIC_DIR = BASE_DIR / "apps/registration/static/vue"
+DJANGO_VITE = {
+    "default": {
+        "manifest_path": _VUE_STATIC_DIR / "manifest.json",
+        "static_url_prefix": "vue",
+        "dev_mode": django_vite_dev_mode(DEBUG),
+        "dev_server_host": config("HOST", HOST),
+        "dev_server_port": "443",  # Overrides 5173
+        "dev_server_protocol": "https",  # Overrides http
+    }
+}
+
+
 # https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-definition
 # Use the console logging in production too
 if not DEBUG:
@@ -228,5 +255,3 @@ if not DEBUG:
             },
         },
     }
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

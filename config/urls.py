@@ -40,7 +40,7 @@ if settings.DEBUG:
     urlpatterns += debug_toolbar_urls()
 
     # API for testing
-    urlpatterns += [path("api/2025/", include(dev_urls))]
+    urlpatterns += [path("api/2026/", include(dev_urls))]
 
 urlpatterns += [
     # For anything not caught by a more specific rule above, hand over to

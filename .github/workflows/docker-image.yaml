@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: read
       packages: write
@@ -41,14 +42,21 @@ jobs:
       - name: Build and push Docker image
         id: docker-build
         uses: docker/build-push-action@v6
+        env:
+          ASSET_DIR: /app/apps/registration/static/vue
+          APP_PREFIX: PREFIX_
+          PREFIX_API_URL: ${{ vars.VITE_API_URL }}
+          PREFIX_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
         with:
           context: .
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          target: production
           build-args: |
             GIT_COMMIT=${{ github.sha }}
             GIT_BRANCH=${{ github.ref_name }}
+            VITE_OUT_DIR=apps/registration/static/vue
           tags: |
             ghcr.io/${{ github.repository }}/django:latest
             ghcr.io/${{ github.repository }}/django:${{ steps.date_tag_gen.outputs.DATE_TAG }}
