@@ -55,6 +55,14 @@ INSTALLED_APPS = [
     "apps.site_settings",
 ]
 
+if DEBUG:
+    INSTALLED_APPS += ["apps.devel"]
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "devel_cache",
+        }
+    }
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",

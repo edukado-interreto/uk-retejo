@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { NDialogProvider, NConfigProvider, NMessageProvider } from 'naive-ui';
@@ -25,7 +25,6 @@ import MainForm from '@/components/MainForm.vue';
 
 const loading = ref(true);
 
-const uniqueId = ref(null);
 const errorTitle = ref(null);
 const errorMessage = ref(null);
 

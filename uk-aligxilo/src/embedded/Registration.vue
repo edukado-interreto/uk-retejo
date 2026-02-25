@@ -19,10 +19,6 @@ import { NDialogProvider, NConfigProvider, NMessageProvider } from 'naive-ui';
 import { eo, dateEo } from 'naive-ui';
 
 const themeOverrides = {
-  Layout: {
-    color: '#FFFFFF00',
-    textColor: 'rgba(0, 0, 0, 1)',
-  },
   Common: {
     primaryColor: '#3366FF',
   },

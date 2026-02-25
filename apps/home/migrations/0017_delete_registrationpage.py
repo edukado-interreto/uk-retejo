@@ -4,13 +4,12 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('home', '0016_registrationpage_vue_module'),
+        ("home", "0016_registrationpage_vue_module"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='RegistrationPage',
+            name="RegistrationPage",
         ),
     ]

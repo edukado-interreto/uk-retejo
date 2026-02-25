@@ -6,7 +6,7 @@ secrets:
 
 services:
 
-  proxy:
+  caddy:
     image: caddy:alpine
     user: $USER_ID:$GROUP_ID
     environment:
@@ -42,7 +42,7 @@ services:
     env_file:
       - .env.django
     depends_on:
-      - proxy
+      - caddy
       - postgres
     restart: unless-stopped
     stop_grace_period: 2s

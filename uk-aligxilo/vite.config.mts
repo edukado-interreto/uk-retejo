@@ -15,8 +15,9 @@ export default defineConfig(() => ({
     manifest: "manifest.json",
     rollupOptions: {
       input: {
-        registration: "src/registration.js",
         edit: "src/edit.js",
+        participants: "src/participants.js",
+        registration: "src/registration.js",
       },
     },
   },

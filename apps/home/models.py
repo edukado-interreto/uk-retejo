@@ -1,10 +1,10 @@
 from django.utils.translation import gettext_lazy as _
-from wagtail.models import Page
 from wagtail.fields import StreamField
-from wagtail.admin.panels import FieldPanel
+from wagtail.models import Page
 
-from apps.home.blocks import HomeStreamBlock
 from apps.base.blocks import BaseStreamBlock
+from apps.home.blocks import HomeStreamBlock
+from config.utils import field_panels
 
 
 class BasicPage(Page):
@@ -15,7 +15,7 @@ class BasicPage(Page):
         help_text=_("body"),
     )
 
-    content_panels = Page.content_panels + [FieldPanel("body")]
+    content_panels = field_panels("body")
 
 
 class HomePage(Page):
@@ -26,4 +26,4 @@ class HomePage(Page):
         help_text="Use this section to list UK pros.",
     )
 
-    content_panels = Page.content_panels + [FieldPanel("body")]
+    content_panels = field_panels("body")

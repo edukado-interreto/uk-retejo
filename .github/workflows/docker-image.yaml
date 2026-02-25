@@ -42,11 +42,6 @@ jobs:
       - name: Build and push Docker image
         id: docker-build
         uses: docker/build-push-action@v6
-        env:
-          ASSET_DIR: /app/apps/registration/static/vue
-          APP_PREFIX: PREFIX_
-          PREFIX_API_URL: ${{ vars.VITE_API_URL }}
-          PREFIX_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
         with:
           context: .
           push: true

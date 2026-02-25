@@ -11,7 +11,6 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.models.pages import HttpRequest
 
 from apps.search import views as search_views
-from config.dev import urls as dev_urls
 
 if settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
@@ -33,6 +32,7 @@ urlpatterns = [
 if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    from apps.devel import urls as dev_urls
 
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()

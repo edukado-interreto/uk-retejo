@@ -19,5 +19,6 @@ dependencies = [
 [dependency-groups]
 dev = [
     "django-cors-headers>=4.9.0",
+    "faker>=40.4.0",
 ]
 production = ["granian>=2.5.4"]
