@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import cast
 
 from toml_decouple import TomlDecouple
-from wagtail.embeds.oembed_providers import all_providers
 
+from .embeds import EMBEDS_FINDERS
 from .utils import Environment, django_vite_dev_mode, parse_db_url
 
 config = TomlDecouple(prefix="UK_").load()
@@ -217,18 +217,9 @@ WAGTAILDOCS_EXTENSIONS = [
     "xlsx",
     "zip",
 ]
-
-heyzine = {
-    "endpoint": "https://heyzine.com/api1/oembed",
-    "urls": [r"^https?://(?:[-\w]+\.)?heyzine\.com/flip-book/.+$"],
-}
-WAGTAILEMBEDS_FINDERS = [
-    {
-        "class": "apps.base.embeds.finders.CustomOEmbedFinder",
-        "providers": [*all_providers, heyzine],
-    },
-]
-# WAGTAILEMBEDS_RESPONSIVE_HTML = True
+# https://docs.wagtail.org/en/stable/topics/writing_templates.html#responsive-embeds
+WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
+WAGTAILEMBEDS_FINDERS = EMBEDS_FINDERS
 
 # Wagtail Menus
 WAGTAILMENUS_ACTIVE_CLASS = "menu-active"
