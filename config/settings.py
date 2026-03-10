@@ -2,6 +2,8 @@ from itertools import product
 from pathlib import Path
 
 from toml_decouple import TomlDecouple
+from wagtail.embeds.oembed_providers import all_providers
+
 from .utils import django_vite_dev_mode, parse_db_url
 
 config = TomlDecouple(prefix="UK_").load()
@@ -205,6 +207,17 @@ WAGTAILDOCS_EXTENSIONS = [
     "txt",
     "xlsx",
     "zip",
+]
+
+heyzine = {
+    "endpoint": "https://heyzine.com/api1/oembed",
+    "urls": [r"^https?://(?:[-\w]+\.)?heyzine\.com/flip-book/.+$"],
+}
+WAGTAILEMBEDS_FINDERS = [
+    {
+        "class": "apps.base.embeds.finders.CustomOEmbedFinder",
+        "providers": [*all_providers, heyzine],
+    },
 ]
 # WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
