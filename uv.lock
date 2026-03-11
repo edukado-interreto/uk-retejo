@@ -467,6 +467,11 @@ reload = [
     { name = "watchfiles" },
 ]
 
+[package.optional-dependencies]
+reload = [
+    { name = "watchfiles" },
+]
+
 [[package]]
 name = "greenlet"
 version = "3.3.2"
