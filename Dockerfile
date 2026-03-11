@@ -73,20 +73,20 @@ FROM base AS production
 
 ARG USER_ID=1030  # On ikso.net: compose
 ARG GROUP_ID=33  # On ikso.net: www-data
-ARG GIT_COMMIT=none
-ARG GIT_BRANCH=none
+ARG GIT_BRANCH
+ARG COMMIT_HASH
+ARG VITE_OUT_DIR
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     USER=appuser \
     USER_ID=$USER_ID \
     GROUP_ID=$GROUP_ID \
-    GIT_COMMIT=$GIT_COMMIT \
-    GIT_BRANCH=$GIT_BRANCH \
     UV_CACHE_DIR=/root/.cache/uv \
-    UV_LINK_MODE=copy
+    UV_LINK_MODE=copy \
+    UK_GIT_BRANCH=$GIT_BRANCH \
+    UK_COMMIT_HASH=$COMMIT_HASH
 
-# Add user that will be used in the container.
 RUN addgroup -g $GROUP_ID $GROUP_ID && adduser -u $USER_ID -G $GROUP_ID -D $USER
 
 COPY --from=builder --chown=$USER_ID:$GROUP_ID $VIRTUAL_ENV $VIRTUAL_ENV
@@ -104,7 +104,6 @@ RUN \
     uv sync --frozen --no-dev --group production
 
 # Install Vite/Vue project
-ARG VITE_OUT_DIR
 COPY --from=vite-build --chown=$USER:$GROUP_ID /app/$VITE_OUT_DIR ./$VITE_OUT_DIR
 COPY --chmod=+x etc/replace-vite-env.sh /bin/
 

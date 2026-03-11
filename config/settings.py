@@ -6,6 +6,7 @@ from toml_decouple import TomlDecouple
 
 from .embeds import EMBEDS_FINDERS
 from .utils import Environment, django_vite_dev_mode, parse_db_url
+from .error_tracking import setup_bugsink
 
 config = TomlDecouple(prefix="UK_").load()
 
@@ -27,6 +28,7 @@ CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     default=[f"https://{h}" for h in ALLOWED_HOSTS],
 )
+
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
@@ -251,8 +253,7 @@ DJANGO_VITE = {
 
 
 # https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-definition
-# Use the console logging in production too
-if not DEBUG:
+if ENVIRONMENT.deployed:
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -276,3 +277,7 @@ if not DEBUG:
             },
         },
     }
+
+
+if ENVIRONMENT.deployed:
+    setup_bugsink(config)
