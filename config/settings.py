@@ -5,8 +5,9 @@ from typing import cast
 from toml_decouple import TomlDecouple
 
 from .embeds import EMBEDS_FINDERS
-from .utils import Environment, django_vite_dev_mode, parse_db_url
 from .error_tracking import setup_bugsink
+from .logging import PROD_LOGGING
+from .utils import Environment, django_vite_dev_mode, parse_db_url
 
 config = TomlDecouple(prefix="UK_").load()
 
@@ -237,8 +238,6 @@ SILENCED_SYSTEM_CHECKS = ["wagtailadmin.W002"]
 
 
 # Vue / Vite integration
-
-
 _VUE_STATIC_DIR = BASE_DIR / "apps/registration/static/vue"
 DJANGO_VITE = {
     "default": {
@@ -252,32 +251,6 @@ DJANGO_VITE = {
 }
 
 
-# https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-definition
 if ENVIRONMENT.deployed:
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "root": {"level": "INFO", "handlers": ["console"]},
-        "handlers": {
-            "console": {
-                "level": "INFO",
-                "class": "logging.StreamHandler",
-            },
-        },
-        "loggers": {
-            "django": {"handlers": ["console"], "level": "INFO", "propagate": True},
-        },
-        "formatters": {
-            "app": {
-                "format": (
-                    "%(asctime)s [%(levelname)-8s] "
-                    "(%(module)s.%(funcName)s) %(message)s"
-                ),
-                "datefmt": "%Y-%m-%d %H:%M:%S",
-            },
-        },
-    }
-
-
-if ENVIRONMENT.deployed:
+    LOGGING = PROD_LOGGING
     setup_bugsink(config)
