@@ -1,10 +1,11 @@
 from itertools import product
 from pathlib import Path
+from typing import cast
 
 from toml_decouple import TomlDecouple
 from wagtail.embeds.oembed_providers import all_providers
 
-from .utils import django_vite_dev_mode, parse_db_url
+from .utils import Environment, django_vite_dev_mode, parse_db_url
 
 config = TomlDecouple(prefix="UK_").load()
 
@@ -12,9 +13,16 @@ CONFIG_DIR = Path(__file__).parent
 BASE_DIR = CONFIG_DIR.parent
 
 SECRET_KEY = config.SECRET_KEY
-DEBUG = config.DEBUG
-HOST = config("HOST", default="http://localhost:8000")
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", [HOST, "localhost", "127.0.0.1", "0.0.0.0"])
+DEBUG = cast(bool, config("DEBUG", False))
+ENVIRONMENT = Environment.init(config, DEBUG)
+
+HOSTNAME = config("HOSTNAME", "127.0.0.1")
+HOST = config("HOST", "0.0.0.0")
+PORT = config("PORT", 8000)
+ALLOWED_HOSTS = cast(
+    list[str],
+    config("ALLOWED_HOSTS", list({HOSTNAME, "localhost", "127.0.0.1", "0.0.0.0"})),
+)
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     default=[f"https://{h}" for h in ALLOWED_HOSTS],
@@ -24,6 +32,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "debug_toolbar",
     "django_extensions",
+    "django_rsgi",
     "django_vite",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

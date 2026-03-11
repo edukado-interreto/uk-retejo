@@ -97,7 +97,6 @@ COPY --chown=$USER:$GROUP_ID manage.py pyproject.toml uv.lock /app/
 COPY --chown=$USER:$GROUP_ID apps /app/apps/
 COPY --chown=$USER:$GROUP_ID config /app/config/
 WORKDIR /app
-RUN ls -lA
 
 RUN \
 --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
@@ -112,16 +111,3 @@ COPY --chmod=+x etc/replace-vite-env.sh /bin/
 USER $USER
 
 EXPOSE 8000
-
-COPY --chmod=+x <<EOF /entrypoint.sh
-#!/usr/bin/env sh
-set -e
-
-/bin/replace-vite-env.sh
-
-python manage.py migrate --noinput
-
-granian config.wsgi:application
-EOF
-
-ENTRYPOINT ["/entrypoint.sh"]
