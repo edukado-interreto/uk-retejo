@@ -1,6 +1,20 @@
+from wagtail.models import Page
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail.snippets.models import register_snippet
+
+
+class BasePageMixin(Page):
+    class Meta:
+        abstract = True
+
+    header_image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
 
 
 @register_snippet

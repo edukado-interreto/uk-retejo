@@ -3,11 +3,12 @@ from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from apps.base.blocks import BaseStreamBlock
+from apps.base.models import BasePageMixin
 from apps.home.blocks import HomeStreamBlock
 from config.utils import field_panels
 
 
-class BasicPage(Page):
+class BasicPage(BasePageMixin, Page):
     body = StreamField(
         BaseStreamBlock(),
         blank=True,
@@ -15,7 +16,7 @@ class BasicPage(Page):
         help_text=_("body"),
     )
 
-    content_panels = field_panels("body")
+    content_panels = field_panels("header_image", "body")
 
 
 class HomePage(Page):
