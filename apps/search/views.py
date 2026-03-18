@@ -1,7 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
 
-from wagtail.models import Page
+from wagtail.models.pages import Page
 
 
 from wsgiref.headers import Headers

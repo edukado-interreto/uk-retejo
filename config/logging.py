@@ -1,4 +1,4 @@
-# https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-definition
+# https://docs.djangoproject.com/en/stable/ref/logging/#default-logging-definition
 PROD_LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

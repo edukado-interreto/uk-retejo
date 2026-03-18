@@ -1,6 +1,5 @@
 from itertools import product
 from pathlib import Path
-from typing import cast
 
 from toml_decouple import TomlDecouple
 
@@ -9,25 +8,25 @@ from .error_tracking import setup_bugsink
 from .logging import PROD_LOGGING
 from .utils import Environment, django_vite_dev_mode, parse_db_url
 
+
 config = TomlDecouple(prefix="UK_").load()
 
 CONFIG_DIR = Path(__file__).parent
 BASE_DIR = CONFIG_DIR.parent
 
-SECRET_KEY = config.SECRET_KEY
-DEBUG = cast(bool, config("DEBUG", False))
+SECRET_KEY: str = config.SECRET_KEY
+DEBUG = config("DEBUG", False)
 ENVIRONMENT = Environment.init(config, DEBUG)
 
 HOSTNAME = config("HOSTNAME", "127.0.0.1")
 HOST = config("HOST", "0.0.0.0")
 PORT = config("PORT", 8000)
-ALLOWED_HOSTS = cast(
-    list[str],
-    config("ALLOWED_HOSTS", list({HOSTNAME, "localhost", "127.0.0.1", "0.0.0.0"})),
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS", list({HOSTNAME, "localhost", "127.0.0.1", "0.0.0.0"})
 )
+
 CSRF_TRUSTED_ORIGINS = config(
-    "CSRF_TRUSTED_ORIGINS",
-    default=[f"https://{h}" for h in ALLOWED_HOSTS],
+    "CSRF_TRUSTED_ORIGINS", [f"https://{h}" for h in ALLOWED_HOSTS]
 )
 
 
@@ -133,23 +132,14 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": f"django.contrib.auth.password_validation.{cls}"}
+    for cls in [
+        "UserAttributeSimilarityValidator",
+        "MinimumLengthValidator",
+        "CommonPasswordValidator",
+        "NumericPasswordValidator",
+    ]
 ]
 
 

@@ -3,6 +3,7 @@ FROM python:3.14-alpine AS base
 
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH" \
+    HOME=/app \
     UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV
 
 
@@ -44,10 +45,9 @@ RUN \
 UV_SYSTEM_PYTHON=1 uv sync --frozen
 
 RUN chmod +x $VIRTUAL_ENV/bin/activate; $VIRTUAL_ENV/bin/activate
-RUN type python
 
 # Use /app folder as a directory where the source code is stored.
-WORKDIR /app
+WORKDIR $HOME
 
 USER $USER
 
@@ -65,7 +65,7 @@ RUN --mount=type=cache,target=/root/.npm,rw \
 
 COPY uk-aligxilo/ ./uk-aligxilo/
 RUN npm --prefix uk-aligxilo run build
-RUN ls -A
+
 
 
 # --- PRODUCTION STAGE ---
@@ -93,10 +93,10 @@ COPY --from=builder --chown=$USER_ID:$GROUP_ID $VIRTUAL_ENV $VIRTUAL_ENV
 
 # Add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
-COPY --chown=$USER:$GROUP_ID manage.py pyproject.toml uv.lock /app/
-COPY --chown=$USER:$GROUP_ID apps /app/apps/
-COPY --chown=$USER:$GROUP_ID config /app/config/
-WORKDIR /app
+COPY --chown=$USER:$GROUP_ID manage.py pyproject.toml uv.lock $HOME/
+COPY --chown=$USER:$GROUP_ID apps $HOME/apps/
+COPY --chown=$USER:$GROUP_ID config $HOME/config/
+WORKDIR $HOME
 
 RUN \
 --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
