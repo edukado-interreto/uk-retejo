@@ -10,7 +10,7 @@ const absolute = (path: string) => fileURLToPath(import.meta.resolve(path))
 export default defineConfig(() => ({
   base: "/static/vue/",
   build: {
-    outDir: absolute("../apps/registration/static/vue"),
+    outDir: absolute("../backend/apps/registration/static/vue"),
     emptyOutDir: true,
     manifest: "manifest.json",
     rollupOptions: {

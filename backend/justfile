@@ -1,0 +1,33 @@
+django := "python manage.py"
+
+default:
+    @just --list
+
+shell:
+    {{ django }} shell_plus
+
+db:
+    {{ django }} dbshell
+
+[group('uv')]
+format:
+    uv run ruff format .
+
+copy_django_env:
+    #!/usr/bin/env python3
+    from pathlib import Path
+    from secrets import token_urlsafe
+    from string import ascii_letters, digits
+
+    django_env = Path(".env")
+    if django_env.exists():
+        print(f"Dosiero {django_env} jam ekzistas, ne estos kreite.")
+        exit(0)
+
+    REPLACEMENTS = {"SECRET_KEY = NESEKURA": f"SECRET_KEY = {token_urlsafe(40)}"}
+
+    with open(".env.example") as dj_ex, open(django_env, "w") as dj:
+        for line in dj_ex:
+            for key, value in REPLACEMENTS.items():
+                line = line.replace(key, value)
+            dj.write(line)
