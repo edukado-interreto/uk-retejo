@@ -1,12 +1,10 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../backend/**/templates/**/*.{html,txt}";
 @source "../backend/{apps,config}/**/*.py";
 @plugin "@tailwindcss/typography";
 
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, cmyk;
-  /* HACK properties: https://github.com/saadeghi/daisyui/issues/3882#issuecomment-3382480890  */
-  exclude: properties;
 }
 
 @plugin "daisyui/theme" {
@@ -41,15 +39,17 @@
   }
 }
 
-@import "./css/about.css";
 @import "./css/navigation.css";
-@import "./css/countdown.css";
-@import "./css/perks.css";
 @import "./css/photoswipe.css";
-@import "./css/presentation.css";
-@import "./css/program-proposal.css";
-@import "./css/timeline.css";
+@import "./css/page.css";
 @import "./css/typography.css";
+@import "./css/blocks/about.css";
+@import "./css/blocks/countdown.css";
+@import "./css/blocks/hero.css";
+@import "./css/blocks/perks.css";
+@import "./css/blocks/presentation.css";
+@import "./css/blocks/program-proposal.css";
+@import "./css/blocks/timeline.css";
 
 .prose {
   max-width: 80ch !important;

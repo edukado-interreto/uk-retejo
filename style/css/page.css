@@ -1,0 +1,15 @@
+.hero::before {
+  @apply absolute h-60 md:h-150 w-full inset-0;
+  content: "";
+  background-image: radial-gradient(rgba(0, 0, 0, 0.5) .08em, transparent 1px);
+  background-size: 4px 4px;
+  backdrop-filter: brightness(0.4);
+}
+
+.hero {
+  @apply bg-center h-60 md:h-150 bg-cover bg-no-repeat;
+
+  .hero-content {
+    @apply pt-[60px] md:pt-[150px] pb-[200px];
+  }
+}

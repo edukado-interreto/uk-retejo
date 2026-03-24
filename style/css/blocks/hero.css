@@ -1,0 +1,11 @@
+#uk-hero {
+  /* @apply bg-center bg-cover bg-no-repeat; */
+
+  &>.site-title {
+    @apply pt-24 md:pt-48 font-bold uppercase text-center text-2xl md:text-4xl lg:text-8xl text-white mb-8 mx-20 lg:mx-[20vw];
+  }
+
+  &>.description {
+    @apply my-12 text-xl lg:text-3xl font-bold text-center text-white;
+  }
+}

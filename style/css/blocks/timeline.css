@@ -1,13 +1,13 @@
 /* === TIMELINE === */
 
 .tl {
-  @apply md:max-w-[80vw] mx-auto px-4 md:px-12 py-24;
+  @apply md:max-w-[80vw] mx-auto pt-40;
 
   &::before {
     /* vertical bar for timeline */
-    @apply hidden md:block absolute bg-base-200 left-1/2 top-80 w-[2px];
+    @apply hidden md:block absolute bg-base-200 left-1/2 top-[500px] w-[2px];
     content: "";
-    height: calc(100% - 20rem);
+    height: calc(100% - 400px);
     transform: translateX(-50%);
   }
 

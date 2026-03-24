@@ -1,6 +1,19 @@
 /* === TYPOGRAPY === */
 
+.content.prose {
+  max-width: unset !important;
+  font-size: clamp(100%, 2.5vw, 130%);
+
+  >*:not(.full-width) {
+    @apply mx-4 md:mx-20 lg:mx-[20vw];
+  }
+}
+
 /* H1 */
 .heading-title {
-  @apply text-center font-bold text-info-content dark:text-info text-4xl my-12;
+  @apply text-center font-bold text-white text-4xl my-12;
+}
+
+.heading {
+  @apply text-center font-bold text-info-content dark:text-info my-12;
 }

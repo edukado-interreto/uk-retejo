@@ -29,7 +29,7 @@ services:
       - HOME=/backend
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
-    command: /bin/sh -c "./manage.py migrate && ./manage.py serve"
+    command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0:8000"
     user: $USER_ID:$GROUP_ID
     secrets:
       - POSTGRES_PASSWORD

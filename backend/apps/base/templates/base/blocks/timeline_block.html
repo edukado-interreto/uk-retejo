@@ -1,7 +1,5 @@
-<ul class="tl">
+<ul class="tl not-prose">
 {% for event in value %}
-  <li class="day" data-aos-delay="{{ forloop.counter }}00" data-aos="fade-up">
-    {{ event }}
-  </li>
+  <li class="day" data-aos-delay="40" data-aos="fade-up"> {{ event }} </li>
 {% endfor %}
 </ul>

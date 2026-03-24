@@ -27,14 +27,14 @@
   {% endif %}
 
   {# Global stylesheets #}
-  <link rel="stylesheet" type="text/css" href="{% static 'uk-retejo.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'animate.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'aos.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'fonts/raleway.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'photoswipe/photoswipe.css' %}">
+  <link rel="stylesheet" href="{% static 'uk-retejo.css' %}">
+  <link rel="stylesheet" href="{% static 'animate.min.css' %}">
+  <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/raleway.css' %}">
+  <link rel="stylesheet" href="{% static 'photoswipe/photoswipe.css' %}">
 
-  {% block extra_css %}{% endblock %}
+  <style>{% block extra_css %}{% endblock %}
+  </style>
   {% vite_hmr_client %}
 </head>
 
@@ -45,9 +45,11 @@
     <input id="drawer-menu" type="checkbox" class="drawer-toggle">
     <div class="drawer-content flex flex-col">
       {% include "navigation.html" %}
-      <main class="-mt-24 relative">
-        {% block content %}{% endblock %}
-      </main>
+      {% block main %}
+        <main class="-mt-24 relative">
+          {% block content %}{% endblock %}
+        </main>
+      {% endblock %}
     </div>
 
     <div class="drawer-side">
@@ -60,7 +62,12 @@
   <script type="text/javascript" src="{% static 'uk-retejo.js' %}"></script>
   {# Animate On Scroll #}
   <script src="{% static 'aos.js' %}"></script>
-  <script>AOS.init({once:true,duration:1000});</script>
+  <script>
+    if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      document.head.innerHTML += `<link rel="stylesheet" href="{% static 'aos.css' %}">`;
+      AOS.init({once:true,duration:1000});
+    }
+  </script>
 
   {# Photoswipe gallery #}
   <script type="module" async>

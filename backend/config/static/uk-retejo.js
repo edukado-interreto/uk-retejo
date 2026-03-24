@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to handle the scroll event
   function handleScroll() {
-    if (!body.classList.contains("homepage")) return
+    // if (!body.classList.contains("homepage")) return
     const menu_elements = Array.from(document.querySelectorAll("ul.top-menu > li"))
-    menu_elements.map((el) => el.classList.add("dark:text-white"))
+    // menu_elements.map((el) => el.classList.add("dark:text-white"))
 
     if (window.scrollY > 50) {
       navbar.classList.add("bg-base-100", "shadow-md") // Add background and shadow

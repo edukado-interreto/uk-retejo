@@ -1,11 +1,9 @@
 {% load static wagtailcore_tags wagtailimages_tags %}{% image self.background width-2048 as background %}
-<section id="uk-hero" class="pt-24 pb-24 mb-22"
-    style="background: center / cover no-repeat url('{% get_media_prefix %}{{ background.file }}');">
-    <h1 data-aos="fade-up"
-        class="mt-8 md:mt-24 title font-bold uppercase text-center text-2xl md:text-4xl lg:text-8xl text-white mb-8 mx-20 lg:mx-[20vw]">{{ self.title }}</h1>
+<section id="uk-hero" class="pb-24 mb-22"
+    style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('{% get_media_prefix %}{{ background.file }}');">
+    <h1 class="site-title" data-aos="fade-up">{{ self.title }}</h1>
     {% if self.start_date %}
-    <p data-aos="fade-up" data-aos-delay="500"
-        class="description my-12 text-xl lg:text-3xl font-bold text-center text-white animated">
+    <p data-aos="fade-up" data-aos-delay="500" class="description animated">
         <time datetime="{{ self.start_date }}">{{ self.dates }}</time> — {{ self.location }}
     </p>
     {% endif %}

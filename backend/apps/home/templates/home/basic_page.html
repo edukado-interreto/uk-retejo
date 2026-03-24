@@ -1,10 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/page.html" %}
 {% load static wagtailcore_tags %}
 
 {% block body_class %}basic_page{% endblock %}
-
-{% block content %}
-<section class="mt-34">
-  {% include_block page.body %}
-</section>
-{% endblock content %}

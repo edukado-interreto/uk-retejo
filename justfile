@@ -17,7 +17,7 @@ install: update create_secrets copy_dotenv dj::copy_django_env
 update: update-py update-tailwind pull
     just build
 
-# Start the whole project in dev mode (incl.: Vue, Tailwind)
+# Start the whole project in dev mode with Vue and Tailwind
 run:
     {{ dc }} up --build postgres django vue tailwind
 
@@ -51,8 +51,8 @@ superuser:
     {{ django }} createsuperuser
 
 [group('django')]
-migrations: && dj::format
-    {{ django }} makemigrations
+migrations args: && dj::format
+    {{ django }} makemigrations {{args}}
 
 [group('django')]
 migrate:
