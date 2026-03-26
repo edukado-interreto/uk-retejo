@@ -7,7 +7,7 @@ from toml_decouple import TomlDecouple, config
 
 from .embeds import EMBEDS_FINDERS
 from .error_tracking import setup_bugsink
-from .logging import PROD_LOGGING
+from .logs import PROD_LOGGING
 from .utils import Environment, InternalIPs, django_vite_dev_mode
 
 confi = TomlDecouple(prefix="UK_").load()
@@ -15,9 +15,9 @@ confi = TomlDecouple(prefix="UK_").load()
 CONFIG_DIR = Path(__file__).parent
 BASE_DIR = CONFIG_DIR.parent
 
-SECRET_KEY: str = config("SECRET_KEY", "NESEKURA")
 DEBUG = config("DEBUG", False)
 ENVIRONMENT = Environment.init(config, DEBUG)
+SECRET_KEY = "_" if ENVIRONMENT.is_build else config.SECRET_KEY
 
 HOSTNAME = config("HOSTNAME", "127.0.0.1")
 HOST = config("HOST", "0.0.0.0")
@@ -25,10 +25,10 @@ PORT = config("PORT", 8000)
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS", list({HOSTNAME, "localhost", "127.0.0.1", "0.0.0.0"})
 )
-
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS", [f"https://{h}" for h in ALLOWED_HOSTS]
 )
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 INSTALLED_APPS = [
@@ -90,11 +90,11 @@ MIDDLEWARE = [
 ]
 
 if DEBUG:
+    # Make Django Debug Toolbar work with Granian
     os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
     INTERNAL_IPS = InternalIPs()
 
 # CORS headers for Vite dev mode
-#
 if DEBUG:
     INSTALLED_APPS = ["corsheaders", *INSTALLED_APPS]
     MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware", *MIDDLEWARE]
@@ -177,13 +177,13 @@ STORAGES = {
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 
 
-#### wAGTAIL SETTINGS ####
+#### WAGTAIL SETTINGS ####
 
 WAGTAIL_SITE_NAME = "Universala Kongreso"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = HOST
+WAGTAILADMIN_BASE_URL = f"https://{HOSTNAME}"
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
@@ -218,7 +218,7 @@ DJANGO_VITE = {
         "manifest_path": _VUE_STATIC_DIR / "manifest.json",
         "static_url_prefix": "vue",
         "dev_mode": django_vite_dev_mode(DEBUG),
-        "dev_server_host": config("HOST", HOST),
+        "dev_server_host": config("HOSTNAME", HOSTNAME),
         "dev_server_port": "443",  # Overrides 5173
         "dev_server_protocol": "https",  # Overrides http
     }

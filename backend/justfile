@@ -9,11 +9,7 @@ shell:
 db:
     {{ django }} dbshell
 
-[group('uv')]
-format:
-    uv run ruff format .
-
-copy_django_env:
+copy_dotenv:
     #!/usr/bin/env python3
     from pathlib import Path
     from secrets import token_urlsafe
@@ -31,3 +27,15 @@ copy_django_env:
             for key, value in REPLACEMENTS.items():
                 line = line.replace(key, value)
             dj.write(line)
+
+[group('uv')]
+format:
+    uv run ruff format .
+
+[group('uv')]
+install:
+    uv sync --locked
+
+[group('uv')]
+update:
+    uv sync --upgrade

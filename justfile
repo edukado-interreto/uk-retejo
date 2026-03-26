@@ -1,85 +1,80 @@
-# Module for Django in the backend dir
-mod dj 'backend'
+# Module for Python / Django
+mod py 'backend'
+# 
+# Module for CSS / Tailwind / DaisyUI
+mod style
 
 dc := "docker compose"
 dc_exec := dc + " exec django"
 django := dc_exec + " ./manage.py"
+dump_file := "uk-retejo-dump.sql.gz"
+fa_module := "style/node_modules/@fortawesome/fontawesome-free"
+fa_static := "./backend/config/static/fontawesome"
 
 default:
     @just --list
 
-install: update create_secrets copy_dotenv dj::copy_django_env
-    @echo ""
-    @echo "Farite. Nun tajpu:"
-    @echo "just run"
+install: create_secrets apply_selinux copy_dotenv py::copy_dotenv load_prod_data dl_prod_uploads install-dependencies fontawesome build
+    @printf "\nFarite. Nun tajpu:\n\njust run\n"
 
 [parallel]
-update: update-py update-tailwind pull
+install-dependencies: py::install style::install install-uk-retejo
+
+[parallel]
+update: py::update style::update pull
     just build
 
 # Start the whole project in dev mode with Vue and Tailwind
 run:
-    {{ dc }} up --build postgres django vue tailwind
+    {{dc}} up -w --build postgres django vue tailwind
 
 # Start the Django project in dev mode
 django:
-    {{ dc }} up --build postgres django
+    {{dc}} up -w --build postgres django
 
-[working-directory: 'backend']
-update-py:
-    uv sync --upgrade
 
-update-tailwind:
-    npm -C style upgrade
-
-css:
-    npm -C style run build:css
-
-tailwind:
-    npm -C style run watch:css
-
-vue:
-    npm run --prefix uk-aligxilo build
+install-uk-retejo:
+    npm -C uk-aligxilo install
 
 fontawesome:
-    mkdir -p backend/config/static/fontawesome/css
-    cp style/node_modules/@fortawesome/fontawesome-free/css/all.min.css config/static/fontawesome/css/all.min.css
-    cp -r style/node_modules/@fortawesome/fontawesome-free/webfonts config/static/fontawesome/
+    mkdir -p {{fa_static}}/css
+    cp {{fa_module}}/css/all.min.css {{fa_static}}/css/all.min.css
+    cp -r {{fa_module}}/webfonts {{fa_static}}/
 
 [group('django')]
 superuser:
-    {{ django }} createsuperuser
+    {{django}} createsuperuser
 
 [group('django')]
-migrations args: && dj::format
-    {{ django }} makemigrations {{args}}
+migrations args: && py::format
+    {{django}} makemigrations {{args}}
 
 [group('django')]
 migrate:
-    {{ django }} migrate
+    {{django}} migrate
 
 [group('django')]
 sh:
-    {{ dc_exec }} ash
+    {{dc_exec}} ash
 
 [group('django')]
 shell:
-    {{ django }} shell_plus
+    {{django}} shell_plus
 
 [group('django')]
 urls:
-    {{ django }} show_urls
+    {{django}} show_urls
 
 [group('django')]
 attach:
-    {{ dc }} attach django
+    {{dc}} attach django
 
 pull:
     @echo "Tiras Docker-prakopiojn, povas daŭri klk minutojn…"
-    {{ dc }} pull
+    {{dc}} pull
 
 build:
-    {{ dc }} build
+    {{dc}} build django
 
 copy_dotenv:
     #!/usr/bin/env python3
@@ -121,5 +116,14 @@ create_secrets:
             s.write(token_urlsafe(40))
             print(f"Pasvorto skribite en {secret_file}")
 
+apply_selinux:
+    command -v chcon >/dev/null 2>&1 && exec chcon -t container_file_t -R containers/secrets
 
+load_prod_data:
+    ssh ikso.net 'docker compose -f /srv/Arcane/data/projects/uk-retejo/compose.yaml exec postgres pg_dump -U uk uk | gzip > /tmp/{{dump_file}}'
+    rsync -P ikso.net:/tmp/{{dump_file}} ./containers/volumes/postgresql/
+    ssh ikso.net 'rm /tmp/{{dump_file}}'
 
+# Download production upload files (images, documents)
+dl_prod_uploads:
+    rsync -Prhz ikso.net:/srv/projects/uk-retejo/assets/uploads ./containers/volumes/assets/

@@ -35,6 +35,20 @@ class Environment(Enum):
             return cls.DEV
         return cls(env("ENVIRONMENT", "production"))
 
+    def __getattr__(self, attr) -> bool:
+        """Check the enum’s value by attribute
+
+        >>> ENVIRONMENT = Environment.DEV
+        >>> ENVIRONMENT.is_dev
+        True
+        >>> ENVIRONMENT.is_production
+        False
+        """
+        name = attr.replace("is_", "")
+        if name in (e.value for e in type(self)):
+            return self.value == name
+        return super().__getattribute__(name)
+
 
 def is_testing():
     return "test" in sys.argv or "PYTEST_VERSION" in os.environ

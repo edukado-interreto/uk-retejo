@@ -1,0 +1,15 @@
+default:
+    @just --list
+
+install:
+    npm install
+
+update:
+    npm upgrade
+
+build:
+    npm run build:css
+
+watch:
+    npm run watch:css
+

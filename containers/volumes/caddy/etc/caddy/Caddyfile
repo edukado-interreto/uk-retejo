@@ -4,7 +4,7 @@
 	}
 	handle {
 		reverse_proxy django:8000 {
-			header_up Host {host}
+			header_up X-Real-IP {remote}
 		}
 	}
 }

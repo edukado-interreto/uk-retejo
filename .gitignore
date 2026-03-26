@@ -7,3 +7,4 @@ containers/volumes/postgresql/**
 node_modules/
 .vite/
 !**/.keep
+*-dump.sql.xz

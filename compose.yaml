@@ -2,7 +2,7 @@ name: uk-retejo
 
 secrets:
   POSTGRES_PASSWORD:
-    file: containers/secrets/POSTGRES_PASSWORD
+    file: ./containers/secrets/POSTGRES_PASSWORD
 
 services:
 
@@ -15,8 +15,8 @@ services:
       - 127.0.0.1:443:443
       - 127.0.0.1:24678:24678
     volumes:
-      - ./containers/volumes/caddy/data:/data:z
-      - ./containers/volumes/caddy/etc/caddy:/etc/caddy:z
+      - ./containers/volumes/caddy/data:/data:Z
+      - ./containers/volumes/caddy/etc/caddy:/etc/caddy:Z
     networks:
       - public
       - backend
@@ -29,7 +29,7 @@ services:
       - HOME=/backend
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
-    command: /bin/sh -c "./manage.py migrate && ./manage.py runserver 0:8000"
+    command: /bin/sh -c "./manage.py migrate && ./manage.py ${DJANGO_RUNSERVER:-serve}"
     user: $USER_ID:$GROUP_ID
     secrets:
       - POSTGRES_PASSWORD
@@ -46,9 +46,14 @@ services:
       - postgres
     restart: unless-stopped
     stop_grace_period: 2s
+    hostname: django
     networks:
       - public
       - backend
+    develop:
+      watch:
+        - action: rebuild
+          path: backend/uv.lock
 
   postgres:
     image: postgres:18-alpine
@@ -56,7 +61,8 @@ services:
     secrets:
       - POSTGRES_PASSWORD
     volumes:
-      - ./containers/volumes/postgresql:/var/lib/postgresql:z
+      - ./containers/volumes/postgresql:/var/lib/postgresql:Z
+      - ./containers/volumes/postgresql/uk-retejo-dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz:Z
     environment:
       - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_USER=$POSTGRES_USER
@@ -71,7 +77,7 @@ services:
       - ./backend:/backend:z
       - ./style:/style:z
     working_dir: /style
-    tty: true
+    # tty: true
     user: $USER_ID:$GROUP_ID
     command: /bin/sh -c "npm i; npm run watch:css"
 
