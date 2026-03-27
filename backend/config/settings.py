@@ -109,7 +109,6 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "APP_DIRS": True,
-        "DIRS": [CONFIG_DIR / "templates"],
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -118,6 +117,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
                 "wagtailmenus.context_processors.wagtailmenus",
+                "config.context_processors.app",
             ],
         },
     },
@@ -228,3 +228,5 @@ DJANGO_VITE = {
 if ENVIRONMENT.deployed:
     LOGGING = PROD_LOGGING
     setup_bugsink(config)
+
+GRANIAN_RELOAD_IGNORE_DIRS = ["static"]

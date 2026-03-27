@@ -1,0 +1,8 @@
+.footer {
+  @apply mt-24 sm:footer-horizontal bg-[midnightblue] text-base-100 p-10 md:p-24;
+  font-size: unset;
+}
+
+.footer-copyright {
+  @apply bg-[blue] text-white text-center py-4;
+}

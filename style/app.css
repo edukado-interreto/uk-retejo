@@ -39,6 +39,7 @@
   }
 }
 
+@import "./css/footer.css";
 @import "./css/navigation.css";
 @import "./css/photoswipe.css";
 @import "./css/page.css";

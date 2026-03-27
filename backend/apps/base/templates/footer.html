@@ -1,0 +1,15 @@
+{% load static wagtailimages_tags menu_tags %}{% image settings.site_settings.SiteSpecificSettings.logo fill-150x153 bgcolor-fff as logo %}
+<footer class="footer dark">
+	<aside>
+		<img src="{{ logo.url }}" alt="Universala Kongreso" class="h-[150px] p-4 bg-white rounded-full">
+		<p>
+			<strong>Universala Kongreso de Esperanto</strong>
+			<br>
+			Internacia manifestacio de la esperantistaro organizata de UEA
+		</p>
+	</aside>
+	{% for handle in flat_menus %}
+		{% flat_menu handle %}
+	{% endfor %}
+</footer>
+<p class="footer-copyright">&copy; Universala Kongreso {% now "Y" %}</p>
