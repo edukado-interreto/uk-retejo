@@ -54,6 +54,9 @@ WORKDIR $HOME
 # --- VITE STAGE ---
 FROM node:24-alpine AS vite-build
 
+ARG VITE_API_URL
+ARG VITE_STRIPE_PUBLISHABLE_KEY
+
 RUN \
 --mount=type=cache,target=/root/.npm,rw \
 --mount=type=bind,source=uk-aligxilo/package.json,target=package.json \
@@ -102,9 +105,9 @@ RUN \
 uv sync --frozen --no-dev
 
 # Install Vite/Vue project
-COPY --from=vite-build --chown=$USER:$GROUP_ID /$VITE_OUT_DIR ./$VITE_OUT_DIR
+COPY --from=vite-build --chown=$USER:$GROUP_ID $VITE_OUT_DIR $VITE_OUT_DIR
 
-COPY --from=vite-build --chmod=+x ./uk-aligxilo/replace-vite-env.sh /bin/
+COPY --from=vite-build --chmod=+x /uk-aligxilo/replace-vite-env.sh /bin/
 
 USER $USER
 

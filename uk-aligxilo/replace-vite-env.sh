@@ -2,7 +2,11 @@
 # ================================================================================
 # File: replace-vite-env.sh
 # Description: Replaces environment variables in asset files.
-# Usage: Run this script in your terminal, ensuring APP_PREFIX and ASSET_DIRS are set.
+# Usage: Run this script in your terminal, ensuring APP_PREFIX and ASSET_DIR are set.
+# 
+# Original file name: env.sh
+# Original blog post about this technique:
+# https://dev.to/dutchskull/setting-up-dynamic-environment-variables-with-vite-and-docker-5cmj
 # ================================================================================
 
 # Set the exit flag to exit immediately if any command fails
