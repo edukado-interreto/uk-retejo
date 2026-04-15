@@ -1,7 +1,7 @@
 /* === NAVIGATION === */
 
 #navbar {
-  @apply z-2 text-base-content sticky top-0 flex h-24 w-full justify-center transition-colors duration-300 print:hidden;
+  @apply z-2 text-base sticky top-0 flex h-24 w-full justify-center transition-colors duration-300 print:hidden;
 
   .menu-btn {
     @apply btn-ghost bg-base-100/50 border-base-300;

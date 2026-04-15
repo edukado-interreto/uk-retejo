@@ -32,7 +32,7 @@
 }
 
 .countdown-wrap-layout {
-  @apply max-w-[600px] lg:max-w-[1300px] mx-auto text-white rounded-none md:rounded-[4em] lg:rounded-full bg-info;
+  @apply max-w-[600px] lg:max-w-[1300px] mx-auto text-white rounded-none md:rounded-[4em] lg:rounded-full bg-yellow-500;
 
   .countdown-container {
     @apply flex items-center justify-around w-full;

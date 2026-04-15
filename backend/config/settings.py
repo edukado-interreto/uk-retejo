@@ -3,6 +3,7 @@ from itertools import product
 from pathlib import Path
 
 from dj_database_url import parse as db_url_parse
+from django.utils.translation import gettext_lazy as _
 from toml_decouple import TomlDecouple, config
 
 from .embeds import EMBEDS_FINDERS
@@ -60,7 +61,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "apps.base",
+    "evente",
+    "apps.base",  # Deprecated
+    "apps.core",
     "apps.home",
     "apps.program",
     "apps.registration",
@@ -92,8 +95,11 @@ MIDDLEWARE = [
 if DEBUG:
     # Make Django Debug Toolbar work with Granian
     os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+    # Make Django Debug Toolbar work with Docker
     INTERNAL_IPS = InternalIPs()
-
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": "config.utils.show_toolbar_on_wagtail"
+    }
 # CORS headers for Vite dev mode
 if DEBUG:
     INSTALLED_APPS = ["corsheaders", *INSTALLED_APPS]
@@ -112,6 +118,7 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -147,6 +154,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 
 LANGUAGE_CODE = "eo"
+LANGUAGES = [("eo", _("Esperanto"))]
 TIME_ZONE = "Europe/Prague"
 FORMAT_MODULE_PATH = ["config.formats"]
 
@@ -168,7 +176,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
@@ -195,19 +203,21 @@ WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.databa
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = "csv docx key odt pdf pptx rtf txt xlsx zip".split()
 # https://docs.wagtail.org/en/stable/topics/writing_templates.html#responsive-embeds
-WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
+# WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
 WAGTAILEMBEDS_FINDERS = EMBEDS_FINDERS
 
 # Wagtail Menus
-WAGTAILMENUS_ACTIVE_CLASS = "menu-active"
+# Sets also the "active" CSS class on the top-level menu on a sub-page
+WAGTAILMENUS_ACTIVE_ANCESTOR_CLASS = "active"
 
 # Ignoring these WARNINGS:
-# wagtailmenus.FlatMenu: (wagtailadmin.W002) FlatMenu.content_panels will have
+# wagtailmenus.MainMenu/FlatMenu: (wagtailadmin.W002) MainMenu/FlatMenu.content_panels will have
 # no effect on snippets editing
-# 	HINT: Ensure that FlatMenu uses `panels` instead of `content_panels` or
+# 	HINT: Ensure that MainMenu/FlatMenu uses `panels` instead of `content_panels` or
 # 	set up an `edit_handler` if you want a tabbed editing interface.
 # 	There are no default tabs on non-Page models so there will be no Content tab
 # 	for the content_panels to render in.
+# See: https://github.com/jazzband/wagtailmenus/issues/464
 SILENCED_SYSTEM_CHECKS = ["wagtailadmin.W002"]
 
 

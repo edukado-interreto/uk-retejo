@@ -1,10 +1,12 @@
 **/.env
 backend/.*hist*
+backend/apps/registration/static/vue
 containers/secrets/*
 containers/volumes/assets/**
 containers/volumes/caddy/data/**
 containers/volumes/postgresql/**
 node_modules/
+demo
 .vite/
 !**/.keep
 *-dump.sql.xz

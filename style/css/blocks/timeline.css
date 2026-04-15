@@ -5,7 +5,7 @@
 
   &::before {
     /* vertical bar for timeline */
-    @apply hidden md:block absolute bg-base-200 left-1/2 top-[500px] w-[2px];
+    @apply hidden md:block absolute bg-white left-1/2 top-[500px] w-[2px];
     content: "";
     height: calc(100% - 400px);
     transform: translateX(-50%);
@@ -23,7 +23,7 @@
       }
 
       .info-box::before {
-        @apply -right-[20px] border-l-20 border-l-primary-content/20;
+        @apply -right-[20px] border-l-20 border-l-blue-200/20;
       }
     }
 
@@ -37,7 +37,7 @@
       }
 
       .info-box::before {
-        @apply -left-[20px] border-r-20 border-r-primary-content/20;
+        @apply -left-[20px] border-r-20 border-r-blue-200/20;
       }
 
       .heading-box {
@@ -77,12 +77,12 @@
 
       .heading-box {
         .day-of-week {
-          @apply text-base-100 bg-primary;
+          @apply text-base bg-primary;
         }
       }
 
       .day-of-week {
-        @apply text-base-100 bg-primary;
+        @apply text-base bg-primary;
       }
 
       .info-box {
@@ -102,13 +102,13 @@
 
       .day-of-week {
         @apply hidden md:block px-6 py-2 rounded-xl text-2xl text-center font-bold;
-        @apply text-primary bg-primary-content;
+        @apply text-primary bg-blue-200;
         transition: all 0.3s ease-in-out;
       }
     }
 
     .info-box {
-      @apply flex-1 rounded-2xl relative bg-primary-content/20 p-12;
+      @apply flex-1 rounded-2xl relative bg-blue-200/20 p-12;
       transition: all 0.3s ease-in-out;
 
 
@@ -124,11 +124,11 @@
     }
 
     .time {
-      @apply my-4 px-6 py-2 rounded-xl text-primary bg-primary-content inline-flex font-medium text-lg;
+      @apply my-4 px-6 py-2 rounded-xl text-primary bg-blue-200 inline-flex font-medium text-lg;
     }
 
     .title {
-      @apply font-semibold text-info-content text-3xl;
+      @apply font-semibold text-yellow-200 text-3xl;
       line-height: 34px;
       transition: all 0.3s ease-in-out;
       margin-bottom: 0.8em;

@@ -1,4 +1,4 @@
-# Module for Python / Django
+#Module for Python / Django
 mod py 'backend'
 # 
 # Module for CSS / Tailwind / DaisyUI
@@ -30,7 +30,7 @@ run:
 
 # Start the Django project in dev mode
 django:
-    {{dc}} up -w --build postgres django
+    {{dc}} up -w --build django
 
 
 install-uk-retejo:
@@ -46,12 +46,12 @@ superuser:
     {{django}} createsuperuser
 
 [group('django')]
-migrations args: && py::format
+migrations args='': && py::format
     {{django}} makemigrations {{args}}
 
 [group('django')]
-migrate:
-    {{django}} migrate
+migrate args='':
+    {{django}} migrate {{args}}
 
 [group('django')]
 sh:
@@ -60,6 +60,10 @@ sh:
 [group('django')]
 shell:
     {{django}} shell_plus
+
+[group('django')]
+dbshell:
+    {{dc}} exec postgres psql -U uk uk
 
 [group('django')]
 urls:
@@ -103,7 +107,7 @@ create_secrets:
     from secrets import token_urlsafe
 
     SECRETS_DIR = Path("containers/secrets")
-    SECRETS_FILES = ["POSTGRES_PASSWORD"]
+    SECRETS_FILES = ["POSTGRES_PASSWORD", "PYPI_PASSWORD"]
 
     for secret_file in (SECRETS_DIR / name for name in SECRETS_FILES):
         # Ne tuŝi se ekzistas kaj plenas

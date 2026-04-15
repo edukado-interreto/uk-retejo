@@ -1,5 +1,5 @@
-{% load static wagtailcore_tags wagtailuserbar django_vite menu_tags %}<!DOCTYPE html>
-<html lang="eo">
+{% load i18n static wagtailcore_tags wagtailuserbar django_vite menu_tags evente_tags %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8">
   {# REMOVE BEFORE FLIGHT #} <meta name='robots' content='noindex, nofollow'>
@@ -27,40 +27,43 @@
   {% endif %}
 
   {# Global stylesheets #}
-  <link rel="stylesheet" href="{% static 'uk-retejo.css' %}">
-  <link rel="stylesheet" href="{% static 'animate.min.css' %}">
-  <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
-  <link rel="stylesheet" href="{% static 'fonts/raleway.css' %}">
+  {# <link rel="stylesheet" href="{% static 'animate.min.css' %}"> #}
+  {# <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}"> #}
   <link rel="stylesheet" href="{% static 'photoswipe/photoswipe.css' %}">
+  <link rel="stylesheet" href="{% static 'uk-retejo.css' %}"> 
+  {% evente_css_tags %}
+  {% evente_theme %}
 
   <style>{% block extra_css %}{% endblock %}
   </style>
   {% vite_hmr_client %}
+
+  {% block extra_head %}{% endblock %}
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-  {% wagtailuserbar %}
+  {% wagtailuserbar "bottom-left" %}
 
-  <div class="drawer drawer-end">
-    <input id="drawer-menu" type="checkbox" class="drawer-toggle">
-    <div class="drawer-content flex flex-col">
-      {% include "navigation.html" %}
-      {% block main %}
-        <main class="-mt-24 relative">
-          {% block content %}{% endblock %}
-        </main>
-      {% endblock %}
-      {% include "footer.html" %}
-    </div>
+  {# include "evente/snippets/preloader.html" only #}
+  {% include "evente/snippets/scroll_top.html" only %}
+  {% include "evente/snippets/header_search.html" only %}
+  {% include "evente/snippets/cart_mini_area.html" only %}
+  {% include "evente/header/header.html" %}
 
-    <div class="drawer-side">
-      <label for="drawer-menu" aria-label="close sidebar" class="drawer-overlay"></label>
-      {% main_menu template="menus/main/mobile_menu.html" %}
-    </div>
-  </div>
+  {# {% include "navigation.html" %} #}
+
+  {% block main %}
+    <main class="{% block main_class %}{% endblock %}" style="{% block main_style %}min-height: 60vh{% endblock %}">
+      {% block content %}{% endblock %}
+    </main>
+  {% endblock %}
+
+  {% include "evente/footer/footer.html" %}
 
   {# Global javascript #}
-  <script type="text/javascript" src="{% static 'uk-retejo.js' %}"></script>
+
+  {# <script type="text/javascript" src="{% static 'uk-retejo.js' %}"></script> #}
+
   {# Animate On Scroll #}
   <script src="{% static 'aos.js' %}"></script>
   <script>
@@ -80,6 +83,8 @@
       pswpModule: PhotoSwipe
     });
     lightbox.init();</script>
+
+  {% evente_js_tags %}
 
   {% block extra_js %}{% endblock %}
 </body>

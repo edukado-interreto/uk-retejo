@@ -9,5 +9,6 @@ README.md
 .git*
 compose.yaml
 install.py
+evente
 **/.env*
 **/.keep
