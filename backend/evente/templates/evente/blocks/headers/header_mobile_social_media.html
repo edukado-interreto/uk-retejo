@@ -1,0 +1,11 @@
+<div class="social-links">
+  <ul class="list-wrap flex relative text-center items-center justify-center flex-wrap gap-[5px_20px] pt-[30px] pb-5 px-5">
+    {% for link in settings.evente.EventeSettings.social_media %}
+      <li class="relative block">
+        <a class="flex items-center justify-center relative text-[22px] text-primary [transition:all_500ms_ease] hover:text-black" href="{{ link.value.href }}">
+          <i title="{{ link.value.name }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

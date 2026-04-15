@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+<div class=" mt-[30px]  ml-[25px]  mr-[25px]">
+<a class="td-btn td-left-right w-full text-center" href="{{ self.href }}">
+  <span class="mr10 td-text inline-block mr-[5px]">{{ self.text }}</span>
+    {% if self.append_icon == "arrow-top-right" %}{% include "evente/snippets/arrow_top_right.html" only %}{% endif %}
+</a>
+</div>

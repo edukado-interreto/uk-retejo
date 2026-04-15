@@ -1,0 +1,24 @@
+{
+  "name": "wagtail-evente",
+  "version": "0.1.0",
+  "description": "Tailwind CSS for evente theme",
+  "scripts": {
+    "watch:css": "npx @tailwindcss/cli -i input.css -o ./static/evente/assets/css/main.css --watch",
+    "build:css": "npx @tailwindcss/cli -i input.css -o ./static/evente/assets/css/main.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edukado-interreto/wagtail-evente.git"
+  },
+  "keywords": ["tailwind", "css", "theme", "evente"],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edukado-interreto/wagtail-evente/issues"
+  },
+  "homepage": "https://github.com/edukado-interreto/wagtail-evente#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "@tailwindcss/typography": "^0.5.18"
+  },
+  "dependencies": {}
+}

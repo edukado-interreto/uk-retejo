@@ -1,0 +1,47 @@
+{% load static wagtailcore_tags %}
+{% with settings.evente.EventeHeader as header %}
+<!-- header-area -->
+<header class="td-header-height">
+    <div class="td-header__area z-[999] absolute w-full top-0 inset-x-0 ">
+	{% for section in header.sections %}
+		{% include_block section %}
+	{% endfor %}
+    </div>
+
+  <!-- offCanvas-menu -->
+  <div class="offCanvas__info h-full fixed [transition:all_0.3s_cubic-bezier(0.785,0.135,0.15,0.86)] w-[400px] z-[9991] overflow-y-scroll translate-x-full p-[30px] right-0 top-0 bg-white max-[575px]:w-full">
+    <div class="offCanvas__close-icon menu-close text-right -mt-4">
+      <button class="text-primary cursor-pointer text-xl w-10 h-10 border border-primary transition-all duration-[0.4s] ease-[ease] p-0 rounded-[50%] border-solid hover:text-white bg-[transparent] hover:bg-primary"><i class="fa-sharp fa-regular fa-xmark"></i></button>
+    </div>
+    <div class="offCanvas__logo  mb-[30px]">
+      <a href="index.html"><img class="max-h-[34px]" src="/static/evente/assets/img/logo/logo-black.png" alt="Logo"></a>
+    </div>
+    <div class="offCanvas__side-info mb-[30px] border-t-primary pt-[25px] border-t border-solid">
+      <div class="contact-list  mb-[30px]">
+        <h4 class="text-black font-[700] text-lg mb-[15px]">Office Address</h4>
+        <a class=" text-grey-1 leading-[26px] block mb-0.5 m-0 hover:text-secondary font-poppins" href="https://www.google.com/maps" target="_blank">123/A, Miranda City Likaoli <br> Prikano, Dope</a>
+      </div>
+      <div class="contact-list  mb-[30px]">
+        <h4 class="text-black font-[700] text-lg mb-[15px]">Phone Number</h4>
+        <a class=" text-grey-1 leading-[26px] block mb-0.5 m-0 hover:text-secondary font-poppins" href="tel:(090)87658654385">+0989 7876 9865 9</a>
+        <a class=" text-grey-1 leading-[26px] block mb-0.5 m-0 hover:text-secondary font-poppins" href="tel:(090)87658654385">+(090) 8765 86543 85</a>
+      </div>
+      <div class="contact-list  mb-[30px]">
+        <h4 class="text-black font-[700] text-lg mb-[15px]">Email Address</h4>
+        <a class=" text-grey-1 leading-[26px] block mb-0.5 m-0 hover:text-secondary font-poppins" href="mailto:info@example.com">info@example.com</a>
+        <a class=" text-grey-1 leading-[26px] block mb-0.5 m-0 hover:text-secondary font-poppins" href="mailto:info@example.com">example.mail@hum.com</a>
+      </div>
+    </div>
+    <div class="offCanvas__social-icon mt-[30px]">
+      <a class=" text-primary inline-block text-center w-10 h-10 leading-10 border border-primary transition-all duration-[0.4s] ease-[ease] mr-[5px] rounded-[50%] border-solid hover:text-white hover:bg-primary" href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a>
+      <a class=" text-primary inline-block text-center w-10 h-10 leading-10 border border-primary transition-all duration-[0.4s] ease-[ease] mr-[5px] rounded-[50%] border-solid hover:text-white hover:bg-primary" href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
+      <a class=" text-primary inline-block text-center w-10 h-10 leading-10 border border-primary transition-all duration-[0.4s] ease-[ease] mr-[5px] rounded-[50%] border-solid hover:text-white hover:bg-primary" href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a>
+      <a class=" text-primary inline-block text-center w-10 h-10 leading-10 border border-primary transition-all duration-[0.4s] ease-[ease] mr-[5px] rounded-[50%] border-solid hover:text-white hover:bg-primary" href="javascript:void(0)"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <div class="offCanvas__overly fixed h-full w-full z-[999] opacity-0 invisible [transition:all_0.3s_ease-out_0s] left-0 top-0 bg-[#000]"></div>
+  <!-- offCanvas-menu-end -->
+</header>
+<!-- header-area-end -->
+{% endwith %}
+

@@ -1,0 +1,28 @@
+{% load static wagtailcore_tags %}
+<div id="header-sticky" class="header-mobile-spacing min-[992px]:max-[1199px]:p-[20px_0px] min-[768px]:max-[991px]:p-[20px_0px] min-[576px]:max-[767px]:p-[20px_0px] max-[575px]:p-[20px_0px] ">
+    <div class="container-fluid container-1680">
+        <div class="row items-center">
+            <div class="2xl:w-9/12 xl:w-9/12 w-6/12 flex-[0_0_auto] px-[12px]">
+                <div class="tdmenu__wrap flex items-center justify-between">
+                    {# div#logo #}
+                    {% include_block self.left %}
+                    {# nav.tdmenu__nav.tdmenu-3 #}
+                    {% include_block self.center %}
+                </div>
+            </div>
+            <div class="2xl:w-3/12 xl:w-3/12 w-6/12 flex-[0_0_auto] px-[12px]">
+                <div class="td-menu-right-action td-menu-right-action-3 flex items-center justify-end">
+
+                    {# button.search-button #}
+                    {# div.td-header-cart #}
+                    {% include_block self.right %}
+
+                    <div class="td-header-menu-bar !leading-none relative ml-[20px] max-[575px]:ml-[15px]">
+
+                    {% include_block self.end %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

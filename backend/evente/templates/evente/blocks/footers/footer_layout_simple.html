@@ -1,0 +1,39 @@
+{% load wagtailcore_tags %}
+<div class="container">
+  <div class="row mb-[15px]">
+    {% for column in self.columns %}
+      {% include_block column %}
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <div class="w-full flex-[0_0_auto] px-[12px]">
+      <div class="td-footer-bottom pt-[40px] pb-[15px] [border-top:1px_solid_#1e1e36]">
+        <div class="row items-center">
+
+          <div class="md:w-9/12">
+            <div class="td-footer-bottom-copyright mb-[30px]">
+              <p class="font-medium text-grey-2 font-poppins">{{ self.copyright_text }}</p>
+            </div>
+          </div>
+
+          <div class="md:w-3/12">
+            <div class="td-footer-bottom-social text-right mb-[30px] min-[576px]:max-[767px]:text-left max-[575px]:text-left">
+
+            {% for link in settings.evente.EventeSettings.social_media %}
+              <span class="ml-[13px]">
+                <a class="text-[22px] text-[#C2C2C2] hover:text-white" href="{{ link.value.href }}">
+                  <i class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i>
+                </a>
+              </span>
+            {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

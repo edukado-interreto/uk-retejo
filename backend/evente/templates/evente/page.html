@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}page{% endblock %}
+
+{% block extra_css %} {{ block.super }}
+.hero {
+  background-image:
+{% if page.header_image %} {% image page.header_image format-avif width-1024 as hero_image %}
+    url('{{ hero_image.url }}'); {% else %}
+    url('{% static "img/default_header_banner.avif" %}'); {% endif %}
+}
+{% endblock extra_css %}
+
+{% block main %}
+<main class="">
+  {% include "evente/snippets/breadcrumb_area.html" %}
+
+  {% block content %}{% include_block page.body %}{% endblock %}
+</main>
+{% endblock main %}
+

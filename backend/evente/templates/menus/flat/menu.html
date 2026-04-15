@@ -1,0 +1,16 @@
+{% load menu_tags %}
+<h3 class="td-footer-title mb-[20px] font-semibold text-[22px] text-white">
+  {% firstof menu_heading '&nbsp;' %}
+</h3>
+
+ <nav class="td-footer-links">
+   <ul>
+     {% for item in menu_items %}
+       <li class="mb-2">
+         <a class="text-grey-2 hover:text-white font-poppins" href="{{ item.href }}">
+            {{ item.text }}
+          </a>
+        </li>
+     {% endfor %}
+   </ul>
+ </nav>

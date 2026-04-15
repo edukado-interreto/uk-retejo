@@ -1,0 +1,58 @@
+<!-- cart mini area start -->
+<div class="cartmini__area fixed w-[330px] h-full [transform:translateX(calc(100%_+_80px))] z-[99991] overflow-y-scroll overscroll-y-contain right-0 top-0 bg-white [transition:transform_0.45s_ease-in-out,opacity_0.45s_ease-in-out] [scrollbar-width:none]">
+    <div class="cartmini__wrapper flex justify-between flex-col relative min-h-full">
+        <div class="cartmini__top-wrapper ">
+            <div class="cartmini__top relative">
+                <div class="cartmini__title font-[500] shadow-[0_0_10px_0_rgba(129,129,129,0.2)] p-5 border-b-[rgba(129,129,129,0.2)] border-b border-solid">
+                    <h4 class="text-[16px] uppercase font-[600] mb-0">Your cart</h4>
+                </div>
+                <div class="cartmini__close absolute right-5 top-[17px]">
+                    <button type="button" class="cartmini__close-btn cartmini-close-btn text-black text-[22px] hover:rotate-90 bg-[transparent] cursor-pointer p-[1px_6px]"><i class="fal fa-times"></i></button>
+                </div>
+            </div>
+            <div class="cartmini__widget h-full">
+                <div class="cartmini__widget-item relative flex transition-[background-color] duration-[0.3s] pr-[35px] p-5 [border-bottom:1px_solid_rgba(129,129,129,0.2)] last:border-b-0">
+                    <div class="cartmini__thumb mr-[15px]">
+                        <a href="product-details.html">
+                            <img class="w-[70px] h-[70px]" src="/static/evente/assets/img/shop/sm-product-1.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="cartmini__content">
+                        <h5><a class="text-[15px] font-[500] transition-all duration-[0.3s] ease-[ease] mb-3 hover:text-[var(--td-theme-04)] font-poppins" href="product-details.html">Colmi Smart Wathc</a></h5>
+                        <div class="cartmini__price-wrapper">
+                            <span class="cartmini__price text-sm font-[500] text-primary">$36.00</span>
+                        </div>
+                    </div>
+                    <button class="cartmini__del absolute w-[25px] h-[25px] leading-[25px] text-center text-black text-sm right-2.5 top-[15px] hover:text-[var(--td-theme-04)]"><i class="fal fa-times"></i></button>
+                </div>
+                <div class="cartmini__widget-item relative flex transition-[background-color] duration-[0.3s] pr-[35px] p-5 [border-bottom:1px_solid_rgba(129,129,129,0.2)] last:border-b-0">
+                    <div class="cartmini__thumb mr-[15px]">
+                        <a href="product-details.html">
+                            <img class="w-[70px] h-[70px]" src="/static/evente/assets/img/shop/sm-product-2.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="cartmini__content">
+                        <h5><a class="text-[15px] font-[500] transition-all duration-[0.3s] ease-[ease] mb-3 hover:text-[var(--td-theme-04)] font-poppins" href="product-details.html">Apple Air Pods</a></h5>
+                        <div class="cartmini__price-wrapper">
+                            <span class="cartmini__price text-sm font-[500] text-primary">$28.00</span>
+                        </div>
+                    </div>
+                    <button class="cartmini__del absolute w-[25px] h-[25px] leading-[25px] text-center text-black text-sm right-2.5 top-[15px] hover:text-[var(--td-theme-04)]"><i class="fal fa-times"></i></button>
+                </div>
+            </div>
+            <!-- for wp -->
+        </div>
+        <div class="cartmini__checkout w-full pb-[85px] p-5 border-t-2 border-t-[rgba(129,129,129,0.2)] border-solid bg-white">
+            <div class="cartmini__checkout-title  mb-[30px]">
+                <h4 class="text-lg inline-block font-[600] text-black mb-0">Subtotal:</h4>
+                <span class="float-right text-xl font-[600] text-primary">$113.00</span>
+            </div>
+            <div class="cartmini__checkout-btn">
+                <a href="#" class="cartmini-btn mb-[10px] w-full inline-block text-base font-bold text-white text-center relative capitalize z-[1] overflow-hidden tracking-[-0.02em] border px-[30px] py-2.5 rounded-[50px] border-solid border-black bg-black hover:border hover:text-black hover:border-solid hover:border-[rgba(129,129,129,0.2)] hover:[background:none]"> <span></span> view cart</a>
+                <a href="#" class="cartmini-btn-border w-full inline-block font-medium text-black border text-center text-[15px] capitalize px-[30px] py-2.5 rounded-[50px] border-solid border-[rgba(129,129,129,0.2)] hover:border hover:text-white hover:border-solid hover:border-black hover:bg-black"> <span></span> checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="body-overlay fixed z-[9991] w-full h-full invisible opacity-0 transition-[0.45s] duration-[ease-in-out] left-0 top-0 bg-[rgba(24,24,24,0.4)]"></div>
+<!-- cart mini area end -->

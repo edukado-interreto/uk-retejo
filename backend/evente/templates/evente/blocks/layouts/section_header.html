@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+{% partialdef subtitle %}
+<span class="td-section-subtitle td-section-subtitle-2 td-section-subtitle-3 rounded-md [border:1px_solid_#5033ff] mb-[30px] {{ text_color }} shadow-none inline-block px-5 py-[3px] font-semibold text-[15px] uppercase font-poppins bg-{{ text_color|cut:"text-" }}/10">{{ value.text }}</span>
+{% endpartialdef %}
+{% partialdef title %}
+  <h2 class="td-section-title font-semibold text-4xl leading-[125%] {{ text_color }} min-[576px]:max-[767px]:text-3xl max-[575px]:text-3xl mb-[10px]">{{ value.text }}</h2>
+{% endpartialdef %}
+{% partialdef text %}
+  <p class="td-section-text text-lg leading-7 {{ text_color }} font-poppins">{{ value.text }}</p>
+{% endpartialdef %}
+
+<div class="text-center mb-[20px] mx-auto max-w-2xl wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
+  {% for block in self %} {% include_block block %} {% endfor %}
+</div>

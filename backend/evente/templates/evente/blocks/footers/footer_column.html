@@ -1,0 +1,25 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="w-full {{ tw_widths }}">
+  <div class="td-footer-widget mb-[40px]">
+    {% for block in self.content %}
+      {% with block.value as b %}
+        {% if block.block_type == "logo" %}
+          <div class="td-footer-logo {{ b.margin_bottom }}">
+            {% if b.href %}<a href="{{ b.href }}">{% image b.logo original %}</a>{% else %}
+            {% image b.logo original %}{% endif %}
+          </div>
+        {% elif block.block_type == "text" %}
+          <p class="text block leading-8 text-{{ b.text_color }}-{{ b.text_lightness }} {{ b.margin_bottom }} {{ b.text_size }} {{ b.text_weight }} font-poppins">
+            {{ b.text }}
+          </p>
+        {% elif block.block_type == "link" %}
+          <a class="link block leading-8 text-{{ b.text_color }}-{{ b.text_lightness }} {{ b.margin_bottom }} {{ b.text_size }} {{ b.text_weight }} hover:text-secondary font-poppins" href="{{ b.href }}">
+            {{ b.text }}
+          </a>
+        {% else %}
+          {% include_block block %}
+        {% endif %}
+      {% endwith %}
+    {% endfor %}
+  </div>
+</div>

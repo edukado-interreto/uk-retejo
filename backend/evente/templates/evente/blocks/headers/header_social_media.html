@@ -1,0 +1,4 @@
+{% load wagtailcore_tags %}{% with settings.evente.EventeSettings.social_media as social_media %}
+{% for link in social_media %}{% include_block link %}{% endfor %}
+{% endwith %}
+

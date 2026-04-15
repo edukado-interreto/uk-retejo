@@ -1,0 +1,13 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+{% with settings.evente.EventeFooter as footer %}
+{% image footer.bg_image original as background %}
+{% static 'evente/assets/img/footer/bg.jpg' as default_background %}
+
+<!-- footer-area-start -->
+<footer>
+    <div class="td-footer-area {{ footer.css_classes }}{{ footer.background_color }} {{ footer.bg_position }} {{ footer.bg_repeat }} {{ footer.bg_size }} {{ footer.margin_top }} {{ footer.padding_top }}"{% if not footer.background_color %} data-background="{% firstof background.url default_background %}"{% endif %}>
+      {% for layout in footer.content %}{% include_block layout %}{% endfor %}
+    </div>
+</footer>
+<!-- footer-area-end -->
+{% endwith %}

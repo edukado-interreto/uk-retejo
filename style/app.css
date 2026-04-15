@@ -1,13 +1,14 @@
-@import "tailwindcss";
+/* @import 'tailwindcss/theme'; */
+@import "tailwindcss" source(none);
 @source "../backend/**/templates/**/*.{html,txt}";
 @source "../backend/{apps,config}/**/*.py";
+@source not inline("container");
+
 @plugin "@tailwindcss/typography";
 
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cmyk;
-}
+/* @plugin "daisyui" { themes: light --default, dark --prefersdark, cmyk; } */
 
-@plugin "daisyui/theme" {
+/* @plugin "daisyui/theme" {
   name: "light";
   default: true;
   prefersdark: false;
@@ -28,30 +29,45 @@
   --color-secondary: oklch(59.9% 0.242 22.5);
   --menu-active-bg: var(--color-info);
 }
+ */
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
-@layer theme {
+@theme {
+  --color-primary: #5033ff;
+  --color-secondary: #f248b4;
+}
 
+/* @layer theme {
   :root,
   :host {
     --font-sans: Raleway, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 }
+*/
 
-@import "./css/footer.css";
-@import "./css/navigation.css";
-@import "./css/photoswipe.css";
-@import "./css/page.css";
-@import "./css/typography.css";
-@import "./css/blocks/about.css";
-@import "./css/blocks/countdown.css";
-@import "./css/blocks/hero.css";
-@import "./css/blocks/perks.css";
-@import "./css/blocks/presentation.css";
+/* @import "./css/footer.css"; */
+/* @import "./css/navigation.css"; */
+/* @import "./css/photoswipe.css"; */
+/* @import "./css/page.css"; */
+/* @import "./css/typography.css"; */
+/* @import "./css/blocks/about.css"; */
+/* @import "./css/blocks/countdown.css"; */
+/* @import "./css/blocks/hero.css"; */
+/* @import "./css/blocks/perks.css"; */
+/* @import "./css/blocks/presentation.css"; */
 @import "./css/blocks/program-proposal.css";
 @import "./css/blocks/timeline.css";
 
-.prose {
-  max-width: 80ch !important;
+@layer utilities {
+  .prose {
+    font-family: var(--font-poppins);
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--font-unbounded);
+    }
+  }
 }

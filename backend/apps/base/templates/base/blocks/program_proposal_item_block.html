@@ -1,4 +1,4 @@
-<summary class="flex justify-between cursor-pointer collapse-title">
+<summary class="flex justify-between cursor-pointer collapse-title accordion-button">
   <h5 class="inline-block not-prose">{{ self.title }}</h5>
   {% if self.deadline %}
   <div class="badge badge-lg badge-secondary font-bold">
@@ -6,6 +6,6 @@
   </div>
   {% endif %}
 </summary>
-<div data-theme="dark" class="description collapse-content prose lg:prose-xl">
+<div data-theme="dark" class="description accordion-collapse collapse-content prose lg:prose-xl">
   {{ self.description }}
 </div>

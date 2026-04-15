@@ -1,0 +1,25 @@
+{% load static wagtailcore_tags navigation_tags %}{% static "evente/assets/img/breadcrumb/breadcrumb.jpg" as default_image %}
+<!-- td-breadcrumb-area-start -->
+<div class="td-breadcrumb-area td-breadcrumb-spacing bg-center bg-cover bg-no-repeat pt-[210px] pb-[120px] min-[576px]:max-[767px]:pt-[130px] max-[575px]:pt-[130px] min-[576px]:max-[767px]:pb-[100px] max-[575px]:pb-[100px]" data-background="{% firstof hero_image.url default_image %}">
+    <div class="container">
+        <div class="row">
+            <div class="lg:w-full">
+                <div class="td-breadcrumb-title-wrap">
+                    <h2 class="td-breadcrumb-title  mb-[10px] wow td-animetion-left font-bold text-[40px] capitalize text-white max-[575px]:text-3xl" data-wow-duration="1.5s" data-wow-delay="0.3s">{% firstof page.title "Page title" %}</h2>
+                    <div class="td-breadcrumb-list wow td-animetion-right" data-wow-duration="1.5s" data-wow-delay="0.3s">
+                        <ul class="flex items-center flex-wrap">{% for parent in page|ancestors %}
+                            <li class="pages font-medium {% if forloop.last %}text-secondary{% else %}text-[#cbcbcb]{% endif %} mr-3 font-poppins">
+                              <a class="hover:text-secondary" href="{% pageurl parent %}">
+                                {{ parent }}
+                              </a>
+                            </li>{% if not forloop.last %}
+                            <li class="font-medium text-[#cbcbcb] mr-3 font-poppins"><i class="fa-sharp fa-solid fa-angle-right fa-fw"></i></li>{% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- td-breadcrumb-area-end -->

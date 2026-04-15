@@ -1,0 +1,21 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{# <div class="td-footer-2-widget space ml-[90px] mb-[40px] min-[768px]:max-[991px]:ml-0 min-[576px]:max-[767px]:ml-0 max-[575px]:ml-0"> </div> #}
+
+<h3 class="td-footer-title mb-[25px] font-semibold text-[22px] text-white">{{ self.title }}</h3>
+<div class="grid grid-cols-3 grid-rows-2 gap-[10px]">
+  {% for picture in self.images %}{% image picture fill-360x360 as image %}
+    <div class="td-instagram-link">
+       <a href="{{ image.url }}" class="popup-image relative block before:absolute before:content-[&quot;&quot;] before:w-full before:h-full before:opacity-[0.902] before:transition-all before:duration-[0.4s] before:ease-[ease] before:rounded-[10px] before:scale-0 hover:before:scale-100 before:bg-secondary group"><img class="w-full rounded-[10px]" src="{{ image.url }}" alt="{{ image.alt }}">
+          <i class="fa-sharp fa-solid fa-plus absolute text-white text-[50px] text-center -translate-y-2/4 opacity-0 [transition:all_0.4s_ease] top-2/4 inset-x-0 group-hover:opacity-100 group-hover:text-sm group-hover:-rotate-90 group-hover:leading-[0]"></i>
+      </a>
+    </div>
+  {% empty %}
+    {% for i in "123456" %}
+      <div class="td-instagram-link">
+         <a href="/static/evente/assets/img/footer/insta/insta-{{ i }}.jpg" class="popup-image relative block before:absolute before:content-[&quot;&quot;] before:w-full before:h-full before:opacity-[0.902] before:transition-all before:duration-[0.4s] before:ease-[ease] before:rounded-[10px] before:scale-0 hover:before:scale-100 before:bg-secondary group"><img class="w-full rounded-[10px]" src="/static/evente/assets/img/footer/insta/insta-{{ i }}.jpg" alt="footer{{ i }}">
+            <i class="fa-sharp fa-solid fa-plus absolute text-white text-[50px] text-center -translate-y-2/4 opacity-0 [transition:all_0.4s_ease] top-2/4 inset-x-0 group-hover:opacity-100 group-hover:text-sm group-hover:-rotate-90 group-hover:leading-[0]"></i>
+        </a>
+      </div>
+    {% endfor %}
+  {% endfor %}
+ </div>

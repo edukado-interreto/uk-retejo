@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+<div class="tdmobile__search pl-[25px] pr-5 pt-0 pb-[25px]">
+<form class="relative" action="{% pageurl self.page %}">
+  <input class=" border w-full h-[50px] font-normal text-base capitalize text-grey-1 pr-[50px] rounded-lg border-solid border-[#d9e1e1] bg-white font-poppins focus:border-primary placeholder:font-normal placeholder:text-base placeholder:capitalize placeholder:text-grey-1 placeholder:font-poppins" type="text" placeholder="{{ self.text }}">
+  <button class="absolute [transform:translateY(-50%)] leading-none text-black p-0 [border:none] right-5 top-2/4 [background:transparent]"><i class="fas fa-search"></i></button>
+</form>
+</div>

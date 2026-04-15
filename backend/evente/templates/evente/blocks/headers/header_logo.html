@@ -1,0 +1,13 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{% with settings.evente.EventeSettings as evente %}
+{% image evente.logo original as logo %}
+{% image evente.logo_monochrome original as logo_monochrome %}
+<div class="logo">
+    <a class="logo-1 logo-sticky-none" href="{% pageurl self.page %}">
+      <img data-width="{{ self.width | cut:'px' }}" style="width:{{ self.width }}; height:{{ self.height }}" {{ logo_monochrome.attrs }}>
+    </a>
+    <a class="logo-2 hidden" href="{% pageurl self.page %}">
+      <img data-width="{{ self.width | cut:'px' }}" style="width:{{ self.width }}; height:{{ self.height }}" {{ logo.attrs }}>
+    </a>
+</div>
+{% endwith %}

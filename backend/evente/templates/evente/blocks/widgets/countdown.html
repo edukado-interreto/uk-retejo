@@ -1,0 +1,43 @@
+{% load wagtailcore_tags evente_tags %}
+
+<time
+  id="{% firstof self.handle 'countdown' %}"
+  datetime="{{ self.start|date:"c" }}"
+  class="td-hero-countdown evente-countdown id{% now "U" %} block mb-[40px] wow td-animetion-right" data-wow-duration="1.5s" data-wow-delay="0.7s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.7s; animation-name: td-animetion-right;">
+  <ul class="deal-counter ml0-md" id="timer">
+  {% for item in self.items %}
+    <li class="list-inline-item inline-block {{ item.unit }} mb-[20px] font-semibold {% tw_color self %} text-center w-[98px] h-[98px] {% tw_color self 'border' %} mr-[15px] pt-[22px] rounded-[30px] border-[3px] border-solid max-[575px]:text-[22px] max-[575px]:w-[78px] max-[575px]:h-[78px] max-[575px]:mr-0 max-[575px]:pt-[9px]">
+      <span class="value text-3xl!">&nbsp;</span>
+      <span class="unit{% if self.uppercase %} uppercase{% endif %}">{{ item.text }}</span>
+    </li>
+  {% endfor %}
+  </ul>
+</time>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector(".evente-countdown.id{% now "U" %}");
+  const start = new Date(root.dateTime);
+  const els = Object.fromEntries({{ used_units|safe }}.map(
+    u => [u, root.querySelector(`.${u} .value`)]
+  ))
+
+  if (start <= new Date()) {
+    Object.values(els).forEach(el => el && (el.textContent = "0"));
+    return;
+  }
+
+  const apply = (el, val) => {
+    const value = Math.floor(val).toString()
+    if (el && el.textContent !== value) el.textContent = value
+  }
+
+  const tick = () => {
+    const sec = Math.floor((start - new Date()) / 1000)
+    {% for unit in units %}
+    apply(els['{{ unit.value }}'], {% if forloop.first %}{{ unit.js_sum }}{% else %}{{ unit.js_sum_with_modulo }}{% endif %}){% endfor %}
+  }
+
+  setInterval(tick, {% firstof interval 1000 %})
+})
+</script>

@@ -37,6 +37,7 @@ services:
       - backend/.env
     environment:
       - DJANGO_ALLOW_ASYNC_UNSAFE=1
+      - GRANIAN_RUNTIME_MODE=s
     volumes:
       - ./backend:/backend:z
       - ./containers/volumes/assets:/assets:z

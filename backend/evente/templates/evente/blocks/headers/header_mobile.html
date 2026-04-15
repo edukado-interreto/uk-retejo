@@ -1,0 +1,13 @@
+{% load wagtailcore_tags %}
+<!-- Mobile Menu  -->
+<div class="tdmobile__menu fixed w-[350px] max-w-full h-full z-[9991] [transition:all_0.3s_cubic-bezier(0.785,0.135,0.15,0.86)] [transform:translateX(101%)] pr-[30px] rounded-none right-0 top-0 max-[575px]:w-full">
+<nav class="tdmobile__menu-box absolute w-full h-full max-h-full overflow-y-auto overflow-x-hidden z-[5] shadow-[-9px_0_14px_0px_rgba(0,0,0,0.06)] p-0 left-0 top-0 bg-white">
+  <div class="close-btn absolute leading-[30px] w-[35px] text-center text-sm text-primary cursor-pointer z-10 text-[23px] p-2 right-[15px] top-7 [transition:all_0.5s_ease]"><i class="fa-solid fa-xmark"></i></div>
+	{% for item in self.items %}
+		{% include_block item %}
+	{% endfor %}
+</nav>
+</div>
+<div class="tdmobile__menu-backdrop"></div>
+<!-- End Mobile Menu -->
+

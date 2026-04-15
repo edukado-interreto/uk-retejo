@@ -57,7 +57,7 @@
     }
 
     .description {
-      @apply text-lg text-base-content/70;
+      @apply text-lg text-base/70;
     }
   }
 }

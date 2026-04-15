@@ -1,0 +1,182 @@
+from django.utils.translation import gettext_lazy as _
+from wagtail.blocks import (
+    Block,
+    BlockGroup,
+    BooleanBlock,
+    CharBlock,
+    ChoiceBlock,
+    StructBlock,
+)
+from wagtail.images.blocks import ImageChooserBlock
+
+from evente.choices import (
+    PaddingBottom,
+    PaddingTop,
+    TailwindBackgroundPosition,
+    TailwindBackgroundRepeat,
+    TailwindBackgroundSize,
+    TailwindColors,
+    TailwindLightness,
+)
+from evente.utils import snake_case, split_by, uniq
+
+
+class SettingStructBlock(StructBlock):
+    def get_block_settings(self) -> list[str | BlockGroup]:
+        mixin_settings = [
+            name
+            for name, b in self.child_blocks.items()
+            if getattr(b.meta, "_setting", False)
+        ]
+        block_settings = getattr(self.meta, "block_settings", [])
+        return uniq(mixin_settings + block_settings)
+
+    def get_form_layout(self) -> BlockGroup:
+        children, settings = split_by(
+            self.child_blocks.keys(),
+            self.get_block_settings(),
+        )
+        classname = "collapsed" if self.meta.collapsed else ""
+
+        if (form_layout := self.meta.form_layout) is None:
+            return BlockGroup(children, settings, classname=classname)
+        if isinstance(form_layout, list):
+            return BlockGroup(*split_by(form_layout, settings))
+
+        form_layout.children = uniq(children + form_layout.children)
+        form_layout.settings = uniq(settings + form_layout.settings)
+        return form_layout
+
+
+class ColorMixin(SettingStructBlock):
+    Colors = TailwindColors
+    Lightness = TailwindLightness
+
+    color = ChoiceBlock(
+        Colors.choices,
+        label=_("Color"),
+        default=Colors.PRIMARY,
+        _setting=True,
+    )
+    lightness = ChoiceBlock(
+        Lightness.choices,
+        label=_("Lightness"),
+        default=TailwindLightness.L500,
+        _setting=True,
+    )
+
+
+class CssMixin(StructBlock):
+    css_classes = CharBlock(
+        label=_("CSS classes"),
+        default="container",
+        required=False,
+        _setting=True,
+    )
+    css_style = CharBlock(
+        label=_("CSS style"),
+        default="",
+        required=False,
+        _setting=True,
+    )
+
+
+class SpacingMixin(StructBlock):
+    margin_top = ChoiceBlock(
+        [("mt-[-95px]", "-95px")],
+        label=_("Margin top"),
+        default="",
+        required=False,
+        _setting=True,
+    )
+    margin_bottom = ChoiceBlock(
+        choices=[],
+        label=_("Margin bottom"),
+        default="",
+        required=False,
+        _setting=True,
+    )
+    padding_top = ChoiceBlock(
+        label=_("Padding top"),
+        choices=PaddingTop.choices,
+        default=PaddingTop.PT140,
+        required=False,
+        _setting=True,
+    )
+    padding_bottom = ChoiceBlock(
+        label=_("Padding bottom"),
+        choices=PaddingBottom.choices,
+        default=PaddingBottom.PB110,
+        required=False,
+        _setting=True,
+    )
+
+
+class BackgroundMixin(StructBlock):
+    Colors = TailwindColors
+    Lightness = TailwindLightness
+    Position = TailwindBackgroundPosition
+    Repeat = TailwindBackgroundRepeat
+    Size = TailwindBackgroundSize
+
+    bg_image = ImageChooserBlock(
+        label=_("Background image"),
+        required=False,
+        _setting=True,
+    )
+    bg_color = ChoiceBlock(
+        Colors.choices,
+        label=_("Background color"),
+        required=False,
+        _setting=True,
+    )
+    bg_lightness = ChoiceBlock(
+        Lightness.choices,
+        label=_("Background color lightness"),
+        required=False,
+        _setting=True,
+    )
+    bg_position = ChoiceBlock(
+        Position.choices,
+        label=_("Background position"),
+        required=False,
+        _setting=True,
+    )
+    bg_repeat = ChoiceBlock(
+        Repeat.choices,
+        label=_("Background repeat"),
+        required=False,
+        _setting=True,
+    )
+    bg_size = ChoiceBlock(
+        Size.choices,
+        label=_("Background size"),
+        required=False,
+        _setting=True,
+    )
+
+    @property
+    def background_color(self) -> str:
+        if self.bg_color:
+            return f"bg-{self.bg_color}-{self.bg_lightness or 900}"
+        return ""
+
+
+class OnHomepageMixin:
+    show_on_homepage = BooleanBlock()
+
+
+class AutoTemplate(Block):
+    def get_template(self, value=None, context=None):
+        if template := super().get_template(value, context):
+            return template
+
+        template_dir = "/".join(self.__module__.split("."))
+        name = snake_case(self.__class__.__name__)
+
+        if fragment := getattr(self.meta, "fragment", None):
+            # Remove the last word of class name
+            name = name.rsplit("_", maxsplit=1)[0]
+            return "/".join([template_dir, f"{name}.html{fragment}"])
+
+        return "/".join([template_dir, f"{name}.html"])

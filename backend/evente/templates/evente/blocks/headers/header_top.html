@@ -1,0 +1,30 @@
+{% load static wagtailcore_tags %}{% if page.is_site_root and not header.show_top_on_homepage %}{# Hidden #}{% else %}
+<div class="td-header-3-top hidden lg:block p-[8px_0px] border-b-[rgba(255,255,255,0.15)] border-b border-solid bg-[rgba(255,255,255,0.15)]">
+    <div class="container-fluid container-1680">
+        <div class="row">
+            <div class="lg:w-6/12">
+                <div class="td-header-3-top-info">
+                {% for block in self.left %}
+                    {% include_block block %}
+                    {% if not forloop.last %}
+                        <span class="dvdr font-medium text-sm text-white font-poppins mx-4 my-0">/</span>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="lg:w-6/12">
+                <div class="hidden lg:block">
+                    <div class="td-header-3-top-social flex items-center justify-end">
+                        {% for block in self.right %}
+                            {% include_block block %}
+                            {% if not forloop.last %}
+                                <span class="dvdr font-medium text-sm text-white font-poppins mx-4 my-0 translate-y-0.5">/</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

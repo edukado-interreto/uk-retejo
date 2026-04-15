@@ -1,5 +1,5 @@
 .footer {
-  @apply mt-24 sm:footer-horizontal bg-[midnightblue] text-base-100 p-10 md:p-24;
+  @apply mt-24 sm:footer-horizontal bg-[midnightblue] text-base p-10 md:p-24;
   font-size: unset;
 }
 

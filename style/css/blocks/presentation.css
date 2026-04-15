@@ -34,11 +34,11 @@
 
           &:nth-child(1) img,
           &:nth-child(3) img {
-            @apply border-5 border-warning;
+            @apply border-5 border-red-700;
           }
 
           &:nth-child(2) img {
-            @apply border-5 border-info;
+            @apply border-5 border-yellow-500;
           }
         }
       }
@@ -47,7 +47,7 @@
 
   article {
     h4:first-of-type {
-      @apply text-error;
+      @apply text-red-700;
     }
   }
 }
