@@ -1,6 +1,6 @@
 from django import template
 from evente.models import EventeSettings
-from evente.choices import TailwindColors, TailwindLightness
+from evente.choices import TailwindColors
 
 register = template.Library()
 
@@ -21,6 +21,6 @@ def evente_js_tags(exclude=""):
 
 
 @register.simple_tag()
-def tw_color(block, obj="text"):
+def tw_color(block, obj="text", opacity=None):
     color = TailwindColors(block.get("color"))
-    return color.display(obj, block.get("lightness"))
+    return color.display(obj, block.get("lightness"), opacity)

@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Unbounded:wght@200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap");
 @import "tailwindcss";
-@source inline("{border,bg,text}-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,mauve,olive,mist,taupe}-{50,{100..900..100},950}");
-@source inline("{border,bg,text}-{primary,secondary}{,/{10..90..10}}");
+@source inline("{border,bg,shadow,text}-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone,mauve,olive,mist,taupe}-{50,{100..900..100},950}");
+@source inline("{border,bg,shadow,text}-{white,black,primary,secondary}{,/{10..90..10}}");
 
 @theme {
   /* Google Fonts */
   --font-unbounded:"Unbounded",sans-serif;
-  --font-poppins:"Poppins",sans-serif;
+  --font-poppins:"Raleway",sans-serif;
   --font-fontawesome:"Font Awesome 6 Pro";
 
   /* font size */

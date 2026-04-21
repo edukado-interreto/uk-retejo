@@ -71,10 +71,15 @@ class TailwindColors(TextChoices):
     def is_absolute(self):
         return self in self.absolute_colors()
 
-    def display(self, obj: str, lightness: TailwindLightness | None):
+    def display(self, obj: str, lightness: TailwindLightness | None, opacity=None):
         assert obj in ("border", "bg", "text")
         lightness = TailwindLightness.get_default(lightness)
-        return f"{obj}-{self}" if self.is_absolute else f"{obj}-{self}-{lightness}"
+        opacity = f"/{opacity}" if opacity else ""
+        return (
+            f"{obj}-{self}{opacity}"
+            if self.is_absolute
+            else f"{obj}-{self}-{lightness}{opacity}"
+        )
 
 
 class TailwindWidth(TextChoices):

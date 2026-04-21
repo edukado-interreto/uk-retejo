@@ -1,0 +1,27 @@
+{% load wagtailimages_tags evente_tags %}
+{% partialdef subtitle %}
+<span class="td-hero-subtitle mb-[10px] wow td-animetion-left font-extrabold text-lg uppercase {% tw_color value %} inline-block" data-wow-duration="1.5s" data-wow-delay="0.1s">{{ value.text }}</span>
+{% endpartialdef %}
+
+{% partialdef title %}
+<h2 class="td-hero-title wow td-animetion-left font-black text-[65px] leading-[115%] uppercase {% tw_color value %} min-[1200px]:max-[1399px]:text-[50px] min-[992px]:max-[1199px]:text-[50px] min-[768px]:max-[991px]:text-[50px] min-[576px]:max-[767px]:text-[50px] max-[575px]:text-[34px]" data-wow-duration="1.5s" data-wow-delay="0.3s">{{ value.text }}</h2>
+{% endpartialdef %}
+
+{% partialdef location %}
+<p class="td-hero-location wow mb-[35px] td-animetion-left font-normal text-base {% tw_color value %}" data-wow-duration="1.5s" data-wow-delay="0.5s">{{ value.text }}</p>
+{% endpartialdef %}
+
+{% partialdef social_links %}
+<div class="td-hero-social flex items-center absolute -translate-y-2/4 -rotate-180 gap-6 left-0 top-[247px] [writing-mode:vertical-rl] min-[576px]:max-[767px]:hidden max-[575px]:hidden">
+  <span class=" font-medium text-sm {% tw_color value 'text' opacity='90' %} flex-[0_0_auto] items-center justify-center font-poppins">{{ value.text }}</span>
+{% for link in settings.evente.EventeSettings.social_media %}
+  <span class=" font-medium text-sm {% tw_color value 'text' opacity='90' %} flex-[0_0_auto] items-center justify-center font-poppins"><a class=" text-[19px] rotate-180 flex hover:text-secondary" href="{{ link.value.href }}"><i title="{{ link.value.name }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i></a></span>
+{% endfor %}
+  <span class="hero-border font-medium text-sm flex-[0_0_auto] items-center justify-center font-poppins w-[3px] h-[104px] inline-block {% tw_color value 'bg' opacity='90' %}"></span>
+</div>
+{% endpartialdef %}
+
+{% partialdef image %}
+{% image value.image width-900 class="w-full" %}
+{% endpartialdef %}
+

@@ -18,7 +18,7 @@ class BasicPage(BasePageMixin, Page):
     content_panels = field_panels("header_image", "body")
 
 
-class HomePage(Page):
+class UkHomePage(Page):
     body = StreamField(
         HomeStreamBlock(),
         blank=True,

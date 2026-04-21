@@ -4,7 +4,7 @@
 {% block body_class %}page{% endblock %}
 
 {% block extra_css %} {{ block.super }}
-.hero {
+.td-hero-area {
   background-image:
 {% if page.header_image %} {% image page.header_image format-avif width-1024 as hero_image %}
     url('{{ hero_image.url }}'); {% else %}

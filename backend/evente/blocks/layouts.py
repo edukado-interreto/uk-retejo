@@ -15,6 +15,7 @@ from evente.choices import (
 from evente.mixins import (
     AutoTemplate,
     BackgroundMixin,
+    ColorMixin,
     CssMixin,
     SettingStructBlock,
     SpacingMixin,
@@ -27,46 +28,11 @@ class SectionBlock(
     pass
 
 
-class SectionHeaderBlock(SettingStructBlock):
-    font = ChoiceBlock(Fonts.choices, default=Fonts.POPPINS, label=_("Font"))
-    color = ChoiceBlock(
-        [
-            *TailwindColors.choices,
-        ],
-        default=TailwindColors.ZINC,
-        label=_("Color"),
+class SectionHeaderBlock(ColorMixin, SettingStructBlock):
+    font = ChoiceBlock(
+        Fonts.choices, default=Fonts.POPPINS, label=_("Font"), _setting=True
     )
-    lightness = ChoiceBlock(
-        TailwindLightness.choices,
-        default=TailwindLightness.L900,
-        label=_("Lightness"),
-    )
-    uppercase = BooleanBlock(label=_("Uppercase"), required=False)
-
-    def get_form_layout(self):
-        block_settings: list[str | BlockGroup] = [
-            "font",
-            "color",
-            "lightness",
-            "uppercase",
-        ]
-
-        return BlockGroup(
-            list(self.child_blocks.keys() ^ set(block_settings)),
-            settings=block_settings,
-        )
-
-    @staticmethod
-    def __text_color(value):
-        if value["color"].endswith("ary"):
-            return f"text-{value['color']}"
-        return f"text-{value['color']}-{value['lightness']}"
-
-    def get_context(self, value, parent_context=None):
-        return {
-            **super().get_context(value, parent_context),
-            "text_color": self.__text_color(value),
-        }
+    uppercase = BooleanBlock(label=_("Uppercase"), required=False, _setting=True)
 
     class Meta:
         default = {
@@ -83,6 +49,11 @@ class SectionHeaderBlock(SettingStructBlock):
 
 class SectionHeaderSubtitle(AutoTemplate, SectionHeaderBlock):
     text = CharBlock(label=_("Text"), required=False)
+    style = ChoiceBlock(
+        [("flat", _("Flat")), ("elevated", _("Elevated"))],
+        label=_("Style"),
+        default="flat",
+    )
 
     class Meta:
         fragment = "#subtitle"

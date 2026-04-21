@@ -72,13 +72,8 @@ class HeaderCart(AutoTemplate, blocks.StaticBlock):
     pass
 
 
-class HeaderCallToAction(OnHomepageMixin, AutoTemplate, CallToAction):
-    append_icon = blocks.ChoiceBlock(
-        label=_("Icon at the end"),
-        choices=[("-", _("None")), ("arrow-top-right", _("arrow top right"))],
-        required=False,
-        icon="arrow-right-full",
-    )
+class HeaderCallToAction(OnHomepageMixin, CallToAction):
+    pass
 
 
 class HeaderMobileButton(AutoTemplate, blocks.StaticBlock):
@@ -128,13 +123,8 @@ class HeaderMobileMainMenu(AutoTemplate, blocks.StaticBlock):
     admin_text = _("")
 
 
-class HeaderMobileCallToAction(AutoTemplate, CallToAction):
-    append_icon = blocks.ChoiceBlock(
-        label=_("Icon at the end"),
-        choices=[("-", _("None")), ("arrow-top-right", _("arrow top right"))],
-        required=False,
-        icon="arrow-right-full",
-    )
+class HeaderMobileCallToAction(CallToAction):
+    pass
 
 
 class HeaderMobileSocialMedia(AutoTemplate, blocks.StaticBlock):

@@ -5,7 +5,7 @@ from wagtail import blocks
 
 from evente.choices import FontAwesomeStyles
 from evente.fields import FontAwesomeField
-from evente.mixins import AutoTemplate
+from evente.mixins import AutoTemplate, SettingStructBlock
 
 url_validator = URLValidator()
 
@@ -15,7 +15,7 @@ def fragment_validator(value: str):
         url_validator(value)
 
 
-class CallToAction(blocks.StructBlock):
+class CallToAction(AutoTemplate, SettingStructBlock):
     text = blocks.CharBlock(required=True, help_text="Text to display in the button")
     url = blocks.CharBlock(
         required=False,
@@ -23,6 +23,14 @@ class CallToAction(blocks.StructBlock):
         validators=[fragment_validator],
     )
     page = blocks.PageChooserBlock(required=False, help_text="Link to a page")
+    append_icon = blocks.ChoiceBlock(
+        [("arrow-top-right", _("arrow top right"))],
+        default="arrow-top-right",
+        label=_("Icon at the end"),
+        icon="arrow-right-full",
+        required=False,
+        _setting=True,
+    )
 
     def clean(self, value):
         result = super().clean(value)

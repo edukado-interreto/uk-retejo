@@ -5,6 +5,22 @@ from wagtail.models import Page
 from apps.base.models import BasePageMixin
 from config.utils import field_panels
 from evente.blocks.layouts import SimpleSection
+from evente.blocks.heroes import HeroBlock
+
+
+class HomePage(Page):
+    hero = StreamField(
+        HeroBlock,
+        verbose_name=_("hero"),
+        blank=True,
+    )
+    body = StreamField(
+        [("section", SimpleSection())],
+        verbose_name=_("body"),
+        blank=True,
+    )
+
+    content_panels = field_panels("hero", "body")
 
 
 class SimplePage(BasePageMixin, Page):

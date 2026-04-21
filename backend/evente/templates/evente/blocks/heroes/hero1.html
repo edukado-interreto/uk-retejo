@@ -1,0 +1,23 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+{% image self.bg_image width-1024 format-webp as bg %}
+
+<div class="td-hero-area td-hero-spacing bg-center bg-cover bg-no-repeat relative overflow-hidden pt-[157px] pb-[90px]" data-background="{% firstof bg.url '/static/evente/assets/img/hero/bg.jpg' %}" style="{{ self.css_style }}{% if self.bg_image %}background-image: url('{{ bg.url }}'){% else %}background-image: /static/evente/assets/img/hero/bg.jpg{% endif %}">
+  <div class="td-hero-text-shape wow td-animetion-left absolute w-[1190px] z-[2] right-0 bottom-0 min-[1200px]:max-[1399px]:w-[900px] min-[992px]:max-[1199px]:w-[900px] min-[768px]:max-[991px]:w-full min-[576px]:max-[767px]:w-full max-[575px]:w-full" data-wow-duration="1.5s" data-wow-delay="1s">
+
+  </div>
+  <div class="container-fluid container-1680">
+    <div class="row items-center">
+      <div class="xl:w-6/12 lg:w-8/12">
+
+        <div class="td-hero-content relative mb-[30px] pl-[165px] pt-10 min-[1200px]:max-[1399px]:pl-[100px] min-[992px]:max-[1199px]:pl-[100px] min-[768px]:max-[991px]:pl-[100px] min-[576px]:max-[767px]:pt-0 max-[575px]:pt-0 min-[576px]:max-[767px]:pl-0 max-[575px]:pl-0">
+          {% for block in self.left %}{% include_block block %}{% endfor %}
+        </div>
+      </div>
+      <div class="xl:w-6/12 lg:w-full">
+        <div class="td-hero-thumb mb-[30px] relative ml-[-70px] min-[1200px]:max-[1399px]:-ml-5 min-[992px]:max-[1199px]:ml-0 min-[768px]:max-[991px]:ml-0 min-[576px]:max-[767px]:ml-0 max-[575px]:ml-0">
+          {% for block in self.right %}{% include_block block %}{% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
