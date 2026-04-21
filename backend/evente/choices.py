@@ -1,3 +1,6 @@
+from typing import Self
+
+from django.utils.functional import classproperty
 from django.db.models import IntegerChoices, TextChoices
 from django.utils.translation import gettext_lazy as _
 
@@ -85,18 +88,30 @@ class TailwindColors(TextChoices):
 class TailwindWidth(TextChoices):
     """https://tailwindcss.com/docs/colors"""
 
-    W1 = "w-1/12", _("1/12")  # md:-1/12 lg:w-1/12 xl:w-1/12
-    W2 = "w-2/12", _("2/12 Sixth")  # md:-2/12 lg:w-2/12 xl:w-2/12
-    W3 = "w-3/12", _("3/12 Fourth")  # md:-3/12 lg:w-3/12 xl:w-3/12
-    W4 = "w-4/12", _("4/12 Third")  # md:-4/12 lg:w-4/12 xl:w-4/12
-    W5 = "w-5/12", _("5/12")  # md:-5/12 lg:w-5/12 xl:w-5/12
-    W6 = "w-6/12", _("6/12 Half")  # md:-6/12 lg:w-6/12 xl:w-6/12
-    W7 = "w-7/12", _("7/12")  # md:-7/12 lg:w-7/12 xl:w-7/12
-    W8 = "w-8/12", _("8/12 Two thirds")  # md:-8/12 lg:w-8/12 xl:w-8/12
-    W9 = "w-9/12", _("9/12 Three fourths")  # md:-9/12 lg:w-9/12 xl:w-9/12
-    W10 = "w-10/12", _("10/12")  # md:-10/12 lg:w-10/12 xl:w-10/12
-    W11 = "w-11/12", _("11/12")  # md:-11/12 lg:w-11/12 xl:w-11/12
-    W12 = "w-12/12", _("12/12 Full width")  # md:-12/12 lg:w-12/12 xl:w-12/12
+    W1 = "w-1/12", _("1/12")
+    W2 = "w-1/6", _("2/12")
+    W3 = "w-1/4", _("3/12")
+    W4 = "w-1/3", _("4/12")
+    W5 = "w-5/12", _("5/12")
+    W6 = "w-1/2", _("6/12")
+    W7 = "w-7/12", _("7/12")
+    W8 = "w-2/3", _("8/12")
+    W9 = "w-3/4", _("9/12")
+    W10 = "w-5/6", _("10/12")
+    W11 = "w-11/12", _("11/12")
+    W12 = ("w-full", _("12/12"))
+
+    @classproperty
+    def breakpoints(cls):
+        return ["sm", "md", "lg", "xl", "2xl"]
+
+    @classmethod
+    def display(cls, widths: dict[str, Self]):
+        classes = []
+        if default_value := widths.pop("", False):
+            classes += [str(default_value)]
+        classes.extend(f"{size}:{value}" for size, value in widths.items())
+        return " ".join(classes)
 
 
 class TailwindBackgroundPosition(TextChoices):

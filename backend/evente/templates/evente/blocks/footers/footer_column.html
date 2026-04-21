@@ -1,5 +1,5 @@
-{% load wagtailcore_tags wagtailimages_tags %}
-<div class="w-full {{ tw_widths }}">
+{% load wagtailcore_tags wagtailimages_tags evente_tags %}
+<div class="{% tw_widths self %}">
   <div class="td-footer-widget mb-[40px]">
     {% for block in self.content %}
       {% with block.value as b %}
@@ -9,11 +9,11 @@
             {% image b.logo original %}{% endif %}
           </div>
         {% elif block.block_type == "text" %}
-          <p class="text block leading-8 text-{{ b.text_color }}-{{ b.text_lightness }} {{ b.margin_bottom }} {{ b.text_size }} {{ b.text_weight }} font-poppins">
+          <p class="text block leading-8 {% tw_color b %} {{ b.margin_bottom }} {{ b.text_size }} {{ b.text_weight }} font-poppins">
             {{ b.text }}
           </p>
         {% elif block.block_type == "link" %}
-          <a class="link block leading-8 text-{{ b.text_color }}-{{ b.text_lightness }} {{ b.margin_bottom }} {{ b.text_size }} {{ b.text_weight }} hover:text-secondary font-poppins" href="{{ b.href }}">
+          <a class="link block leading-8 {% tw_color b %} {{ b.margin_bottom }} {{ b.text_size }} {{ b.text_weight }} hover:text-secondary font-poppins" href="{{ b.href }}">
             {{ b.text }}
           </a>
         {% else %}

@@ -12,13 +12,8 @@ from wagtail.blocks import (
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmenus.models import FlatMenu
 
-from evente.choices import (
-    TailwindColors,
-    TailwindLightness,
-    TailwindWidth,
-)
-from evente.mixins import AutoTemplate
-
+from evente.choices import TailwindColors, TailwindLightness
+from evente.mixins import AutoTemplate, SettingStructBlock, WidthMixin, ColorMixin
 
 # Fields
 
@@ -40,61 +35,61 @@ class FlatMenuChooserBlock(ChooserBlock):
 # Abstract helpers
 
 
-class ColumnContentStructBlock(StructBlock):
+class ColumnContentStructBlock(ColorMixin, SettingStructBlock):
     margin_top = ChoiceBlock(
         [("mt-0", _("None")), ("mt-3", "3"), ("mt-6", "6")],
         default="mt-0",
         label=_("Top margin"),
         required=False,
+        _setting=True,
     )
     margin_bottom = ChoiceBlock(
         [("mb-0", _("None")), ("mb-3", "3"), ("mb-6", "6")],
         default="mb-3",
         label=_("Bottom margin"),
         required=False,
+        _setting=True,
     )
     text_size = ChoiceBlock(
         [("", _("Normal")), ("text-xl", _("Big"))],
         default="",
         label=_("Text size"),
         required=False,
+        _setting=True,
     )
     text_weight = ChoiceBlock(
         [("", _("Normal")), ("font-semibold", _("Semibold")), ("font-bold", _("Bold"))],
         default="",
         label=_("Text weight"),
         required=False,
-    )
-    text_color = ChoiceBlock(
-        TailwindColors.choices,
-        default=TailwindColors.GRAY,
-        label=_("Text color"),
-    )
-    text_lightness = ChoiceBlock(
-        TailwindLightness.choices,
-        default=TailwindLightness.L400,
-        label=_("Text lightness"),
+        _setting=True,
     )
 
-    def get_form_layout(self):
-        fields = self.child_blocks.keys()
-        block_settings: list[str | BlockGroup] = [
-            "margin_top",
-            "margin_bottom",
-            "text_size",
-            "text_weight",
-            "text_color",
-            "text_lightness",
-        ]
-        main_fields = [f for f in fields if f in fields ^ set(block_settings)]
-
-        return BlockGroup(main_fields, settings=block_settings)
+    class Meta:
+        default = {
+            "color": TailwindColors.GRAY,
+            "lightness": TailwindLightness.L400,
+        }
 
 
 # Blocks
 
 
-class FooterLogo(ColumnContentStructBlock):
+class FooterLogo(SettingStructBlock):
+    margin_top = ChoiceBlock(
+        [("mt-0", _("None")), ("mt-3", "3"), ("mt-6", "6")],
+        default="mt-0",
+        label=_("Top margin"),
+        required=False,
+        _setting=True,
+    )
+    margin_bottom = ChoiceBlock(
+        [("mb-0", _("None")), ("mb-3", "3"), ("mb-6", "6")],
+        default="mb-3",
+        label=_("Bottom margin"),
+        required=False,
+        _setting=True,
+    )
     logo = ImageChooserBlock()
     href = CharBlock(label=_("Link"), default="", required=False)
 
@@ -140,23 +135,8 @@ class FooterContent(StreamBlock):
     mini_gallery = FooterMiniGallery(label=_("Mini gallery"))
 
 
-class FooterColumn(AutoTemplate, StructBlock):
+class FooterColumn(AutoTemplate, WidthMixin, SettingStructBlock):
     content = FooterContent(label=_("Content"), required=False, collapsed=True)
-    width_xl = ChoiceBlock(
-        TailwindWidth.choices,
-        label=_("Width XL"),
-        default=TailwindWidth.W3,
-    )
-    width_lg = ChoiceBlock(
-        TailwindWidth.choices,
-        label=_("Width LG"),
-        default=TailwindWidth.W4,
-    )
-    width_md = ChoiceBlock(
-        TailwindWidth.choices,
-        label=_("Width MD"),
-        default=TailwindWidth.W6,
-    )
 
     class Meta:
         form_layout = BlockGroup(

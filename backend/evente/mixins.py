@@ -17,6 +17,7 @@ from evente.choices import (
     TailwindBackgroundSize,
     TailwindColors,
     TailwindLightness,
+    TailwindWidth,
 )
 from evente.utils import snake_case, split_by, uniq
 
@@ -160,6 +161,51 @@ class BackgroundMixin(StructBlock):
         if self.bg_color:
             return f"bg-{self.bg_color}-{self.bg_lightness or 900}"
         return ""
+
+
+class WidthMixin(StructBlock):
+    width = ChoiceBlock(
+        TailwindWidth.choices,
+        label=_("Width (default)"),
+        default=TailwindWidth.W12,
+        required=False,
+        _setting=True,
+    )
+    width_sm = ChoiceBlock(
+        TailwindWidth.choices,
+        label=_("Width SM"),
+        default=TailwindWidth.W12,
+        required=False,
+        _setting=True,
+    )
+    width_md = ChoiceBlock(
+        TailwindWidth.choices,
+        label=_("Width MD"),
+        default=TailwindWidth.W6,
+        required=False,
+        _setting=True,
+    )
+    width_lg = ChoiceBlock(
+        TailwindWidth.choices,
+        label=_("Width LG"),
+        default=TailwindWidth.W4,
+        required=False,
+        _setting=True,
+    )
+    width_xl = ChoiceBlock(
+        TailwindWidth.choices,
+        label=_("Width XL"),
+        default=TailwindWidth.W3,
+        required=False,
+        _setting=True,
+    )
+    width_2xl = ChoiceBlock(
+        TailwindWidth.choices,
+        label=_("Width 2XL"),
+        default=TailwindWidth.W3,
+        required=False,
+        _setting=True,
+    )
 
 
 class OnHomepageMixin:

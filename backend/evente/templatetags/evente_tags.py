@@ -1,6 +1,6 @@
 from django import template
 from evente.models import EventeSettings
-from evente.choices import TailwindColors
+from evente.choices import TailwindColors, TailwindWidth
 
 register = template.Library()
 
@@ -24,3 +24,13 @@ def evente_js_tags(exclude=""):
 def tw_color(block, obj="text", opacity=None):
     color = TailwindColors(block.get("color"))
     return color.display(obj, block.get("lightness"), opacity)
+
+
+@register.simple_tag()
+def tw_widths(block):
+    widths = ((size, block.get(f"width_{size}")) for size in TailwindWidth.breakpoints)
+    widths = {k: TailwindWidth(v) for k, v in widths if v}
+    if default_width := block.get("width"):
+        widths = {"": TailwindWidth(default_width), **widths}
+
+    return TailwindWidth.display(widths)
