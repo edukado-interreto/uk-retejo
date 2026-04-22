@@ -3,9 +3,11 @@ from wagtail.blocks import (
     BooleanBlock,
     CharBlock,
     ChoiceBlock,
+    ListBlock,
     StreamBlock,
 )
 
+from evente.blocks.components import FlatFeature, ExtraRichText
 from evente.choices import (
     Fonts,
     TailwindColors,
@@ -18,13 +20,14 @@ from evente.mixins import (
     CssMixin,
     SettingStructBlock,
     SpacingMixin,
+    WidthMixin,
 )
 
 
 class SectionBlock(
     AutoTemplate, BackgroundMixin, SpacingMixin, CssMixin, SettingStructBlock
 ):
-    pass
+    container = BooleanBlock(required=False, default=True, _setting=True)
 
 
 class SectionHeaderBlock(ColorMixin, SettingStructBlock):
@@ -85,7 +88,6 @@ class SectionHeader(AutoTemplate, StreamBlock):
 
     class Meta:
         icon = "title"
-        collapsed = True
         default = [
             ("subtitle", {**SectionHeaderSubtitle().get_default(), "text": ""}),
             ("title", {**SectionHeaderTitle().get_default(), "text": ""}),
@@ -93,10 +95,36 @@ class SectionHeader(AutoTemplate, StreamBlock):
         ]
 
 
+class SectionContent(StreamBlock):
+    text = ExtraRichText()
+    flat_feature = FlatFeature()
+
+    class Meta:
+        collapsed = True
+
+
+class SectionColumn(WidthMixin, SettingStructBlock):
+    content = SectionContent(required=False)
+
+    class Meta:
+        group = _("Layout")
+
+
+class SectionRow(AutoTemplate, SpacingMixin, SettingStructBlock):
+    column = ListBlock(SectionColumn())
+
+    class Meta:
+        group = _("Layout")
+        icon = "dots-horizontal"
+
+
 class SimpleSection(SectionBlock):
     content = StreamBlock(
         [
             ("title", SectionHeader()),
+            ("text", ExtraRichText()),
+            ("row", SectionRow()),
         ],
         required=False,
+        collapsed=True,
     )

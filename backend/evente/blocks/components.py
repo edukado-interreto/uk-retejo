@@ -3,9 +3,9 @@ from django.core.validators import URLValidator
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
-from evente.choices import FontAwesomeStyles
+from evente.choices import FontAwesomeStyles, Flaticons, TailwindColors
 from evente.fields import FontAwesomeField
-from evente.mixins import AutoTemplate, SettingStructBlock
+from evente.mixins import AutoTemplate, SettingStructBlock, ColorMixin, SpacingMixin
 
 url_validator = URLValidator()
 
@@ -61,3 +61,26 @@ class SocialLink(AutoTemplate, blocks.StructBlock):
         default="fa-globe",
         help_text="https://fontawesome.com/v6/search?ic=free-collection",
     )
+
+
+class ExtraRichText(AutoTemplate, ColorMixin, SpacingMixin, SettingStructBlock):
+    content = blocks.RichTextBlock()
+
+    class Meta:
+        icon = "pilcrow"
+
+
+class FlatFeature(AutoTemplate, ColorMixin, SettingStructBlock):
+    title = blocks.CharBlock(label=_("Title"))
+    text = blocks.CharBlock(label=_("Text"))
+    flaticon = blocks.ChoiceBlock(
+        Flaticons.choices,
+        label=_("Flaticon"),
+        required=False,
+    )
+
+    class Meta:
+        icon = "tick-inverse"
+        default = {
+            "color": TailwindColors.WHITE,
+        }

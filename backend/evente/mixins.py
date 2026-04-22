@@ -56,7 +56,7 @@ class ColorMixin(SettingStructBlock):
     color = ChoiceBlock(
         Colors.choices,
         label=_("Color"),
-        default=Colors.PRIMARY,
+        default=Colors.BLACK,
         _setting=True,
     )
     lightness = ChoiceBlock(
@@ -70,7 +70,7 @@ class ColorMixin(SettingStructBlock):
 class CssMixin(StructBlock):
     css_classes = CharBlock(
         label=_("CSS classes"),
-        default="container",
+        default="",
         required=False,
         _setting=True,
     )

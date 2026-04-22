@@ -1,0 +1,6 @@
+{% load wagtailcore_tags evente_tags %}
+<div class="td-feature-3-wrap mr-[60px] mb-[30px] wow fadeInUp min-[1200px]:max-[1399px]:mr-0 min-[768px]:max-[991px]:mr-0 min-[576px]:max-[767px]:mr-0 max-[575px]:mr-0" data-wow-duration="1.5s" data-wow-delay="0.5s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.7s; animation-name: fadeInUp;">
+  <span class="td-feature-3-icon inline-block mb-[20px] {% tw_color self %} text-6xl"><i class="{{ self.flaticon }}"></i></span>
+  <h3 class="td-feature-3-title mb-[15px] font-semibold text-xl leading-[26px] {% tw_color self %}">{{ self.title }}</h3>
+  <p class="td-feature-3-text leading-[26px] {% tw_color self %} font-poppins">{{ self.text }}</p>
+</div>

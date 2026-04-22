@@ -20,7 +20,6 @@ class HeaderContact(AutoTemplate, blocks.StructBlock):
     flaticon = blocks.ChoiceBlock(
         Flaticons.choices,
         label=_("Flaticon"),
-        max_length=30,
         required=False,
     )
 

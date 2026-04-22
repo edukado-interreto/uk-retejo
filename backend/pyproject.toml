@@ -28,6 +28,9 @@ dev = [
   "ruff>=0.15.7",
 ]
 
+[tool.ruff.lint]
+ignore = ["E731"] # lambda/def
+
 [tool.ruff.lint.isort]
 known-third-party = ["django", "wagtail"]
 

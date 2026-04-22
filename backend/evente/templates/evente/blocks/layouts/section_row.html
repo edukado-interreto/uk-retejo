@@ -1,0 +1,5 @@
+{% load wagtailcore_tags evente_tags %}<div class="row {% tw_spacing self %}">{% for column in self.column %}
+  <div class="{% tw_widths column %}">
+    {% include_block column.content %}
+  </div>
+{% endfor %}</div>

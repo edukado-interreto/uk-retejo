@@ -21,9 +21,12 @@ def evente_js_tags(exclude=""):
 
 
 @register.simple_tag()
-def tw_color(block, obj="text", opacity=None):
-    color = TailwindColors(block.get("color"))
-    return color.display(obj, block.get("lightness"), opacity)
+def tw_color(block, obj="text", /, prefix="", opacity=None):
+    try:
+        color = TailwindColors(block.get(f"{prefix}color"))
+    except ValueError:
+        return ""
+    return color.display(obj, block.get(f"{prefix}lightness"), opacity)
 
 
 @register.simple_tag()
@@ -34,3 +37,10 @@ def tw_widths(block):
         widths = {"": TailwindWidth(default_width), **widths}
 
     return TailwindWidth.display(widths)
+
+
+@register.simple_tag()
+def tw_spacing(block):
+    spacing = ["margin_top", "margin_bottom", "padding_top", "padding_bottom"]
+    classes = " ".join(block.get(n) for n in spacing)
+    return classes

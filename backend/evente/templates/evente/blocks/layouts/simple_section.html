@@ -1,17 +1,9 @@
-{% load static wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags evente_tags %}
 {% image self.bg_image width-1024 format-webp as bg %}
-<section class="
-  {{ self.css_classes }}
-  {{ self.margin_top }}
-  {{ self.margin_bottom }}
-  {{ self.padding_top }}
-  {{ self.padding_bottom }}
-  {{ self.background_color }}
-  {{ self.bg_position }}
-  {{ self.bg_repeat }}
-  {{ self.bg_size }}
-"
+<section class="{{ self.css_classes }} {% tw_spacing self %} {% tw_color self 'bg' prefix='bg_' %} {{ self.bg_position }} {{ self.bg_repeat }} {{ self.bg_size }}"
   style="{{ self.css_style }}{% if self.bg_image %}background-image: url('{{ bg.url }}'){% endif %}"
 >
+  {% if self.container %}<div class="container">{% endif %}
   {% for block in self.content %}{% include_block block %}{% endfor %}
+  {% if self.container %}</div>{% endif %}
 </section>
