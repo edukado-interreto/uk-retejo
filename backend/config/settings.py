@@ -95,8 +95,11 @@ MIDDLEWARE = [
 if DEBUG:
     # Make Django Debug Toolbar work with Granian
     os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+    # Make Django Debug Toolbar work with Docker
     INTERNAL_IPS = InternalIPs()
-
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": "config.utils.show_toolbar_on_wagtail"
+    }
 # CORS headers for Vite dev mode
 if DEBUG:
     INSTALLED_APPS = ["corsheaders", *INSTALLED_APPS]

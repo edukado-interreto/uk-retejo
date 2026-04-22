@@ -5,6 +5,9 @@ from enum import Enum
 from ipaddress import ip_address, ip_network
 from typing import cast
 
+from django.http import HttpRequest
+from django.utils.module_loading import import_string
+
 
 class Environment(Enum):
     PRODUCTION = "production"
@@ -89,3 +92,17 @@ class InternalIPs:
 
     def __contains__(self, address):
         return ip_address(address) in self.network
+
+
+def show_toolbar_on_wagtail(request) -> bool:
+    """
+    Determine whether to show the toolbar on a given page in Wagtail.
+    """
+    in_wagtail_admin = "/admin/" in request.path
+    is_preview_request = "in_preview_panel" in request.GET
+    # Real preview request has very few headers:
+    is_admin_preview = "HTTP_ACCEPT" not in request.META
+
+    if any([in_wagtail_admin, is_preview_request, is_admin_preview]):
+        return False
+    return import_string("debug_toolbar.middleware.show_toolbar")(request)
