@@ -2,7 +2,14 @@ from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
 from evente.choices import TimeUnits
-from evente.mixins import AutoTemplate, ColorMixin, SettingStructBlock
+from evente.mixins import (
+    AutoTemplate,
+    BgColorMixin,
+    ColorMixin,
+    SettingStructBlock,
+    TextMixin,
+)
+from evente.choices.tailwind import TextTransform
 
 
 class CountdownUnit(blocks.StructBlock):
@@ -14,14 +21,7 @@ class CountdownUnit(blocks.StructBlock):
         collapsed = True
 
 
-class Countdown(AutoTemplate, ColorMixin, SettingStructBlock):
-    uppercase = blocks.BooleanBlock(
-        label=_("Uppercase"),
-        default=True,
-        required=False,
-        _setting=True,
-    )
-
+class Countdown(AutoTemplate, TextMixin, ColorMixin, SettingStructBlock):
     start = blocks.DateTimeBlock(label=_("Start"))
     items = blocks.ListBlock(CountdownUnit, label=_("Items"))
 
@@ -30,6 +30,7 @@ class Countdown(AutoTemplate, ColorMixin, SettingStructBlock):
         collapsed = True
         default = {
             "color": "white",
+            "text_transform": TextTransform.UPPERCASE,
             "items": [
                 {"unit": "days", "text": "Days"},
                 {"unit": "hours", "text": "Hrs"},
@@ -55,3 +56,19 @@ class Countdown(AutoTemplate, ColorMixin, SettingStructBlock):
             "used_units": repr(self.used_units(value)),
             "units": [u for u in TimeUnits if u in self.used_units(value)],
         }
+
+
+class SwiperSlide(AutoTemplate, SettingStructBlock):
+    text = blocks.TextBlock()
+
+
+class SwiperSlider(
+    AutoTemplate, TextMixin, BgColorMixin, ColorMixin, SettingStructBlock
+):
+    slides = blocks.ListBlock(SwiperSlide())
+
+    class Meta:
+        icon = "logout"
+        group = _("Widgets")
+        collapsed = True
+        default = {"text_transform": TextTransform.UPPERCASE}

@@ -1,4 +1,4 @@
-<a class="td-btn td-left-right wow" data-wow-duration="1.5s" data-wow-delay="0.9s" href="{{ self.href }}">
+{% load wagtailcore_tags %}<a class="td-btn td-left-right wow" data-wow-duration="1.5s" data-wow-delay="0.9s" href="{% pageurl self.page self.url %}">
   <span class="mr10 td-text inline-block mr-[5px]">{{ self.text }}</span>
     {% if self.append_icon == "arrow-top-right" %}{% include "evente/snippets/arrow_top_right.html" only %}{% endif %}
 </a>

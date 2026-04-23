@@ -9,16 +9,7 @@ from wagtail.blocks import (
 )
 from wagtail.images.blocks import ImageChooserBlock
 
-from evente.choices import (
-    PaddingBottom,
-    PaddingTop,
-    TailwindBackgroundPosition,
-    TailwindBackgroundRepeat,
-    TailwindBackgroundSize,
-    TailwindColors,
-    TailwindLightness,
-    TailwindWidth,
-)
+from evente.choices import tailwind
 from evente.utils import snake_case, split_by, uniq
 
 
@@ -50,19 +41,16 @@ class SettingStructBlock(StructBlock):
 
 
 class ColorMixin(SettingStructBlock):
-    Colors = TailwindColors
-    Lightness = TailwindLightness
-
     color = ChoiceBlock(
-        Colors.choices,
+        tailwind.Colors.choices,
         label=_("Color"),
-        default=Colors.BLACK,
+        default=tailwind.Colors.BLACK,
         _setting=True,
     )
     lightness = ChoiceBlock(
-        Lightness.choices,
+        tailwind.Lightness.choices,
         label=_("Lightness"),
-        default=TailwindLightness.L500,
+        default=tailwind.Lightness.L500,
         _setting=True,
     )
 
@@ -99,41 +87,48 @@ class SpacingMixin(StructBlock):
     )
     padding_top = ChoiceBlock(
         label=_("Padding top"),
-        choices=PaddingTop.choices,
-        default=PaddingTop.PT140,
+        choices=tailwind.PaddingTop.choices,
+        default=tailwind.PaddingTop.PT140,
         required=False,
         _setting=True,
     )
     padding_bottom = ChoiceBlock(
         label=_("Padding bottom"),
-        choices=PaddingBottom.choices,
-        default=PaddingBottom.PB110,
+        choices=tailwind.PaddingBottom.choices,
+        default=tailwind.PaddingBottom.PB110,
         required=False,
         _setting=True,
     )
 
 
-class BackgroundMixin(StructBlock):
-    Colors = TailwindColors
-    Lightness = TailwindLightness
-    Position = TailwindBackgroundPosition
-    Repeat = TailwindBackgroundRepeat
-    Size = TailwindBackgroundSize
-
-    bg_image = ImageChooserBlock(
-        label=_("Background image"),
-        required=False,
-        _setting=True,
-    )
+class BgColorMixin(StructBlock):
     bg_color = ChoiceBlock(
-        Colors.choices,
+        tailwind.Colors.choices,
         label=_("Background color"),
         required=False,
         _setting=True,
     )
     bg_lightness = ChoiceBlock(
-        Lightness.choices,
+        tailwind.Lightness.choices,
         label=_("Background color lightness"),
+        required=False,
+        _setting=True,
+    )
+
+    @property
+    def background_color(self) -> str:
+        if self.bg_color:
+            return f"bg-{self.bg_color}-{self.bg_lightness or 900}"
+        return ""
+
+
+class BgMixin(BgColorMixin):
+    Position = tailwind.BackgroundPosition
+    Repeat = tailwind.BackgroundRepeat
+    Size = tailwind.BackgroundSize
+
+    bg_image = ImageChooserBlock(
+        label=_("Background image"),
         required=False,
         _setting=True,
     )
@@ -156,53 +151,89 @@ class BackgroundMixin(StructBlock):
         _setting=True,
     )
 
-    @property
-    def background_color(self) -> str:
-        if self.bg_color:
-            return f"bg-{self.bg_color}-{self.bg_lightness or 900}"
-        return ""
-
 
 class WidthMixin(StructBlock):
     width = ChoiceBlock(
-        TailwindWidth.choices,
+        tailwind.Widths.choices,
+        default=tailwind.Widths.W12,
         label=_("Width (default)"),
-        default=TailwindWidth.W12,
         required=False,
         _setting=True,
     )
     width_sm = ChoiceBlock(
-        TailwindWidth.choices,
+        tailwind.Widths.choices,
+        default=tailwind.Widths.W12,
         label=_("Width SM"),
-        default=TailwindWidth.W12,
         required=False,
         _setting=True,
     )
     width_md = ChoiceBlock(
-        TailwindWidth.choices,
+        tailwind.Widths.choices,
+        default=tailwind.Widths.W6,
         label=_("Width MD"),
-        default=TailwindWidth.W6,
         required=False,
         _setting=True,
     )
     width_lg = ChoiceBlock(
-        TailwindWidth.choices,
+        tailwind.Widths.choices,
+        default=tailwind.Widths.W4,
         label=_("Width LG"),
-        default=TailwindWidth.W4,
         required=False,
         _setting=True,
     )
     width_xl = ChoiceBlock(
-        TailwindWidth.choices,
+        tailwind.Widths.choices,
+        default=tailwind.Widths.W3,
         label=_("Width XL"),
-        default=TailwindWidth.W3,
         required=False,
         _setting=True,
     )
     width_2xl = ChoiceBlock(
-        TailwindWidth.choices,
+        tailwind.Widths.choices,
+        default=tailwind.Widths.W3,
         label=_("Width 2XL"),
-        default=TailwindWidth.W3,
+        required=False,
+        _setting=True,
+    )
+
+
+class TextMixin(StructBlock):
+    text_align = ChoiceBlock(
+        tailwind.TextAlign.choices,
+        label=_("Text align"),
+        required=False,
+        _setting=True,
+    )
+    text_decoration = ChoiceBlock(
+        tailwind.TextDecoration.choices,
+        label=_("Text decoration"),
+        required=False,
+        _setting=True,
+    )
+    text_transform = ChoiceBlock(
+        tailwind.TextTransform.choices,
+        label=_("Text transform"),
+        required=False,
+        _setting=True,
+    )
+
+
+class FontMixin(StructBlock):
+    font = ChoiceBlock(
+        tailwind.Fonts.choices,
+        label=_("Font"),
+        required=False,
+        _setting=True,
+    )
+    font_size = ChoiceBlock(
+        tailwind.FontSizes.choices,
+        label=_("Font size"),
+        required=False,
+        _setting=True,
+    )
+    font_weight = ChoiceBlock(
+        tailwind.FontWeights.choices,
+        label=_("Font weight"),
         required=False,
         _setting=True,
     )

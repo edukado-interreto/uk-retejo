@@ -12,12 +12,12 @@ from evente.blocks.footers import (
     FooterLayoutTwoColors,
 )
 from evente.blocks.headers import HeaderMain, HeaderMobile, HeaderTop
-from evente.choices import (
-    TailwindBackgroundPosition,
-    TailwindBackgroundRepeat,
-    TailwindBackgroundSize,
-    TailwindColors,
-    TailwindLightness,
+from evente.choices.tailwind import (
+    Colors,
+    Lightness,
+    BackgroundPosition,
+    BackgroundRepeat,
+    BackgroundSize,
 )
 
 
@@ -65,31 +65,31 @@ class EventeFooter(BaseSiteSetting):
     )
     bg_color = models.CharField(
         _("Color"),
-        choices=TailwindColors,
+        choices=Colors,
         blank=True,
     )
     bg_lightness = models.IntegerField(
         _("Lightness"),
-        choices=TailwindLightness,
+        choices=Lightness,
         blank=True,
         null=True,
     )
     bg_position = models.CharField(
         _("Position"),
-        choices=TailwindBackgroundPosition,
-        default=TailwindBackgroundPosition.CENTER,
+        choices=BackgroundPosition,
+        default=BackgroundPosition.CENTER,
         blank=True,
     )
     bg_repeat = models.CharField(
         _("Repeat"),
-        choices=TailwindBackgroundRepeat,
-        default=TailwindBackgroundRepeat.NO_REPEAT,
+        choices=BackgroundRepeat,
+        default=BackgroundRepeat.NO_REPEAT,
         blank=True,
     )
     bg_size = models.CharField(
         _("Size"),
-        choices=TailwindBackgroundSize,
-        default=TailwindBackgroundSize.COVER,
+        choices=BackgroundSize,
+        default=BackgroundSize.COVER,
         blank=True,
     )
 
@@ -153,13 +153,13 @@ class EventeSettings(BaseSiteSetting):
 
     primary_color = models.CharField(
         _("primary color"),
-        choices=TailwindColors,
-        default=TailwindColors.INDIGO,
+        choices=Colors,
+        default=Colors.INDIGO,
     )
     primary_lightness = models.IntegerField(
         _("primary lightness"),
-        choices=TailwindLightness,
-        default=TailwindLightness.L500,
+        choices=Lightness,
+        default=Lightness.L500,
     )
 
     @property
@@ -168,13 +168,13 @@ class EventeSettings(BaseSiteSetting):
 
     secondary_color = models.CharField(
         _("secondary color"),
-        choices=TailwindColors,
-        default=TailwindColors.PINK,
+        choices=Colors,
+        default=Colors.PINK,
     )
     secondary_lightness = models.IntegerField(
         _("secondary lightness"),
-        choices=TailwindLightness,
-        default=TailwindLightness.L400,
+        choices=Lightness,
+        default=Lightness.L400,
     )
 
     @property

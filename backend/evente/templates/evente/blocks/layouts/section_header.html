@@ -1,21 +1,27 @@
 {% load wagtailcore_tags evente_tags %}
+<div class="mb-[20px] {% tw_text self %} {% if text_align == 'text-center' %}mx-auto{% endif %} max-w-2xl wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
+  {% for block in self.parts %}{% include_block block %}{% endfor %}
+</div>
+
 {% partialdef subtitle %}
-<span class="font-bold font-{{ value.font }} inline-block mb-[30px] px-5 py-1.5 text-[15px]
+  <p class="td-section-subtitle {% tw_text value %}">
+    <span class="font-bold {% tw_font value %} inline-block mb-[30px] px-5 py-1.5 text-[15px]
   {% if value.uppercase %}uppercase{% endif %}
   {% if value.style == 'flat' %}
     border rounded-md shadow-none {% tw_color value %} {% tw_color value 'bg' opacity=10 %} {% tw_color value 'border' %}
+  {% elif value.style == 'rounded' %}
+    rounded-full text-white {% tw_color value 'bg' opacity=20 %}
   {% elif value.style == 'elevated' %}
     pb-2 rounded-full shadow-[inset_0_-4px_0_0] shadow-black/40 text-white {% tw_color value 'bg' %}
   {% endif %}
 ">{{ value.text }}</span>
-{% endpartialdef %}
-{% partialdef title %}
-  <h2 class="td-section-title font-semibold text-4xl leading-[125%] {% tw_color value %} min-[576px]:max-[767px]:text-3xl max-[575px]:text-3xl mb-[10px]">{{ value.text }}</h2>
-{% endpartialdef %}
-{% partialdef text %}
-  <p class="td-section-text text-lg leading-7 {% tw_color value %} font-poppins">{{ value.text }}</p>
+</p>
 {% endpartialdef %}
 
-<div class="text-center mb-[20px] mx-auto max-w-2xl wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
-  {% for block in self %}{% include_block block %}{% endfor %}
-</div>
+{% partialdef title %}
+  <h2 class="td-section-title {% tw_text value %} {% tw_font value %} leading-[125%] {% tw_color value %} mb-[10px]">{{ value.text }}</h2>
+{% endpartialdef %}
+
+{% partialdef text %}
+  <p class="td-section-text leading-7 {% tw_text value %} {% tw_font value %} {% tw_color value %}">{{ value.text }}</p>
+{% endpartialdef %}

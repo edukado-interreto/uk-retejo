@@ -4,39 +4,54 @@ from wagtail.images.blocks import ImageBlock
 
 from evente.blocks.components import CallToAction
 from evente.blocks.widgets import Countdown
-from evente.mixins import AutoTemplate, BackgroundMixin, ColorMixin, SettingStructBlock
+from evente.mixins import (
+    AutoTemplate,
+    BgMixin,
+    ColorMixin,
+    SettingStructBlock,
+    TextMixin,
+    FontMixin,
+)
+from evente.choices.tailwind import Colors
 
 
-class HeroItemsSubtitle(AutoTemplate, ColorMixin, SettingStructBlock):
+class BaseHeroItemBlock(TextMixin, FontMixin, ColorMixin, SettingStructBlock):
     text = blocks.CharBlock(label=_("Text"), required=False)
 
+    class Meta:
+        _base_default = {
+            "color": Colors.WHITE,
+        }
+
+    def get_default(self):
+        """Merge the default values from mixins, base, then concrete block."""
+        return self.normalize(
+            {
+                **super().get_default(),
+                **self.meta._base_default,
+                **self.meta.default,
+            }
+        )
+
+
+class HeroItemsSubtitle(AutoTemplate, BaseHeroItemBlock):
     class Meta:
         fragment = "#subtitle"
-        default = {"color": ColorMixin.Colors.WHITE}
 
 
-class HeroItemsTitle(AutoTemplate, ColorMixin, SettingStructBlock):
-    text = blocks.CharBlock(label=_("Text"), required=False)
-
+class HeroItemsTitle(AutoTemplate, BaseHeroItemBlock):
     class Meta:
         fragment = "#title"
-        default = {"color": ColorMixin.Colors.WHITE}
 
 
-class HeroItemsLocation(AutoTemplate, ColorMixin, SettingStructBlock):
-    text = blocks.CharBlock(label=_("Text"), required=False)
-
+class HeroItemsLocation(AutoTemplate, BaseHeroItemBlock):
     class Meta:
         fragment = "#location"
-        default = {"color": ColorMixin.Colors.WHITE}
 
 
-class HeroItemsSocials(AutoTemplate, ColorMixin, SettingStructBlock):
-    text = blocks.CharBlock(label=_("Text"), required=False)
-
+class HeroItemsSocials(AutoTemplate, BaseHeroItemBlock):
     class Meta:
         fragment = "#social_links"
-        default = {"color": ColorMixin.Colors.WHITE}
 
 
 class HeroItemsImage(AutoTemplate, SettingStructBlock):
@@ -44,7 +59,7 @@ class HeroItemsImage(AutoTemplate, SettingStructBlock):
 
     class Meta:
         fragment = "#image"
-        default = {"color": ColorMixin.Colors.WHITE}
+        default = {"color": Colors.WHITE}
 
 
 class HeroItems(blocks.StreamBlock):
@@ -57,7 +72,7 @@ class HeroItems(blocks.StreamBlock):
     image = HeroItemsImage()
 
 
-class Hero1(AutoTemplate, BackgroundMixin, SettingStructBlock):
+class Hero1(AutoTemplate, BgMixin, SettingStructBlock):
     left = HeroItems(required=False)
     right = HeroItems(required=False)
 
@@ -68,3 +83,4 @@ class HeroBlock(blocks.StreamBlock):
     class Meta:
         icon = "title"
         max_num = 1
+        collapsed = True

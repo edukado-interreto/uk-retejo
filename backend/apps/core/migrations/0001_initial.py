@@ -116,7 +116,7 @@ class Migration(migrations.Migration):
                                 "wagtail.blocks.CharBlock",
                                 (),
                                 {
-                                    "choices": evente.choices.TailwindColors,
+                                    "choices": evente.choices.Colors,
                                     "label": "Background color",
                                     "required": False,
                                 },
@@ -125,7 +125,7 @@ class Migration(migrations.Migration):
                                 "wagtail.blocks.IntegerBlock",
                                 (),
                                 {
-                                    "choices": evente.choices.TailwindLightness,
+                                    "choices": evente.choices.Lightness,
                                     "label": "Background color lightness",
                                     "null": True,
                                     "required": False,
@@ -135,7 +135,7 @@ class Migration(migrations.Migration):
                                 "wagtail.blocks.CharBlock",
                                 (),
                                 {
-                                    "choices": evente.choices.TailwindBackgroundPosition,
+                                    "choices": evente.choices.BackgroundPosition,
                                     "default": "bg-center",
                                     "label": "Background position",
                                     "required": False,
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                                 "wagtail.blocks.CharBlock",
                                 (),
                                 {
-                                    "choices": evente.choices.TailwindBackgroundRepeat,
+                                    "choices": evente.choices.BackgroundRepeat,
                                     "default": "bg-no-repeat",
                                     "label": "Background repeat",
                                     "required": False,
@@ -155,7 +155,7 @@ class Migration(migrations.Migration):
                                 "wagtail.blocks.CharBlock",
                                 (),
                                 {
-                                    "choices": evente.choices.TailwindBackgroundSize,
+                                    "choices": evente.choices.BackgroundSize,
                                     "default": "bg-cover",
                                     "label": "Background size",
                                     "required": False,

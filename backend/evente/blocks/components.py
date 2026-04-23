@@ -3,7 +3,7 @@ from django.core.validators import URLValidator
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
-from evente.choices import FontAwesomeStyles, Flaticons, TailwindColors
+from evente.choices import FontAwesomeStyles, Flaticons, Colors
 from evente.fields import FontAwesomeField
 from evente.mixins import AutoTemplate, SettingStructBlock, ColorMixin, SpacingMixin
 
@@ -24,7 +24,7 @@ class CallToAction(AutoTemplate, SettingStructBlock):
     )
     page = blocks.PageChooserBlock(required=False, help_text="Link to a page")
     append_icon = blocks.ChoiceBlock(
-        [("arrow-top-right", _("arrow top right"))],
+        [("arrow-top-right", _("Arrow top right"))],
         default="arrow-top-right",
         label=_("Icon at the end"),
         icon="arrow-right-full",
@@ -40,13 +40,12 @@ class CallToAction(AutoTemplate, SettingStructBlock):
             )
         return result
 
-    @property
-    def href(self):
-        return self.page.url if self.page else self.url
+    class Meta:
+        icon = "link-external"
 
 
 class SocialLink(AutoTemplate, blocks.StructBlock):
-    name = blocks.CharBlock(label=_("Name"), default="")
+    title = blocks.CharBlock(label=_("Name"), default="")
     href = blocks.CharBlock(
         label=_("Link"),
         default="#",
@@ -82,5 +81,5 @@ class FlatFeature(AutoTemplate, ColorMixin, SettingStructBlock):
     class Meta:
         icon = "tick-inverse"
         default = {
-            "color": TailwindColors.WHITE,
+            "color": Colors.WHITE,
         }

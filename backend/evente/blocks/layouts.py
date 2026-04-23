@@ -1,3 +1,4 @@
+from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 from wagtail.blocks import (
     BooleanBlock,
@@ -7,62 +8,76 @@ from wagtail.blocks import (
     StreamBlock,
 )
 
-from evente.blocks.components import FlatFeature, ExtraRichText
-from evente.choices import (
+from evente.blocks.components import CallToAction, ExtraRichText, FlatFeature
+from evente.blocks.widgets import SwiperSlider
+from evente.choices.tailwind import (
+    Colors,
     Fonts,
-    TailwindColors,
-    TailwindLightness,
+    FontSizes,
+    FontWeights,
+    Lightness,
+    TextAlign,
+    TextTransform,
 )
 from evente.mixins import (
     AutoTemplate,
-    BackgroundMixin,
+    BgMixin,
     ColorMixin,
     CssMixin,
+    FontMixin,
     SettingStructBlock,
     SpacingMixin,
+    TextMixin,
     WidthMixin,
 )
 
 
-class SectionBlock(
-    AutoTemplate, BackgroundMixin, SpacingMixin, CssMixin, SettingStructBlock
-):
+class SectionBlock(AutoTemplate, BgMixin, SpacingMixin, CssMixin, SettingStructBlock):
     container = BooleanBlock(required=False, default=True, _setting=True)
-
-
-class SectionHeaderBlock(ColorMixin, SettingStructBlock):
-    font = ChoiceBlock(
-        Fonts.choices, default=Fonts.POPPINS, label=_("Font"), _setting=True
+    effect = ChoiceBlock(
+        [("jarallax", _("Parallax"))],
+        label=_("Effect"),
+        required=False,
+        _setting=True,
     )
-    uppercase = BooleanBlock(label=_("Uppercase"), required=False, _setting=True)
 
+
+class SectionHeaderBlock(TextMixin, FontMixin, ColorMixin, SettingStructBlock):
     class Meta:
-        default = {
-            "font": Fonts.POPPINS,
-            "color": TailwindColors.ZINC,
-            "lightness": TailwindLightness.L900,
-            "uppercase": False,
+        _header_default = {
+            "font": Fonts.RALEWAY,
+            "color": Colors.ZINC,
+            "lightness": Lightness.L900,
         }
 
     def get_default(self):
-        """Merge the default values from Mixin then concrete block."""
-        return self.normalize({**super().get_default(), **self.meta.default})
+        """Merge the default values from mixins, base, then concrete block."""
+        return self.normalize(
+            {
+                **super().get_default(),
+                **self.meta._header_default,
+                **self.meta.default,
+            }
+        )
 
 
 class SectionHeaderSubtitle(AutoTemplate, SectionHeaderBlock):
+    class Styles(TextChoices):
+        FLAT = "flat", _("Flat")
+        ROUNDED = "rounded", _("Rounded")
+        ELEVATED = "elevated", _("Elevated")
+
     text = CharBlock(label=_("Text"), required=False)
-    style = ChoiceBlock(
-        [("flat", _("Flat")), ("elevated", _("Elevated"))],
-        label=_("Style"),
-        default="flat",
-    )
+    style = ChoiceBlock(Styles.choices, default=Styles.FLAT, label=_("Style"))
 
     class Meta:
+        label = _("Subtitle")
         fragment = "#subtitle"
+        icon = "h2"
         default = {
-            "color": TailwindColors.PRIMARY,
-            "lightness": TailwindLightness.L500,
-            "uppercase": True,
+            "color": Colors.PRIMARY,
+            "lightness": Lightness.L500,
+            "text_transform": TextTransform.UPPERCASE,
         }
 
 
@@ -70,40 +85,57 @@ class SectionHeaderTitle(AutoTemplate, SectionHeaderBlock):
     text = CharBlock(label=_("Text"), required=False)
 
     class Meta:
+        label = _("Title")
         fragment = "#title"
-        default = {"font": Fonts.UNBOUNDED}
+        icon = "h1"
+        default = {
+            "font": Fonts.UNBOUNDED,
+            "font_size": FontSizes.XL4,
+            "font_weight": FontWeights.SEMIBOLD,
+        }
 
 
 class SectionHeaderText(AutoTemplate, SectionHeaderBlock):
     text = CharBlock(label=_("Text"), required=False)
 
     class Meta:
+        label = _("Text")
         fragment = "#text"
+        icon = "pilcrow"
 
 
-class SectionHeader(AutoTemplate, StreamBlock):
-    subtitle = SectionHeaderSubtitle(label=_("Subtitle"), icon="h2", required=False)
-    title = SectionHeaderTitle(label=_("Title"), icon="h1", required=False)
-    text = SectionHeaderText(label=_("Text"), icon="pilcrow", required=False)
+class SectionHeader(AutoTemplate, TextMixin, SettingStructBlock):
+    parts = StreamBlock(
+        [
+            ("subtitle", SectionHeaderSubtitle()),
+            ("title", SectionHeaderTitle()),
+            ("text", SectionHeaderText()),
+        ]
+    )
 
     class Meta:
         icon = "title"
-        default = [
-            ("subtitle", {**SectionHeaderSubtitle().get_default(), "text": ""}),
-            ("title", {**SectionHeaderTitle().get_default(), "text": ""}),
-            ("text", {**SectionHeaderText().get_default(), "text": ""}),
-        ]
+        default = {
+            "parts": [
+                ("subtitle", {**SectionHeaderSubtitle().get_default(), "text": ""}),
+                ("title", {**SectionHeaderTitle().get_default(), "text": ""}),
+                ("text", {**SectionHeaderText().get_default(), "text": ""}),
+            ],
+            "text_align": TextAlign.CENTER,
+        }
 
 
 class SectionContent(StreamBlock):
     text = ExtraRichText()
     flat_feature = FlatFeature()
+    header = SectionHeader()
+    call_to_action = CallToAction()
 
     class Meta:
         collapsed = True
 
 
-class SectionColumn(WidthMixin, SettingStructBlock):
+class SectionColumn(WidthMixin, TextMixin, SettingStructBlock):
     content = SectionContent(required=False)
 
     class Meta:
@@ -121,10 +153,22 @@ class SectionRow(AutoTemplate, SpacingMixin, SettingStructBlock):
 class SimpleSection(SectionBlock):
     content = StreamBlock(
         [
-            ("title", SectionHeader()),
+            ("header", SectionHeader()),
             ("text", ExtraRichText()),
             ("row", SectionRow()),
         ],
         required=False,
         collapsed=True,
     )
+
+    class Meta:
+        group = _("Layout")
+        collapsed = True
+
+
+class BodyContent(StreamBlock):
+    section = SimpleSection()
+    swiper_slider = SwiperSlider()
+
+    class Meta:
+        collapsed = True

@@ -1,6 +1,8 @@
 from django import template
+
+from evente.choices.tailwind import BREAKPOINTS, Colors, FontSizes, Widths
+from evente.mixins import SpacingMixin, FontMixin, TextMixin, BgMixin
 from evente.models import EventeSettings
-from evente.choices import TailwindColors, TailwindWidth
 
 register = template.Library()
 
@@ -21,26 +23,40 @@ def evente_js_tags(exclude=""):
 
 
 @register.simple_tag()
-def tw_color(block, obj="text", /, prefix="", opacity=None):
-    try:
-        color = TailwindColors(block.get(f"{prefix}color"))
-    except ValueError:
+def tw_color(values, obj="text", /, prefix="", opacity=None):
+    if color := values.get(f"{prefix}color"):
+        color = Colors(color)
+    else:
         return ""
-    return color.display(obj, block.get(f"{prefix}lightness"), opacity)
+    return color.display(obj, values.get(f"{prefix}lightness"), opacity)
+
+
+@register.simple_tag()
+def tw_font(block, breakpoints=None):
+    family = block.get("font")
+    weight = block.get("font_weight")
+    size = block.get("font_size")
+    sizes = FontSizes(size).dynamic(breakpoints) if size else []
+    return " ".join([family, weight, *sizes]).strip()
+
+
+@register.simple_tag()
+def tw_text(block):
+    values = (block.get(field) for field in TextMixin.base_blocks)
+    return " ".join(val for val in values if val).strip()
 
 
 @register.simple_tag()
 def tw_widths(block):
-    widths = ((size, block.get(f"width_{size}")) for size in TailwindWidth.breakpoints)
-    widths = {k: TailwindWidth(v) for k, v in widths if v}
+    widths = ((size, block.get(f"width_{size}")) for size in BREAKPOINTS)
+    widths = {k: Widths(v) for k, v in widths if v}
     if default_width := block.get("width"):
-        widths = {"": TailwindWidth(default_width), **widths}
+        widths = {"": Widths(default_width), **widths}
 
-    return TailwindWidth.display(widths)
+    return Widths.display(widths)
 
 
 @register.simple_tag()
-def tw_spacing(block):
-    spacing = ["margin_top", "margin_bottom", "padding_top", "padding_bottom"]
-    classes = " ".join(block.get(n) for n in spacing)
-    return classes
+def tw_spacing(block) -> str:
+    values = (block.get(field) for field in SpacingMixin.base_blocks)
+    return " ".join(val for val in values if val).strip()

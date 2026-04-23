@@ -1,10 +1,10 @@
 {% load wagtailimages_tags evente_tags %}
 {% partialdef subtitle %}
-<span class="td-hero-subtitle mb-[10px] wow td-animetion-left font-extrabold text-lg uppercase {% tw_color value %} inline-block" data-wow-duration="1.5s" data-wow-delay="0.1s">{{ value.text }}</span>
+<span class="td-hero-subtitle mb-[10px] wow td-animetion-left font-extrabold text-lg {% tw_text value %} {% tw_color value %} inline-block" data-wow-duration="1.5s" data-wow-delay="0.1s">{{ value.text }}</span>
 {% endpartialdef %}
 
 {% partialdef title %}
-<h2 class="td-hero-title wow td-animetion-left font-black text-[65px] leading-[115%] uppercase {% tw_color value %} min-[1200px]:max-[1399px]:text-[50px] min-[992px]:max-[1199px]:text-[50px] min-[768px]:max-[991px]:text-[50px] min-[576px]:max-[767px]:text-[50px] max-[575px]:text-[34px]" data-wow-duration="1.5s" data-wow-delay="0.3s">{{ value.text }}</h2>
+<h2 class="td-hero-title wow td-animetion-left font-black text-[65px] leading-[115%] {% tw_text value %} {% tw_color value %} min-[1200px]:max-[1399px]:text-[50px] min-[992px]:max-[1199px]:text-[50px] min-[768px]:max-[991px]:text-[50px] min-[576px]:max-[767px]:text-[50px] max-[575px]:text-[34px]" data-wow-duration="1.5s" data-wow-delay="0.3s">{{ value.text }}</h2>
 {% endpartialdef %}
 
 {% partialdef location %}

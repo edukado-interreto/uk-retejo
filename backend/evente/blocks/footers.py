@@ -12,8 +12,9 @@ from wagtail.blocks import (
 from wagtail.images.blocks import ImageChooserBlock
 from wagtailmenus.models import FlatMenu
 
-from evente.choices import TailwindColors, TailwindLightness
+from evente.choices import Colors
 from evente.mixins import AutoTemplate, SettingStructBlock, WidthMixin, ColorMixin
+from evente.choices.tailwind import Lightness
 
 # Fields
 
@@ -67,8 +68,8 @@ class ColumnContentStructBlock(ColorMixin, SettingStructBlock):
 
     class Meta:
         default = {
-            "color": TailwindColors.GRAY,
-            "lightness": TailwindLightness.L400,
+            "color": Colors.GRAY,
+            "lightness": Lightness.L400,
         }
 
 

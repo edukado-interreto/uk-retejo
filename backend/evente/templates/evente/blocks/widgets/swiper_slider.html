@@ -1,0 +1,23 @@
+{% load static evente_tags %}
+<div class="td-text-slider-area td-text-slider-spacing px-0 py-[17px] {% tw_color self 'bg' prefix='bg_' %}">
+    <div class="container-fluid">
+        <div class="row">
+           <div class="swiper-container td-text-slider-active">
+              <div class="swiper-wrapper slide-transtion">
+              {% for slide in self.slides %}
+
+                 <div class="swiper-slide">
+                    <div class="td-text-slider-item flex items-center">
+                       <h3 class="text font-[600] text-2xl mr-[33px] mb-0 {% tw_text self %} {% tw_color self %}">
+                        {{ slide.text }}
+                       </h3>
+                       <img class="animate-[rotate-infinite_15s_linear_infinite]" src="{% static 'evente/assets/img/text/round.png' %}" alt="">
+                    </div>
+                 </div>
+                {% endfor %}
+
+              </div>
+           </div>
+        </div>
+     </div>
+</div>

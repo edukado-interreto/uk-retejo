@@ -1,6 +1,10 @@
 {% load static wagtailcore_tags wagtailimages_tags evente_tags %}
-{% image self.bg_image width-1024 format-webp as bg %}
-<section class="{{ self.css_classes }} {% tw_spacing self %} {% tw_color self 'bg' prefix='bg_' %} {{ self.bg_position }} {{ self.bg_repeat }} {{ self.bg_size }}"
+{% if self.effect == "jarallax" %}
+  {% image self.bg_image original format-webp as bg %}
+{% else %}
+  {% image self.bg_image width-1024 format-webp as bg %}
+{% endif %}
+<section class="{{ self.css_classes }} {{ self.effect }} {% tw_spacing self %} {% tw_color self 'bg' prefix='bg_' %} {{ self.bg_position }} {{ self.bg_repeat }} {{ self.bg_size }}"
   style="{{ self.css_style }}{% if self.bg_image %}background-image: url('{{ bg.url }}'){% endif %}"
 >
   {% if self.container %}<div class="container">{% endif %}

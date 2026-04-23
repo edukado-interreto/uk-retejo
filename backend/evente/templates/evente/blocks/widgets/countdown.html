@@ -8,7 +8,7 @@
   {% for item in self.items %}
     <li class="list-inline-item inline-block {{ item.unit }} mb-[20px] font-semibold {% tw_color self %} text-center w-[98px] h-[98px] {% tw_color self 'border' %} mr-[15px] pt-[22px] rounded-[30px] border-[3px] border-solid max-[575px]:text-[22px] max-[575px]:w-[78px] max-[575px]:h-[78px] max-[575px]:mr-0 max-[575px]:pt-[9px]">
       <span class="value text-3xl!">&nbsp;</span>
-      <span class="unit{% if self.uppercase %} uppercase{% endif %}">{{ item.text }}</span>
+      <span class="unit {% tw_text self %}">{{ item.text }}</span>
     </li>
   {% endfor %}
   </ul>
