@@ -1,10 +1,41 @@
 from django import template
+from wagtail.models.pages import Page
 
 from evente.choices.tailwind import BREAKPOINTS, Colors, FontSizes, Widths
-from evente.mixins import SpacingMixin, FontMixin, TextMixin, BgMixin
+from evente.mixins import SpacingMixin, TextMixin, FlexMixin
 from evente.models import EventeSettings
 
 register = template.Library()
+
+
+@register.simple_tag()
+def getpartial(template, suffix="", modulo=None):
+    match (suffix, modulo):
+        case (str(), int()):
+            raise ValueError(f"Can’t use modulo on a string: {suffix!r}")
+
+        case (int(), int()):
+            return f"{template}{(suffix % modulo) or modulo}"
+
+        case _:
+            return f"{template}{suffix}"
+
+
+@register.simple_tag(takes_context=True)
+def href(context, block):
+    """
+    Mirror wagtailcore_tags.pageurl but with plain URL as fallback.
+    """
+    page = block.get("page")
+    url = block.get("url", block.get("href", block.get("link")))
+
+    if page is None and url:
+        return url
+
+    if not isinstance(page, Page):
+        raise ValueError("pageurl tag expected a Page object, got %r" % page)
+
+    return page.get_url(request=context.get("request"))
 
 
 @register.inclusion_tag("evente/tags/evente_theme.html", takes_context=True)
@@ -59,4 +90,10 @@ def tw_widths(block):
 @register.simple_tag()
 def tw_spacing(block) -> str:
     values = (block.get(field) for field in SpacingMixin.base_blocks)
+    return " ".join(val for val in values if val).strip()
+
+
+@register.simple_tag()
+def tw_flex(block) -> str:
+    values = (block.get(field) for field in FlexMixin.base_blocks)
     return " ".join(val for val in values if val).strip()

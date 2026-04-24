@@ -36,29 +36,29 @@ class BaseHeroItemBlock(TextMixin, FontMixin, ColorMixin, SettingStructBlock):
 
 class HeroItemsSubtitle(AutoTemplate, BaseHeroItemBlock):
     class Meta:
-        fragment = "#subtitle"
+        partial = "#subtitle"
 
 
 class HeroItemsTitle(AutoTemplate, BaseHeroItemBlock):
     class Meta:
-        fragment = "#title"
+        partial = "#title"
 
 
 class HeroItemsLocation(AutoTemplate, BaseHeroItemBlock):
     class Meta:
-        fragment = "#location"
+        partial = "#location"
 
 
 class HeroItemsSocials(AutoTemplate, BaseHeroItemBlock):
     class Meta:
-        fragment = "#social_links"
+        partial = "#social_links"
 
 
 class HeroItemsImage(AutoTemplate, SettingStructBlock):
     image = ImageBlock(label=_("Image"), required=False)
 
     class Meta:
-        fragment = "#image"
+        partial = "#image"
         default = {"color": Colors.WHITE}
 
 

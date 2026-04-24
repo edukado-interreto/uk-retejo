@@ -15,6 +15,29 @@ def fragment_validator(value: str):
         url_validator(value)
 
 
+class LinkBlock(blocks.StructBlock):
+    url = blocks.CharBlock(
+        required=False,
+        help_text="Anchor or link to another website page",
+        validators=[fragment_validator],
+    )
+    page = blocks.PageChooserBlock(required=False, help_text="Link to a page")
+
+    class Meta:
+        icon = "link"
+
+    def clean(self, value):
+        result = super().clean(value)
+        if not (result["page"] or result["url"]):
+            raise ValidationError(
+                "You must specify either an internal page or an external URL"
+            )
+        return result
+
+    def deconstruct(self):
+        return ("evente.blocks.components.LinkBlock", [], self._constructor_kwargs)
+
+
 class CallToAction(AutoTemplate, SettingStructBlock):
     text = blocks.CharBlock(required=True, help_text="Text to display in the button")
     url = blocks.CharBlock(
@@ -44,7 +67,7 @@ class CallToAction(AutoTemplate, SettingStructBlock):
         icon = "link-external"
 
 
-class SocialLink(AutoTemplate, blocks.StructBlock):
+class BaseSocialLink(blocks.StructBlock):
     title = blocks.CharBlock(label=_("Name"), default="")
     href = blocks.CharBlock(
         label=_("Link"),
@@ -60,6 +83,10 @@ class SocialLink(AutoTemplate, blocks.StructBlock):
         default="fa-globe",
         help_text="https://fontawesome.com/v6/search?ic=free-collection",
     )
+
+
+class SocialLink(AutoTemplate, BaseSocialLink):
+    pass
 
 
 class ExtraRichText(AutoTemplate, ColorMixin, SpacingMixin, SettingStructBlock):

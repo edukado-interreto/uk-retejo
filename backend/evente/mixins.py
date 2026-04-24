@@ -74,14 +74,12 @@ class SpacingMixin(StructBlock):
     margin_top = ChoiceBlock(
         [("mt-[-95px]", "-95px")],
         label=_("Margin top"),
-        default="",
         required=False,
         _setting=True,
     )
     margin_bottom = ChoiceBlock(
         choices=[],
         label=_("Margin bottom"),
-        default="",
         required=False,
         _setting=True,
     )
@@ -96,6 +94,15 @@ class SpacingMixin(StructBlock):
         label=_("Padding bottom"),
         choices=tailwind.PaddingBottom.choices,
         default=tailwind.PaddingBottom.PB110,
+        required=False,
+        _setting=True,
+    )
+
+
+class FlexMixin(StructBlock):
+    justify_content = ChoiceBlock(
+        tailwind.JustifyContent.choices,
+        label=_("Justify content"),
         required=False,
         _setting=True,
     )
@@ -251,9 +258,9 @@ class AutoTemplate(Block):
         template_dir = "/".join(self.__module__.split("."))
         name = snake_case(self.__class__.__name__)
 
-        if fragment := getattr(self.meta, "fragment", None):
+        if partial := getattr(self.meta, "partial", None):
             # Remove the last word of class name
             name = name.rsplit("_", maxsplit=1)[0]
-            return "/".join([template_dir, f"{name}.html{fragment}"])
+            return "/".join([template_dir, f"{name}.html{partial}"])
 
         return "/".join([template_dir, f"{name}.html"])

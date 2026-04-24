@@ -9,7 +9,7 @@ from wagtail.blocks import (
 )
 
 from evente.blocks.components import CallToAction, ExtraRichText, FlatFeature
-from evente.blocks.widgets import SwiperSlider
+from evente.blocks.widgets import SwiperSlider, PersonCard
 from evente.choices.tailwind import (
     Colors,
     Fonts,
@@ -29,6 +29,7 @@ from evente.mixins import (
     SpacingMixin,
     TextMixin,
     WidthMixin,
+    FlexMixin,
 )
 
 
@@ -72,7 +73,7 @@ class SectionHeaderSubtitle(AutoTemplate, SectionHeaderBlock):
 
     class Meta:
         label = _("Subtitle")
-        fragment = "#subtitle"
+        partial = "#subtitle"
         icon = "h2"
         default = {
             "color": Colors.PRIMARY,
@@ -86,7 +87,7 @@ class SectionHeaderTitle(AutoTemplate, SectionHeaderBlock):
 
     class Meta:
         label = _("Title")
-        fragment = "#title"
+        partial = "#title"
         icon = "h1"
         default = {
             "font": Fonts.UNBOUNDED,
@@ -100,7 +101,7 @@ class SectionHeaderText(AutoTemplate, SectionHeaderBlock):
 
     class Meta:
         label = _("Text")
-        fragment = "#text"
+        partial = "#text"
         icon = "pilcrow"
 
 
@@ -130,6 +131,7 @@ class SectionContent(StreamBlock):
     flat_feature = FlatFeature()
     header = SectionHeader()
     call_to_action = CallToAction()
+    person_card = PersonCard()
 
     class Meta:
         collapsed = True
@@ -142,7 +144,7 @@ class SectionColumn(WidthMixin, TextMixin, SettingStructBlock):
         group = _("Layout")
 
 
-class SectionRow(AutoTemplate, SpacingMixin, SettingStructBlock):
+class SectionRow(AutoTemplate, FlexMixin, SpacingMixin, SettingStructBlock):
     column = ListBlock(SectionColumn())
 
     class Meta:

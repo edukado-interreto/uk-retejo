@@ -223,3 +223,15 @@ class PaddingBottom(TextChoices):
     PB140 = "pb-[140px] max-2xl:!pb-[100px]", _("140px")
     PB155 = "pb-[155px] max-2xl:!pb-[100px]", _("155px")
     PB200 = "pb-[200px]", _("200px")
+
+
+class JustifyContent(TextChoices):
+    CENTER = "justify-center-safe", _("Center")
+    START = "justify-start", _("Start")
+    END = "justify-end-safe", _("End")
+    BETWEEN = "justify-between", _("Between")
+    AROUND = "justify-around", _("Around")
+    EVENLY = "justify-evenly", _("Evenly")
+    STRETCH = "justify-stretch", _("Stretch")
+    BASELINE = "justify-baseline", _("Baseline")
+    NORMAL = "justify-normal", _("Normal")

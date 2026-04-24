@@ -1,0 +1,111 @@
+{% load static wagtailimages_tags evente_tags %}
+
+{% partialdef team1 %} {# Styles.CARD #}
+<div class="td-team-item overflow-hidden rounded-[35px] group mb-[25px] bg-center bg-cover bg-no-repeat relative" data-background="{% static 'evente/assets/img/team/bg.png' %}">
+<div class="td-team-content pl-10 pt-[37px] pb-2.5 min-[576px]:max-[767px]:pl-5 max-[575px]:pl-5">
+  <h3 class="td-team-member-name !mb-0 font-[600] text-[22px] capitalize">
+    <a class=" hover:text-primary" href="{% href self.link %}">{{ self.full_name }}</a>
+  </h3>
+  <span class="td-team-member-position  text-[15px] capitalize text-text-grey">{{ self.position }}</span>
+</div>
+<div class="td-team-thumb text-center [transition:all_0.4s_ease]">
+  {% image self.image fill-270x327 class="group-hover:mix-blend-normal mix-blend-luminosity [transition:all_0.4s_ease] rounded-[10px]" %}
+</div>
+<div class="td-team-social-wrap absolute left-10 bottom-[30px]">
+  <div class="team__social td-team-social td-social-icon-style  flex flex-col">
+    <ul class="list-wrap hidden">
+    {% for link in self.social_links %}
+      <li>
+        <a class="opacity-100 visible [transition:all_0.4s_ease] scale-100 w-[45px] h-[45px] text-center leading-[45px] inline-block text-[22px] text-primary mb-[5px] rounded-[100px] bg-white hover:text-white hover:bg-primary [transition:0.3s_cubic-bezier(0.12,0,0.39,0)] z-[1]" href="{% href link %}">
+          <i title="{{ self.title }}" class="{{ link.fa_style }} {{ link.fa_name }}"></i>
+          <span class=" block h-full w-full box-content absolute opacity-0 [transition:0.5s_cubic-bezier(0.12,0,0.39,0)] pointer-events-none z-[-1] bg-primary m-0 p-px rounded-[100%] scale-[1.2] -left-px -top-px"></span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+    <div class="social-toggle-icon w-[45px] h-[45px] flex items-center justify-center cursor-pointer text-[22px] text-primary rounded-[50%] bg-white">
+      <i class="fa-sharp fa-light fa-share-nodes"></i>
+    </div>
+  </div>
+</div>
+</div>
+{% endpartialdef %}
+
+{% partialdef team2 %} {# Styles.ALBUM #}
+<div class="td-team-2-iteam relative  mb-[30px] p-[26px_66px_27px_30px] min-[992px]:max-[1199px]:p-[26px_66px_27px_20px] min-[768px]:max-[991px]:p-[26px_66px_27px_20px] max-[575px]:p-[26px_66px_27px_20px] group">
+  <svg class="bg-svg absolute w-full h-full left-0 top-0" width="319" height="370" viewBox="0 0 319 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="path-1-inside-1_100_1636" fill="white">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M23 0H254.818C259.543 0 264.116 1.6729 267.725 4.72218L311.907 42.0476C316.405 45.8477 319 51.4369 319 57.3254V347C319 359.703 308.703 370 296 370H60.5252C55.8145 370 51.2549 368.337 47.6501 365.305L7.12483 331.212C2.60769 327.412 0 321.811 0 315.908V23C0 10.2975 10.2975 0 23 0Z" />
+    </mask>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M23 0H254.818C259.543 0 264.116 1.6729 267.725 4.72218L311.907 42.0476C316.405 45.8477 319 51.4369 319 57.3254V347C319 359.703 308.703 370 296 370H60.5252C55.8145 370 51.2549 368.337 47.6501 365.305L7.12483 331.212C2.60769 327.412 0 321.811 0 315.908V23C0 10.2975 10.2975 0 23 0Z" fill="white" />
+    <path d="M7.12483 331.212L7.76858 330.447L7.12483 331.212ZM47.6501 365.305L47.0063 366.07L47.6501 365.305ZM267.725 4.72218L267.08 5.48608L267.725 4.72218ZM254.818 -1H23V1H254.818V-1ZM312.552 41.2837L268.37 3.95829L267.08 5.48608L311.262 42.8115L312.552 41.2837ZM320 347V57.3254H318V347H320ZM296 371C309.255 371 320 360.255 320 347H318C318 359.15 308.15 369 296 369V371ZM60.5252 371H296V369H60.5252V371ZM6.48107 331.977L47.0063 366.07L48.2938 364.539L7.76858 330.447L6.48107 331.977ZM-1 23V315.908H1V23H-1ZM23 -1C9.74517 -1 -1 9.74517 -1 23H1C1 10.8497 10.8497 1 23 1V-1ZM7.76858 330.447C3.47731 326.837 1 321.515 1 315.908H-1C-1 322.106 1.73808 327.987 6.48107 331.977L7.76858 330.447ZM311.262 42.8115C315.535 46.4216 318 51.7314 318 57.3254H320C320 51.1425 317.275 45.2738 312.552 41.2837L311.262 42.8115ZM60.5252 369C56.05 369 51.7184 367.42 48.2938 364.539L47.0063 366.07C50.7914 369.254 55.5789 371 60.5252 371V369ZM254.818 1C259.307 1 263.651 2.58925 267.08 5.48608L268.37 3.95829C264.581 0.756543 259.779 -1 254.818 -1V1Z" fill="#AEAEAE" mask="url(#path-1-inside-1_100_1636)" />
+  </svg>
+  <img class="team-gradiant-bg absolute w-full h-full left-0 top-0" src="{% static 'evente/assets/img/team/team-2/shape.png' %}" alt="">
+  <div class="td-team-2-thumb overflow-hidden  mb-[25px] [border:1px_solid_#aeaeae] relative z-[2] rounded-[20px]">
+    {% image self.image fill-223x246 class="rounded-[20px] group-hover:scale-[1.07] w-full" %}
+  </div>
+  <div class="td-team-2-content  ml-[30px] relative z-[3]">
+    <h2 class="td-team-2-title font-[600] text-xl text-black mb-0 min-[992px]:max-[1199px]:text-lg min-[768px]:max-[991px]:text-lg min-[576px]:max-[767px]:text-lg max-[575px]:text-lg">
+      <a class=" hover:text-primary" href="{% href self.link %}">{{ self.full_name }}</a>
+    </h2>
+    <span class="td-team-2-position font-[400] text-[15px] text-grey-1 font-poppins">{{ self.position }}</span>
+  </div>
+  <div class="td-team-2-social absolute flex flex-col right-6 top-[74px]">
+    {% for link in self.social_links %}
+      <a class=" text-lg text-black mb-5 hover:text-primary" href="{% href link %}">
+        <i title="{{ self.title }}" class="{{ link.fa_style }} {{ link.fa_name }}"></i>
+        <span></span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endpartialdef %}
+
+{% partialdef team3 %} {# Styles.ROUND #}
+<div class="td-team-3-wrap  mb-[30px] text-center">
+    <div class="td-team-3-thumb overflow-hidden mt-0 mb-5 mx-3.5 rounded-[50%] min-[992px]:max-[1199px]:m-[0_0_20px] min-[768px]:max-[991px]:m-[0_0_20px] min-[576px]:max-[767px]:m-[0_0_20px] max-[575px]:m-[0_0_20px] group">
+      {% image self.image fill-280x280 class="[transition:all_0.4s_ease] rounded-[50%] group-hover:scale-110 w-full" %}
+    </div>
+    <div class="td-team-3-content">
+        <h3 class="td-title font-[600] text-[22px] capitalize text-black mb-0 group"><a class=" group-hover:text-primary" href="{% href self.link %}">{{ self.full_name }}</a></h3>
+        <span class="td-position text-[15px] capitalize text-grey-1 font-poppins">{{ self.position }}</span>
+        <div class="td-team-3-social flex justify-center mt-[13px]">
+        {% for link in self.social_links %}
+          <span>
+            <a class="w-10 h-10 flex items-center justify-center text-primary [transition:all_0.4s_ease] mx-[3px] my-0 rounded-[89px] border-[0.89px] border-solid border-[#dadada] hover:border-primary hover:text-white hover:bg-primary" href="{% href link %}">
+              <i title="{{ self.title }}" class="{{ link.fa_style }} {{ link.fa_name }}"></i>
+            </a>
+          </span>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endpartialdef %}
+
+{% partialdef team5 %} {# Styles.SHAPE #}
+
+
+<div class="td-team-5-wrap relative z-[1]  mb-[30px] wow fadeInUp text-center overflow-hidden h-[410px] pt-10 pb-0 p-5 rounded-[25px] before:absolute before:content-[&quot;&quot;] before:w-full before:h-full before:opacity-0 before:invisible before:transition-all before:duration-[0.4s] before:ease-[ease] before:rounded-[25px] before:left-0 before:top-0 hover:before:opacity-20 hover:before:visible bg-white before:bg-[#000] group" data-wow-duration="1.5s" data-wow-delay="0.{{ forloop.counter }}s">
+    <span class="td-team-5-shape absolute z-[-1] mx-auto my-0 top-[46px] inset-x-0">
+    {% getpartial "evente/snippets/shapes.svg#shape-" forloop.counter 5 as svg_shape %}
+    {% include svg_shape %}
+    </span>
+    <div class="td-team-5-thumb h-full flex justify-center items-end">
+      {% image self.image fill-280x384 class="group-hover:scale-110 [transition:all_0.4s_ease]" %}
+        <div class="td-team-3-social td-team-5-social flex justify-center absolute opacity-0 invisible [transition:all_0.4s_ease] mx-auto my-0 bottom-[120px] inset-x-0 group-hover:opacity-100 group-hover:visible group-hover:bottom-[130px]">
+        {% for link in self.social_links %}
+            <span>
+            <a class="text-black text-xl bg-white w-10 h-10 flex items-center justify-center [transition:all_0.4s_ease] mx-[3px] my-0 rounded-[89px] border-[0.89px] border-solid border-[#dadada] hover:border-primary hover:text-white hover:bg-primary" href="{% href link %}">
+              <i title="{{ self.title }}" class="{{ link.fa_style }} {{ link.fa_name }}"></i>
+            </a>
+            </span>
+        {% endfor %}
+        </div>
+        <div class="td-team-5-content absolute [transition:all_0.4s_ease] px-2.5 py-3.5 rounded-[15px] bottom-[30px] inset-x-[30px] bg-primary group-hover:bg-secondary">
+            <h5 class=" font-[600] text-xl capitalize text-white mb-1 min-[1400px]:max-[1599px]:text-[17px]"><a class=" bg-[linear-gradient(currentColor,currentColor),linear-gradient(currentColor,currentColor)] bg-no-repeat text-white [background-size:0_2px,0_2px] [background-position:100%_100%,0_100%] [transition:background-size_0.3s_linear] [transition:all_0.4s_ease_0.3s_0s_ease-out] hover:bg-[linear-gradient(currentColor,currentColor),linear-gradient(currentColor,currentColor)] hover:bg-no-repeat hover:[background-size:0_2px,100%_2px] hover:[background-position:100%_100%,0_100%] hover:[transition:background-size_0.3s_linear] hover:[transition:all_0.4s_ease_0.3s_0s_ease-out]" href="{% href self.link %}">{{ self.full_name }}</a></h5>
+            <span class=" font-[400] text-[15px] capitalize text-white min-[1400px]:max-[1599px]:text-[13px]">{{ self.position }}</span>
+        </div>
+    </div>
+</div>
+{% endpartialdef %}
+

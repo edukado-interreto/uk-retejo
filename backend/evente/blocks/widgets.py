@@ -1,7 +1,11 @@
+from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
+from wagtail.images.blocks import ImageBlock
 
 from evente.choices import TimeUnits
+from evente.choices.tailwind import TextTransform
+from .components import BaseSocialLink, LinkBlock
 from evente.mixins import (
     AutoTemplate,
     BgColorMixin,
@@ -9,7 +13,6 @@ from evente.mixins import (
     SettingStructBlock,
     TextMixin,
 )
-from evente.choices.tailwind import TextTransform
 
 
 class CountdownUnit(blocks.StructBlock):
@@ -68,7 +71,39 @@ class SwiperSlider(
     slides = blocks.ListBlock(SwiperSlide())
 
     class Meta:
+        label = _("Swiper slider")
         icon = "logout"
         group = _("Widgets")
         collapsed = True
         default = {"text_transform": TextTransform.UPPERCASE}
+
+
+class PersonCard(AutoTemplate, SettingStructBlock):
+    class Styles(TextChoices):
+        CARD = "team1", _("Card")
+        ALBUM = "team2", _("Album")
+        ROUND = "team3", _("Round")
+        SHAPE = "team5", _("Shape")
+
+    full_name = blocks.CharBlock(label=_("Name"))
+    position = blocks.CharBlock(label=_("Position"), required=False)
+    image = ImageBlock(label_=("Image"), required=False)
+    link = LinkBlock(label_=("Link"), required=False)
+    social_links = blocks.ListBlock(BaseSocialLink(), required=False)
+
+    style = blocks.ChoiceBlock(
+        Styles.choices,
+        default=Styles.CARD,
+        label=_("Style"),
+        _setting=True,
+    )
+
+    class Meta:
+        label = _("Person card")
+        group = _("Widgets")
+        collapsed = True
+        icon = "user"
+
+    def get_template(self, value=None, context=None):
+        template = super().get_template(value, context)
+        return f"{template}#{value['style']}"
