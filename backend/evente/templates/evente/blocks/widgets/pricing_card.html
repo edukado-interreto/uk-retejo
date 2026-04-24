@@ -1,0 +1,22 @@
+{% load wagtailcore_tags %}
+<div class="td-pricing-2-item td-pricing-3-item wow fadeInLeft p-[60px_20px_78px_92px] min-[1200px]:max-[1399px]:p-[60px_40px_78px_40px] min-[768px]:max-[991px]:p-[60px_40px_78px_40px] max-[575px]:p-[60px_40px_78px_40px] min-[1200px]:max-[1399px]:text-center min-[768px]:max-[991px]:text-center max-[575px]:text-center rounded-[50px_8px] bg-white" data-wow-duration="1.5s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.3s; animation-name: fadeInLeft;">
+    <div class="td-pricing-2-price text-center  mb-[10px] pt-[15px] rounded-none [background:none] inline-block px-[52px] py-[29px]">
+        <span class="subtitle  mb-[25px] text-black font-medium text-base capitalize block">{{ self.subtitle }}</span>
+        <span class="price text-black font-extrabold text-3xl">{{ self.price }}</span>
+    </div>
+    <div class="td-pricing-2-feature mb-[45px]">
+        <ul>
+        {% for perk in self.perks %}
+            <li class="font-medium text-lg text-black flex font-poppins mb-[17px]">
+                <span> {% include "evente/snippets/circle_check.svg" only %} </span>
+                <span>{{ perk }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+    {% for call_to_action in self.buttons %}
+    <div class="row">
+      {% include_block call_to_action %}
+    </div>
+    {% endfor %}
+</div>

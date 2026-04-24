@@ -5,7 +5,7 @@ from wagtail.images.blocks import ImageBlock
 
 from evente.choices import TimeUnits
 from evente.choices.tailwind import TextTransform
-from .components import BaseSocialLink, LinkBlock
+from .components import BaseSocialLink, LinkBlock, CallToAction
 from evente.mixins import (
     AutoTemplate,
     BgColorMixin,
@@ -107,3 +107,18 @@ class PersonCard(AutoTemplate, SettingStructBlock):
     def get_template(self, value=None, context=None):
         template = super().get_template(value, context)
         return f"{template}#{value['style']}"
+
+
+class PricingCard(AutoTemplate, SettingStructBlock):
+    subtitle = blocks.CharBlock(label=_("Subtitle"))
+    price = blocks.CharBlock(label=_("Price"))
+    perks = blocks.ListBlock(
+        blocks.CharBlock(label=_("Perk"), icon="check"), required=False
+    )
+    buttons = blocks.ListBlock(CallToAction(), required=False)
+
+    class Meta:
+        label = _("Pricing card")
+        group = _("Widgets")
+        collapsed = True
+        icon = "decimal"

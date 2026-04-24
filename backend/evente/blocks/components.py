@@ -38,14 +38,8 @@ class LinkBlock(blocks.StructBlock):
         return ("evente.blocks.components.LinkBlock", [], self._constructor_kwargs)
 
 
-class CallToAction(AutoTemplate, SettingStructBlock):
+class CallToAction(AutoTemplate, LinkBlock, SettingStructBlock):
     text = blocks.CharBlock(required=True, help_text="Text to display in the button")
-    url = blocks.CharBlock(
-        required=False,
-        help_text="Anchor or link to another website page",
-        validators=[fragment_validator],
-    )
-    page = blocks.PageChooserBlock(required=False, help_text="Link to a page")
     append_icon = blocks.ChoiceBlock(
         [("arrow-top-right", _("Arrow top right"))],
         default="arrow-top-right",
@@ -54,14 +48,6 @@ class CallToAction(AutoTemplate, SettingStructBlock):
         required=False,
         _setting=True,
     )
-
-    def clean(self, value):
-        result = super().clean(value)
-        if not (result["page"] or result["url"]):
-            raise ValidationError(
-                "You must specify either an internal page or an external URL"
-            )
-        return result
 
     class Meta:
         icon = "link-external"
