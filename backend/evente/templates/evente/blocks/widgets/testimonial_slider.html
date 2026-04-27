@@ -1,0 +1,43 @@
+{% load wagtailimages_tags %}
+<div class="relative">
+  <span class="td-testimonial-3-quote absolute right-0 top-12">
+    <svg width="113" height="90" viewBox="0 0 113 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M63.5625 50.4V0H113V51.12C113 85.68 81.2188 90 81.2188 90L76.9812 79.92C76.9812 79.92 91.1063 77.76 93.9313 66.24C96.7562 57.6 91.1062 50.4 91.1062 50.4H63.5625ZM0 50.4V0H49.4375V51.12C49.4375 85.68 17.6562 90 17.6562 90L13.4187 79.92C13.4187 79.92 27.5438 77.76 30.3688 66.24C33.1938 57.6 27.5438 50.4 27.5438 50.4H0Z" fill="#000000" fill-opacity="0.2" />
+    </svg>
+  </span>
+
+  <div class="swiper-container td-testimonial-3-slider">
+    <div class="swiper-wrapper relative">
+      {% for testimonial in self.testimonials %}
+        <aside class="swiper-slide">
+            <div>
+                <div class="td-testimonial-3-ratings mb-[20px]">{% for i in ""|ljust:testimonial.stars %}
+<span class=" text-xl text-[#ffb600]"><i class="fa-sharp fa-solid fa-star"></i>{{i}}</span>{% endfor %}
+                </div>
+                <p class="!mb-[20px] font-medium leading-[26px] capitalize text-white font-poppins">“{{ testimonial.text }}”</p>
+                <div class="td-testimonial-3-avatar flex items-center">
+                    <div class="td-testimonial-3-avatar-thumb mr-[15px]">{% if testimonial.image %}
+                      {% image testimonial.image fill-44x44 class="rounded-[50%]" %}
+                    </div>{% endif %}
+                    <div>
+                        <h6 class="names font-semibold text-white leading-none mb-0 font-poppins">{{ testimonial.full_name }}</h6>
+                        <span class="td-position text-sm capitalize text-white leading-none font-poppins">{{ testimonial.position }}</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="td-testimonial-3-navigation absolute z-[2] right-0 bottom-0">
+      <span class="td-testimonial-3-next inline-block w-9 h-9 text-center leading-9 text-secondary [transition:all_0.4s_ease] rounded-[100px] hover:text-white bg-white hover:bg-secondary">
+          <i class="fa-solid fa-angle-left"></i>
+      </span>
+      <span class="td-testimonial-3-prev inline-block w-9 h-9 text-center leading-9 text-secondary [transition:all_0.4s_ease] rounded-[100px] hover:text-white bg-white hover:bg-secondary">
+          <i class="fa-solid fa-angle-right"></i>
+      </span>
+  </div>
+
+</div>
+

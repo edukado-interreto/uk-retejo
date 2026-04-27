@@ -122,3 +122,23 @@ class PricingCard(AutoTemplate, SettingStructBlock):
         group = _("Widgets")
         collapsed = True
         icon = "decimal"
+
+
+class TestimonialBlock(SettingStructBlock):
+    full_name = blocks.CharBlock(label=_("Name"))
+    position = blocks.CharBlock(label=_("Position"), required=False)
+    image = ImageBlock(label_=("Image"), required=False)
+    stars = blocks.ChoiceBlock(
+        [(int(n), n) for n in "12345"], label=_("Stars"), default=5
+    )
+    text = blocks.TextBlock(label=_("Text"))
+
+
+class TestimonialSlider(AutoTemplate, SettingStructBlock):
+    testimonials = blocks.ListBlock(TestimonialBlock(), label=_("Testimonials"))
+
+    class Meta:
+        label = _("Testimonial slider")
+        group = _("Widgets")
+        collapsed = True
+        icon = "pick"

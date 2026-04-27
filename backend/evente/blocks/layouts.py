@@ -9,7 +9,12 @@ from wagtail.blocks import (
 )
 
 from evente.blocks.components import CallToAction, ExtraRichText, FlatFeature
-from evente.blocks.widgets import SwiperSlider, PersonCard, PricingCard
+from evente.blocks.widgets import (
+    SwiperSlider,
+    PersonCard,
+    PricingCard,
+    TestimonialSlider,
+)
 from evente.choices.tailwind import (
     Colors,
     Fonts,
@@ -133,6 +138,7 @@ class SectionContent(StreamBlock):
     call_to_action = CallToAction()
     person_card = PersonCard()
     pricing_card = PricingCard()
+    testimonial_slider = TestimonialSlider()
 
     class Meta:
         collapsed = True
