@@ -162,21 +162,18 @@ class BgMixin(BgColorMixin):
 class WidthMixin(StructBlock):
     width = ChoiceBlock(
         tailwind.Widths.choices,
-        default=tailwind.Widths.W12,
         label=_("Width (default)"),
         required=False,
         _setting=True,
     )
     width_sm = ChoiceBlock(
         tailwind.Widths.choices,
-        default=tailwind.Widths.W12,
         label=_("Width SM"),
         required=False,
         _setting=True,
     )
     width_md = ChoiceBlock(
         tailwind.Widths.choices,
-        default=tailwind.Widths.W6,
         label=_("Width MD"),
         required=False,
         _setting=True,
@@ -190,14 +187,12 @@ class WidthMixin(StructBlock):
     )
     width_xl = ChoiceBlock(
         tailwind.Widths.choices,
-        default=tailwind.Widths.W3,
         label=_("Width XL"),
         required=False,
         _setting=True,
     )
     width_2xl = ChoiceBlock(
         tailwind.Widths.choices,
-        default=tailwind.Widths.W3,
         label=_("Width 2XL"),
         required=False,
         _setting=True,

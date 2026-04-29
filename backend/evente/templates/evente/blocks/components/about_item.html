@@ -1,0 +1,9 @@
+{% load static wagtailcore_tags wagtailimages_tags evente_tags %}
+<div class="td-about-item flex items-center mb-[20px] ml-[45px] wow fadeInUp min-[1200px]:max-[1399px]:ml-0 min-[992px]:max-[1199px]:ml-0 min-[768px]:max-[991px]:ml-0 min-[576px]:max-[767px]:ml-0 max-[575px]:ml-0 group" data-wow-duration=".9s" data-wow-delay=".5s">
+  <span class="td-about-icon mr-[20px] w-[95px] h-[95px] leading-[95px] text-center inline-block flex-[0_0_auto] shadow-[0_11px_20px_0_#dce7e7] text-secondary [transition:all_0.4s_ease] rounded-[35px] bg-white group-hover:text-primary">
+    {% if self.flaticon %}<i class="{{ self.flaticon }} before:align-[-0.1em] text-5xl"></i>{% endif %}
+    {% if self.evente_icon %}{% getpartial "evente/snippets/evente_icons.svg#" self.evente_icon as svg_icon %}{% include svg_icon %}{% endif %}
+    {% if self.font_awesome  %}<i class="{% include_block self.font_awesome %} align-[-0.25em] text-5xl"></i>{% endif %}
+  </span>
+  <h3 class="td-about-title !mb-0 font-semibold text-xl leading-[150%] capitalize">{{ self.title }}</h3>
+</div>

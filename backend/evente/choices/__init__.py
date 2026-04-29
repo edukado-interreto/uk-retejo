@@ -3,6 +3,12 @@ from django.utils.translation import gettext_lazy as _
 from .tailwind import *  # noqa
 
 
+class EventeIcons(TextChoices):
+    MEETUP = "meetup", _("Meetup")
+    HANDSHAKE = "handshake", _("Handshake")
+    BRAIN_PUZZLE = "brain_puzzle", _("Brain puzzle")
+
+
 class Flaticons(TextChoices):
     ACCOUNT = "flaticon-account", _("Account")
     ANNOUNCEMENT = "flaticon-announcement", _("Announcement")

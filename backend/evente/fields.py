@@ -3,6 +3,7 @@ from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from evente.choices import FontAwesomeStyles
+from evente.mixins import AutoTemplate
 
 
 def start_with_fa(value):
@@ -23,3 +24,18 @@ class FontAwesomeField(blocks.ChoiceBlock):
     validators = [no_spaces, start_with_fa]
     choices = FontAwesomeStyles.choices
     default = FontAwesomeStyles.REGULAR
+
+
+class FontAwesomeBlock(AutoTemplate, blocks.StructBlock):
+    fa_style = FontAwesomeField(
+        label=_("Style"),
+        required=False,
+    )
+    fa_name = blocks.CharBlock(
+        label=_("Name"),
+        help_text="https://fontawesome.com/v6/search?ic=free-collection",
+        required=False,
+    )
+
+    class Meta:
+        icon = "info-circle"

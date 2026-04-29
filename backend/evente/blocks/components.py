@@ -1,11 +1,12 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
-from evente.choices import FontAwesomeStyles, Flaticons, Colors
-from evente.fields import FontAwesomeField
-from evente.mixins import AutoTemplate, SettingStructBlock, ColorMixin, SpacingMixin
+from evente.choices import Colors, EventeIcons, Flaticons, FontAwesomeStyles
+from evente.fields import FontAwesomeBlock, FontAwesomeField
+from evente.mixins import AutoTemplate, ColorMixin, SettingStructBlock, SpacingMixin
 
 url_validator = URLValidator()
 
@@ -30,7 +31,7 @@ class LinkBlock(blocks.StructBlock):
         result = super().clean(value)
         if not (result["page"] or result["url"]):
             raise ValidationError(
-                "You must specify either an internal page or an external URL"
+                gettext("You must specify either an internal page or an external URL")
             )
         return result
 
@@ -93,6 +94,39 @@ class FlatFeature(AutoTemplate, ColorMixin, SettingStructBlock):
 
     class Meta:
         icon = "tick-inverse"
+        label = _("Flat feature")
         default = {
             "color": Colors.WHITE,
         }
+
+
+class AboutItem(AutoTemplate, ColorMixin, SettingStructBlock):
+    title = blocks.CharBlock(label=_("Title"))
+    flaticon = blocks.ChoiceBlock(
+        Flaticons.choices,
+        label=_("Flaticon"),
+        required=False,
+    )
+    evente_icon = blocks.ChoiceBlock(
+        EventeIcons.choices,
+        label=_("Evente icon"),
+        required=False,
+    )
+    font_awesome = FontAwesomeBlock(
+        label=_("Font Awesome icon"),
+    )
+
+    class Meta:
+        icon = "circle-plus"
+        label = _("About item")
+
+    def clean(self, value):
+        result = super().clean(value)
+        xor_values = [
+            result.get("flaticon"),
+            result.get("evente_icon"),
+            (result.get("font_awesome") or {}).get("fa_name"),
+        ]
+        if sum(map(bool, xor_values)) > 1:
+            raise ValidationError(gettext("You must specify only one icon"))
+        return result

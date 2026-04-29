@@ -8,12 +8,13 @@ from wagtail.blocks import (
     StreamBlock,
 )
 
-from evente.blocks.components import CallToAction, ExtraRichText, FlatFeature
+from evente.blocks.components import CallToAction, ExtraRichText, FlatFeature, AboutItem
 from evente.blocks.widgets import (
     SwiperSlider,
     PersonCard,
     PricingCard,
     TestimonialSlider,
+    ScheduleItem,
 )
 from evente.choices.tailwind import (
     Colors,
@@ -139,6 +140,8 @@ class SectionContent(StreamBlock):
     person_card = PersonCard()
     pricing_card = PricingCard()
     testimonial_slider = TestimonialSlider()
+    schedule_item = ScheduleItem()
+    about_item = AboutItem()
 
     class Meta:
         collapsed = True

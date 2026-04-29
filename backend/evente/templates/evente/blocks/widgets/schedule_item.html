@@ -1,0 +1,47 @@
+{% load wagtailcore_tags wagtailimages_tags evente_tags %}
+<div class="td-schedule-3-wrap mb-[30px] shadow-[0_0_20px_0_rgba(0,0,0,0.1)] border rounded-[20px] border-solid border-[#ddd] bg-white group">
+    <div class="row items-center">
+        <div class="xl:w-4/12 lg:w-5/12">
+            <div class="td-schedule-3-thumb relative overflow-hidden ml-[30px] mr-10 my-[30px] rounded-[10px] min-[576px]:max-[767px]:m-[30px] max-[575px]:m-[30px]">
+                <a href="{% href self.link %}">
+  {% image self.image fill-360x270 class="[transition:all_0.4s_ease] rounded-[10px] group-hover:scale-110 w-full" %}
+                </a>
+                <span class="td-schedule-2-date rounded-[6px_0px_0px_6px] left-auto right-0 top-[22px] font-medium text-sm text-white inline-block absolute px-3.5 py-0.5 font-poppins bg-primary"><i class="flaticon-calendar translate-y-px inline-block mr-[5px]"></i> {{ self.start|date }}</span>
+            </div>
+        </div>
+        <div class="xl:w-8/12 lg:w-7/12">
+            <div class="td-schedule-3-content ml-[-25px] p-[30px_100px_30px_0px] min-[1200px]:max-[1399px]:p-[30px_30px_30px_0px] min-[992px]:max-[1199px]:p-[30px_30px_30px_0px] min-[768px]:max-[991px]:p-[0_30px_30px_30px] min-[576px]:max-[767px]:p-[0_30px_30px_30px] max-[575px]:p-[0_30px_30px_30px] min-[768px]:max-[991px]:ml-0 min-[576px]:max-[767px]:ml-0 max-[575px]:ml-0">
+                <h2 class="td-schedule-3-title font-bold text-2xl leading-[30px] text-black"><a class="hover:text-secondary" href="{% href self.link %}">{{ self.title }}</a></h2>
+                <div class="td-schedule-3-destination  mb-[10px]">
+                    <span class=" inline-block mr-[25px] font-medium text-base text-grey-1 max-[575px]:flex max-[575px]:mr-0 max-[575px]:mb-2.5">
+                        <i class="flaticon-gps text-primary text-xl translate-y-1 inline-block max-[575px]:translate-y-0.5 max-[575px]:mr-[7px]"></i>
+                        {{ self.location }}
+                    </span>
+                    <span class=" inline-block font-medium text-base text-grey-1 max-[575px]:flex max-[575px]:mr-0 max-[575px]:mb-2.5">
+                        <i class="flaticon-time text-primary text-xl translate-y-1 inline-block max-[575px]:translate-y-0.5 mr-1"></i>
+                        {{ self.start | time }} – {{ self.end | time }}
+                    </span>
+                </div>
+                <p class=" mb-[25px] para leading-7 capitalize text-grey-1 font-poppins">{{ self.text }}</p>
+                <div class="td-schedule-3-btn flex items-center flex-wrap">
+                    {% for person in self.speakers %}
+                    <div class="td-schedule-3-user-wrap flex items-center  max-[575px]:mr-5 max-[575px]:mb-[15px]">
+                        <span class="td-schedule-3-user mr-[10px]">{% if person.image %}
+                          {% image person.image fill-44x44 class="rounded-[50%]" %}
+                        </span>{% endif %}
+                        <div>
+                            <h6 class="name font-semibold text-base text-black mb-0">{{ person.full_name }}</h6>
+                            <span class="position font-normal text-xs capitalize text-grey-1">{{ person.position }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% for call_to_action in self.buttons %}
+                    {% if forloop.first %}<span class="dvdr w-0.5 h-[41px] inline-block mx-[30px] bg-[#d2d2d2] max-[575px]:hidden"></span>{% endif %}
+                      {% include_block call_to_action %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

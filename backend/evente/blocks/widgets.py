@@ -124,10 +124,13 @@ class PricingCard(AutoTemplate, SettingStructBlock):
         icon = "decimal"
 
 
-class TestimonialBlock(SettingStructBlock):
+class PersonBlock(blocks.StructBlock):
     full_name = blocks.CharBlock(label=_("Name"))
     position = blocks.CharBlock(label=_("Position"), required=False)
     image = ImageBlock(label_=("Image"), required=False)
+
+
+class TestimonialBlock(PersonBlock, SettingStructBlock):
     stars = blocks.ChoiceBlock(
         [(int(n), n) for n in "12345"], label=_("Stars"), default=5
     )
@@ -142,3 +145,21 @@ class TestimonialSlider(AutoTemplate, SettingStructBlock):
         group = _("Widgets")
         collapsed = True
         icon = "pick"
+
+
+class ScheduleItem(AutoTemplate, SettingStructBlock):
+    title = blocks.CharBlock(label=_("Title"))
+    location = blocks.CharBlock(label=_("Location"))
+    text = blocks.CharBlock(label=_("Text"))
+    start = blocks.DateTimeBlock(label=_("Start"))
+    end = blocks.DateTimeBlock(label=_("End"))
+    link = LinkBlock(label=_("Link"), required=False)
+    image = ImageBlock(label_=("Image"), required=False)
+    speakers = blocks.ListBlock(PersonBlock(), label=_("Speakers"))
+    buttons = blocks.ListBlock(CallToAction(), required=False)
+
+    class Meta:
+        label = _("Schedule item")
+        group = _("Widgets")
+        collapsed = True
+        icon = "calendar-check"
