@@ -1,0 +1,3 @@
+{% load evente_tags %}{% tinyid as uid %}
+<div id="map-{{uid}}" class="osm-map w-full h-[543px]" data-json="{{uid}}" aria-label="{{ self.location_name }}"></div>
+{{ self.map|json_script:uid }}

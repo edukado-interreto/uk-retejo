@@ -144,6 +144,9 @@ class Colors(TextChoices):
     def is_absolute(self):
         return self in self.absolute_colors()
 
+    def as_var(self, lightness: Lightness | None):
+        return f"--color-{self}" if self.is_absolute else f"--color-{self}-{lightness}"
+
     def display(self, obj: str, lightness: Lightness | None, opacity=None):
         assert obj in ("border", "bg", "text")
         lightness = Lightness.get_default(lightness)

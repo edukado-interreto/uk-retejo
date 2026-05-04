@@ -4,8 +4,7 @@ from wagtail import blocks
 from wagtail.images.blocks import ImageBlock
 
 from evente.choices import TimeUnits
-from evente.choices.tailwind import TextTransform
-from .components import BaseSocialLink, LinkBlock, CallToAction
+from evente.choices.tailwind import Colors, TextTransform
 from evente.mixins import (
     AutoTemplate,
     BgColorMixin,
@@ -13,6 +12,9 @@ from evente.mixins import (
     SettingStructBlock,
     TextMixin,
 )
+from evente.utils import parse_osm
+
+from .components import BaseSocialLink, CallToAction, LinkBlock
 
 
 class CountdownUnit(blocks.StructBlock):
@@ -156,10 +158,43 @@ class ScheduleItem(AutoTemplate, SettingStructBlock):
     link = LinkBlock(label=_("Link"), required=False)
     image = ImageBlock(label_=("Image"), required=False)
     speakers = blocks.ListBlock(PersonBlock(), label=_("Speakers"))
-    buttons = blocks.ListBlock(CallToAction(), required=False)
+    buttons = blocks.ListBlock(CallToAction(), label=_("Buttons"), required=False)
 
     class Meta:
         label = _("Schedule item")
         group = _("Widgets")
         collapsed = True
         icon = "calendar-check"
+
+
+class MapBlock(AutoTemplate, ColorMixin, SettingStructBlock):
+    class Styles(TextChoices):
+        POSITRON = "positron", _("Positron")
+        BRIGHT = "bright", _("Bright")
+        LIBERTY = "liberty", _("Liberty")
+
+    style = blocks.ChoiceBlock(
+        Styles.choices,
+        default=Styles.POSITRON,
+        label=_("Style"),
+        _setting=True,
+    )
+
+    location_name = blocks.CharBlock(label=_("Name"), default="", required=False)
+    osm_url = blocks.URLBlock(
+        label=_("OpenStreetMap URL"),
+        help_text="https://osm.org/#map=12/53.1276/23.0964&layers=N",
+    )
+
+    class Meta:
+        label = _("Map")
+        group = _("Widgets")
+        collapsed = True
+        icon = "site"
+        default = {"color": Colors.PRIMARY}
+
+    def get_context(self, value, parent_context=None):
+        value["map"] = parse_osm(value["osm_url"])
+        value["map"]["color"] = Colors(value["color"]).as_var(value["lightness"])
+        value["map"]["style"] = value["style"]
+        return super().get_context(value, parent_context)

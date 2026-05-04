@@ -1,11 +1,19 @@
+from secrets import token_urlsafe
+
 from django import template
 from wagtail.models.pages import Page
 
 from evente.choices.tailwind import BREAKPOINTS, Colors, FontSizes, Widths
-from evente.mixins import SpacingMixin, TextMixin, FlexMixin
+from evente.mixins import FlexMixin, SpacingMixin, TextMixin
 from evente.models import EventeSettings
 
 register = template.Library()
+
+
+@register.simple_tag()
+def tinyid(size=3):
+    """String length is about math.ceil(size * 4/3)."""
+    return token_urlsafe(size)
 
 
 @register.simple_tag()
@@ -51,6 +59,15 @@ def evente_css_tags(exclude=""):
 @register.inclusion_tag("evente/tags/evente_js_tags.html")
 def evente_js_tags(exclude=""):
     return {"exclude": exclude.split()}
+
+
+@register.simple_tag()
+def tw_color_var(values, /, prefix="", opacity=None):
+    if color := values.get(f"{prefix}color"):
+        color = Colors(color)
+    else:
+        return ""
+    return color.as_var(values.get(f"{prefix}lightness"))
 
 
 @register.simple_tag()

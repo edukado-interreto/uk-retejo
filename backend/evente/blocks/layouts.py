@@ -8,13 +8,14 @@ from wagtail.blocks import (
     StreamBlock,
 )
 
-from evente.blocks.components import CallToAction, ExtraRichText, FlatFeature, AboutItem
+from evente.blocks.components import AboutItem, CallToAction, ExtraRichText, FlatFeature
 from evente.blocks.widgets import (
-    SwiperSlider,
+    MapBlock,
     PersonCard,
     PricingCard,
-    TestimonialSlider,
     ScheduleItem,
+    SwiperSlider,
+    TestimonialSlider,
 )
 from evente.choices.tailwind import (
     Colors,
@@ -30,12 +31,12 @@ from evente.mixins import (
     BgMixin,
     ColorMixin,
     CssMixin,
+    FlexMixin,
     FontMixin,
     SettingStructBlock,
     SpacingMixin,
     TextMixin,
     WidthMixin,
-    FlexMixin,
 )
 
 
@@ -168,6 +169,7 @@ class SimpleSection(SectionBlock):
             ("header", SectionHeader()),
             ("text", ExtraRichText()),
             ("row", SectionRow()),
+            ("map", MapBlock()),
         ],
         required=False,
         collapsed=True,
