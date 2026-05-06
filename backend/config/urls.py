@@ -44,7 +44,7 @@ def debug_urlpatterns():
 urlpatterns = [
     path("favicon.ico", favicon),
     *static_urlpatterns,
-    # *media_urlpatterns(view=serve_upload),
+    *media_urlpatterns(view=serve_upload),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
