@@ -1,8 +1,13 @@
 from datetime import date, timedelta
 from random import choices, randint
+from typing import Any
 
+from django.contrib.auth import get_user_model
+from django.db import transaction
+from django.utils import timezone
 from faker import Faker
 from slugify.slugify import slugify
+from wagtail.fields import StreamField
 
 from apps.devel.constants import (
     AGE_GROUP_WEIGHTS,
@@ -79,3 +84,24 @@ def to_latin(name):
     return slugify(
         name, separator=" ", lowercase=False, allow_unicode=is_latin(name)
     ).title()
+
+
+def save_page(page, fields: dict[str, tuple[type, list[Any]]], user=None):
+    if not hasattr(page, "page_ptr_id"):
+        page = page.specific
+
+    # {'field_name': (CustomStreamBlock, [ {'id': _, 'type': _, 'value': _}, ... ])}
+    # data = page.specific.body.get_prep_value()
+    # {'body': (BodyContent, data)}
+    for field_name, (stream_class, data_list) in fields.items():
+        setattr(page, field_name, StreamField(stream_class()).to_python(data_list))
+
+    if isinstance(user, str):
+        user = get_user_model().objects.get(username=user)
+
+    with transaction.atomic():
+        revision = page.save_revision(user=user)
+        revision.publish()
+        page.live_revision, page.live_revision_id = revision, revision.id
+        page.last_revision_created_at = timezone.now()
+        page.save()
