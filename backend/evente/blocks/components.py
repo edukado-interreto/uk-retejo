@@ -6,7 +6,15 @@ from wagtail import blocks
 
 from evente.choices import Colors, EventeIcons, Flaticons, FontAwesomeStyles
 from evente.fields import FontAwesomeBlock, FontAwesomeField
-from evente.mixins import AutoTemplate, ColorMixin, SettingStructBlock, SpacingMixin
+from evente.mixins import (
+    AutoTemplate,
+    ColorMixin,
+    FontMixin,
+    SettingStructBlock,
+    SpacingMixin,
+    TextMixin,
+)
+from evente.choices import tailwind
 
 url_validator = URLValidator()
 
@@ -28,19 +36,25 @@ class LinkBlock(blocks.StructBlock):
         icon = "link"
 
     def clean(self, value):
+        required = getattr(self.meta, "required", True)
         result = super().clean(value)
+
         if not (result["page"] or result["url"]):
-            raise ValidationError(
-                gettext("You must specify either an internal page or an external URL")
-            )
+            if required and not result["url"].startswith("#"):
+                raise ValidationError(
+                    gettext(
+                        "You must specify either an internal page or an external URL"
+                    )
+                )
         return result
 
     def deconstruct(self):
         return ("evente.blocks.components.LinkBlock", [], self._constructor_kwargs)
 
 
-class CallToAction(AutoTemplate, LinkBlock, SettingStructBlock):
+class CallToAction(AutoTemplate, SettingStructBlock):
     text = blocks.CharBlock(required=True, help_text="Text to display in the button")
+    link = LinkBlock(label=_("Link"))
     append_icon = blocks.ChoiceBlock(
         [("arrow-top-right", _("Arrow top right"))],
         default="arrow-top-right",
@@ -100,7 +114,7 @@ class FlatFeature(AutoTemplate, ColorMixin, SettingStructBlock):
         }
 
 
-class AboutItem(AutoTemplate, ColorMixin, SettingStructBlock):
+class AboutItem(AutoTemplate, TextMixin, FontMixin, ColorMixin, SettingStructBlock):
     title = blocks.CharBlock(label=_("Title"))
     flaticon = blocks.ChoiceBlock(
         Flaticons.choices,
@@ -115,10 +129,7 @@ class AboutItem(AutoTemplate, ColorMixin, SettingStructBlock):
     font_awesome = FontAwesomeBlock(
         label=_("Font Awesome icon"),
     )
-
-    class Meta:
-        icon = "circle-plus"
-        label = _("About item")
+    link = LinkBlock(label=_("Link"), required=False)
 
     def clean(self, value):
         result = super().clean(value)
@@ -130,3 +141,12 @@ class AboutItem(AutoTemplate, ColorMixin, SettingStructBlock):
         if sum(map(bool, xor_values)) > 1:
             raise ValidationError(gettext("You must specify only one icon"))
         return result
+
+    class Meta:
+        icon = "circle-plus"
+        label = _("About item")
+        default = {
+            "color": Colors.SECONDARY,
+            "font_weight": tailwind.FontWeights.SEMIBOLD,
+            "font_size": tailwind.FontSizes.XL2,
+        }

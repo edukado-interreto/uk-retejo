@@ -37,13 +37,14 @@ def href(context, block):
     page = block.get("page")
     url = block.get("url", block.get("href", block.get("link")))
 
-    if page is None and url:
-        return url
+    if page is None:
+        return url if url else ""
 
     if not isinstance(page, Page):
         raise ValueError("pageurl tag expected a Page object, got %r" % page)
 
-    return page.get_url(request=context.get("request"))
+    page_url = page.get_url(request=context.get("request"))
+    return f"{page_url}{url}" if url.startswith("#") else page_url
 
 
 @register.inclusion_tag("evente/tags/evente_theme.html", takes_context=True)
@@ -85,7 +86,8 @@ def tw_font(block, breakpoints=None):
     weight = block.get("font_weight")
     size = block.get("font_size")
     sizes = FontSizes(size).dynamic(breakpoints) if size else []
-    return " ".join([family, weight, *sizes]).strip()
+    values = [family, weight, *sizes]
+    return " ".join(val for val in values if val).strip()
 
 
 @register.simple_tag()

@@ -70,7 +70,7 @@ class SwiperSlide(AutoTemplate, SettingStructBlock):
 class SwiperSlider(
     AutoTemplate, TextMixin, BgColorMixin, ColorMixin, SettingStructBlock
 ):
-    slides = blocks.ListBlock(SwiperSlide())
+    slides = blocks.ListBlock(SwiperSlide(), collapsed=True)
 
     class Meta:
         label = _("Swiper slider")

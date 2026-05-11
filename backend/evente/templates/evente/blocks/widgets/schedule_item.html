@@ -3,7 +3,7 @@
     <div class="row items-center">
         <div class="xl:w-4/12 lg:w-5/12">
             <div class="td-schedule-3-thumb relative overflow-hidden ml-[30px] mr-10 my-[30px] rounded-[10px] min-[576px]:max-[767px]:m-[30px] max-[575px]:m-[30px]">
-                <a href="{% href self.link %}">
+                <a href="{% href self.link %}" aria-label="{{ self.title }}">
   {% image self.image fill-360x270 class="[transition:all_0.4s_ease] rounded-[10px] group-hover:scale-110 w-full" %}
                 </a>
                 <span class="td-schedule-2-date rounded-[6px_0px_0px_6px] left-auto right-0 top-[22px] font-medium text-sm text-white inline-block absolute px-3.5 py-0.5 font-poppins bg-primary"><i class="flaticon-calendar translate-y-px inline-block mr-[5px]"></i> {{ self.start|date }}</span>
@@ -30,7 +30,7 @@
                           {% image person.image fill-44x44 class="rounded-[50%]" %}
                         </span>{% endif %}
                         <div>
-                            <h6 class="name font-semibold text-base text-black mb-0">{{ person.full_name }}</h6>
+                            <h3 class="name font-semibold text-base text-black mb-0">{{ person.full_name }}</h3>
                             <span class="position font-normal text-xs capitalize text-grey-1">{{ person.position }}</span>
                         </div>
                     </div>

@@ -133,7 +133,7 @@ class SectionHeader(AutoTemplate, TextMixin, SettingStructBlock):
         }
 
 
-class SectionContent(StreamBlock):
+class ColumnContent(StreamBlock):
     text = ExtraRichText()
     flat_feature = FlatFeature()
     header = SectionHeader()
@@ -150,7 +150,7 @@ class SectionContent(StreamBlock):
 
 
 class SectionColumn(WidthMixin, TextMixin, SettingStructBlock):
-    content = SectionContent(required=False)
+    content = ColumnContent(required=False)
 
     class Meta:
         group = _("Layout")
@@ -164,17 +164,25 @@ class SectionRow(AutoTemplate, FlexMixin, SpacingMixin, SettingStructBlock):
         icon = "dots-horizontal"
 
 
+class SectionContent(StreamBlock):
+    text = ExtraRichText()
+    header = SectionHeader()
+    row = SectionRow()
+    map = MapBlock()
+    schedule_item = ScheduleItem()
+    # call_to_action = CallToAction()
+    # person_card = PersonCard()
+    # pricing_card = PricingCard()
+    # testimonial_slider = TestimonialSlider()
+    # about_item = AboutItem()
+
+    class Meta:
+        required = False
+        collapsed = True
+
+
 class SimpleSection(SectionBlock):
-    content = StreamBlock(
-        [
-            ("header", SectionHeader()),
-            ("text", ExtraRichText()),
-            ("row", SectionRow()),
-            ("map", MapBlock()),
-        ],
-        required=False,
-        collapsed=True,
-    )
+    content = SectionContent(required=False, collapsed=True)
 
     class Meta:
         group = _("Layout")
