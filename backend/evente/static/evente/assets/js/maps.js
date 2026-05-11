@@ -52,7 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
       zoom: options.zoom,
     })
 
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }))
+    // Disable map zoom when using scroll
+    map.scrollZoom.disable()
+
+    // Add only zoom buttons
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false, visualizeRoll: false }))
 
     if (options.marker) {
       new maplibregl.Marker({ color: `var(${options.color})` })

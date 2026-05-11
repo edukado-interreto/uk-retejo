@@ -143,6 +143,7 @@ class SectionContent(StreamBlock):
     testimonial_slider = TestimonialSlider()
     schedule_item = ScheduleItem()
     about_item = AboutItem()
+    map = MapBlock()
 
     class Meta:
         collapsed = True

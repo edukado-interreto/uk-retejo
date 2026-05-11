@@ -173,6 +173,13 @@ class MapBlock(AutoTemplate, ColorMixin, SettingStructBlock):
         BRIGHT = "bright", _("Bright")
         LIBERTY = "liberty", _("Liberty")
 
+    marker = blocks.ChoiceBlock(
+        [(True, _("Add marker")), (False, _("No marker"))],
+        required=False,
+        label=_("Marker"),
+        _setting=True,
+    )
+
     style = blocks.ChoiceBlock(
         Styles.choices,
         default=Styles.POSITRON,
@@ -183,7 +190,7 @@ class MapBlock(AutoTemplate, ColorMixin, SettingStructBlock):
     location_name = blocks.CharBlock(label=_("Name"), default="", required=False)
     osm_url = blocks.URLBlock(
         label=_("OpenStreetMap URL"),
-        help_text="https://osm.org/#map=12/53.1276/23.0964&layers=N",
+        help_text="https://osm.org/#map=12/53.135/23.158&layers=N",
     )
 
     class Meta:
@@ -194,7 +201,15 @@ class MapBlock(AutoTemplate, ColorMixin, SettingStructBlock):
         default = {"color": Colors.PRIMARY}
 
     def get_context(self, value, parent_context=None):
-        value["map"] = parse_osm(value["osm_url"])
-        value["map"]["color"] = Colors(value["color"]).as_var(value["lightness"])
-        value["map"]["style"] = value["style"]
-        return super().get_context(value, parent_context)
+        map_data = parse_osm(value["osm_url"])
+
+        # If marker is unset, rely on OSM URL `layers=N`, otherwise, set it explicitly
+        if isinstance(value["marker"], bool):
+            map_data["marker"] = value["marker"]
+        map_data["style"] = value["style"]
+        map_data["color"] = Colors(value["color"]).as_var(value["lightness"])
+
+        return super().get_context(
+            {"location_name": value["location_name"], "map": map_data},
+            parent_context,
+        )
