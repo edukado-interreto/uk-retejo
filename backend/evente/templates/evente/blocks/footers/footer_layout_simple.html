@@ -23,7 +23,7 @@
             {% for link in settings.evente.EventeSettings.social_media %}
               <span class="ml-[13px]">
                 <a class="text-[22px] text-[#C2C2C2] hover:text-white" href="{{ link.value.href }}">
-                  <i class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i>
+                  <i title="{{ link.value.title }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i>
                 </a>
               </span>
             {% endfor %}
