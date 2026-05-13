@@ -4,17 +4,17 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
-from evente.choices import Colors, EventeIcons, Flaticons, FontAwesomeStyles
+from evente.choices import Colors, EventeIcons, Flaticons, FontAwesomeStyles, tailwind
 from evente.fields import FontAwesomeBlock, FontAwesomeField
 from evente.mixins import (
     AutoTemplate,
     ColorMixin,
     FontMixin,
+    MarginHorizMixin,
     SettingStructBlock,
     SpacingMixin,
     TextMixin,
 )
-from evente.choices import tailwind
 
 url_validator = URLValidator()
 
@@ -90,7 +90,15 @@ class SocialLink(AutoTemplate, BaseSocialLink):
     pass
 
 
-class ExtraRichText(AutoTemplate, ColorMixin, SpacingMixin, SettingStructBlock):
+class ExtraRichText(
+    AutoTemplate, ColorMixin, MarginHorizMixin, SpacingMixin, SettingStructBlock
+):
+    prose = blocks.BooleanBlock(
+        label=_("Prose"),
+        help_text=_("Typography and limited width"),
+        default=True,
+        _setting=True,
+    )
     content = blocks.RichTextBlock()
 
     class Meta:

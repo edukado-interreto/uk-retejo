@@ -114,8 +114,8 @@ class HeaderMobileLogo(AutoTemplate, blocks.StructBlock):
 
 
 class HeaderMobileSearch(AutoTemplate, blocks.StructBlock):
+    text = blocks.CharBlock(label=_("Placeholder"), default=_("Search here…"))
     page = blocks.PageChooserBlock(label=_("Search page"))
-    text = blocks.CharBlock(label=_("Name"), default=_("Search here…"))
 
 
 class HeaderMobileMainMenu(AutoTemplate, blocks.StaticBlock):

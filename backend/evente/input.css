@@ -181,7 +181,7 @@
     h4,
     h5,
     h6 {
-      @apply text-black font-[700] leading-[1.1]
+      @apply leading-[1.1]
       [text-transform:unset]
     }
 

@@ -86,14 +86,27 @@ class SpacingMixin(StructBlock):
     padding_top = ChoiceBlock(
         label=_("Padding top"),
         choices=tailwind.PaddingTop.choices,
-        default=tailwind.PaddingTop.PT140,
         required=False,
         _setting=True,
     )
     padding_bottom = ChoiceBlock(
         label=_("Padding bottom"),
         choices=tailwind.PaddingBottom.choices,
-        default=tailwind.PaddingBottom.PB110,
+        required=False,
+        _setting=True,
+    )
+    padding_x = ChoiceBlock(
+        tailwind.PaddingX.choices,
+        label=_("Padding horizontal"),
+        required=False,
+        _setting=True,
+    )
+
+
+class MarginHorizMixin(StructBlock):
+    margin_x = ChoiceBlock(
+        tailwind.MarginX.choices,
+        label=_("Horizontal margins"),
         required=False,
         _setting=True,
     )

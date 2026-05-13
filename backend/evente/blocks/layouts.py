@@ -33,11 +33,13 @@ from evente.mixins import (
     CssMixin,
     FlexMixin,
     FontMixin,
+    MarginHorizMixin,
     SettingStructBlock,
     SpacingMixin,
     TextMixin,
     WidthMixin,
 )
+from evente.choices import tailwind
 
 
 class SectionBlock(AutoTemplate, BgMixin, SpacingMixin, CssMixin, SettingStructBlock):
@@ -149,7 +151,7 @@ class ColumnContent(StreamBlock):
         collapsed = True
 
 
-class SectionColumn(WidthMixin, TextMixin, SettingStructBlock):
+class SectionColumn(TextMixin, SpacingMixin, WidthMixin, SettingStructBlock):
     content = ColumnContent(required=False)
 
     class Meta:
@@ -187,6 +189,10 @@ class SimpleSection(SectionBlock):
     class Meta:
         group = _("Layout")
         collapsed = True
+        default = {
+            "padding_top": tailwind.PaddingTop.PT140,
+            "padding_bottom": tailwind.PaddingBottom.PB110,
+        }
 
 
 class BodyContent(StreamBlock):

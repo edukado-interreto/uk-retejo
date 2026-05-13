@@ -203,7 +203,7 @@ WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.databa
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = "csv docx key odt pdf pptx rtf txt xlsx zip".split()
 # https://docs.wagtail.org/en/stable/topics/writing_templates.html#responsive-embeds
-WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
+# WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
 WAGTAILEMBEDS_FINDERS = EMBEDS_FINDERS
 
 # Wagtail Menus

@@ -3,7 +3,7 @@
     {% for link in settings.evente.EventeSettings.social_media %}
       <li class="relative block">
         <a class="flex items-center justify-center relative text-[22px] text-primary [transition:all_500ms_ease] hover:text-black" href="{{ link.value.href }}">
-          <i title="{{ link.value.name }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i>
+          <i title="{{ link.value.title }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i>
         </a>
       </li>
     {% endfor %}

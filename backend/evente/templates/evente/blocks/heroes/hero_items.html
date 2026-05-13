@@ -15,7 +15,7 @@
 <div class="td-hero-social flex items-center absolute -translate-y-2/4 -rotate-180 gap-6 left-0 top-[247px] [writing-mode:vertical-rl] min-[576px]:max-[767px]:hidden max-[575px]:hidden">
   <span class=" font-medium text-sm {% tw_color value 'text' opacity='90' %} flex-[0_0_auto] items-center justify-center font-poppins">{{ value.text }}</span>
 {% for link in settings.evente.EventeSettings.social_media %}
-  <span class=" font-medium text-sm {% tw_color value 'text' opacity='90' %} flex-[0_0_auto] items-center justify-center font-poppins"><a class=" text-[19px] rotate-180 flex hover:text-secondary" href="{{ link.value.href }}"><i title="{{ link.value.name }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i></a></span>
+  <span class=" font-medium text-sm {% tw_color value 'text' opacity='90' %} flex-[0_0_auto] items-center justify-center font-poppins"><a class=" text-[19px] rotate-180 flex hover:text-secondary" href="{{ link.value.href }}"><i title="{{ link.value.title }}" class="{{ link.value.fa_style }} {{ link.value.fa_name }}"></i></a></span>
 {% endfor %}
   <span class="hero-border font-medium text-sm flex-[0_0_auto] items-center justify-center font-poppins w-[3px] h-[104px] inline-block {% tw_color value 'bg' opacity='90' %}"></span>
 </div>

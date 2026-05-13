@@ -158,6 +158,28 @@ class Colors(TextChoices):
         )
 
 
+class MarginX(TextChoices):
+    """https://tailwindcss.com/docs/margin"""
+
+    AUTO = "mx-auto", _("Auto")
+
+    XS = "mx-2 md:mx-4 lg:mx-6", _("XS")
+    S = "mx-4 md:mx-8 lg:mx-12", _("S")
+    M = "mx-6 md:mx-12 lg:mx-20", _("M")
+    L = "mx-8 md:mx-16 lg:mx-30", _("L")
+    XL = "mx-10 md:mx-20 lg:mx-40", _("XL")
+
+
+class PaddingX(TextChoices):
+    """https://tailwindcss.com/docs/margin"""
+
+    XS = "px-4 md:px-6 lg:px-8", _("XS")
+    S = "px-6 md:px-10 lg:px-14", _("S")
+    M = "px-8 md:px-12 lg:px-20", _("M")
+    L = "px-10 md:px-16 lg:px-30", _("L")
+    XL = "px-12 md:px-20 lg:px-40", _("XL")
+
+
 class Widths(TextChoices):
     """https://tailwindcss.com/docs/colors"""
 

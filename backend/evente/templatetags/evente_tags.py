@@ -4,7 +4,7 @@ from django import template
 from wagtail.models.pages import Page
 
 from evente.choices.tailwind import BREAKPOINTS, Colors, FontSizes, Widths
-from evente.mixins import FlexMixin, SpacingMixin, TextMixin
+from evente.mixins import FlexMixin, SpacingMixin, TextMixin, MarginHorizMixin
 from evente.models import EventeSettings
 
 register = template.Library()
@@ -109,6 +109,12 @@ def tw_widths(block):
 @register.simple_tag()
 def tw_spacing(block) -> str:
     values = (block.get(field) for field in SpacingMixin.base_blocks)
+    return " ".join(val for val in values if val).strip()
+
+
+@register.simple_tag()
+def tw_margin_x(block) -> str:
+    values = (block.get(field) for field in MarginHorizMixin.base_blocks)
     return " ".join(val for val in values if val).strip()
 
 
