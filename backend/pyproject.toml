@@ -5,7 +5,6 @@ description = "La retejo de UK"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-  "bpython>=0.26",
   "dj-database-url>=2.3.0",
   "django~=6.0",
   "django-debug-toolbar>=6.2.0",
@@ -27,6 +26,9 @@ dev = [
   "faker>=40.4.0",
   "ruff>=0.15.7",
 ]
+prod = [
+  "wagtail-evente>=0.1.0",
+]
 
 [tool.ruff.lint]
 ignore = ["E731"] # lambda/def
@@ -40,3 +42,12 @@ mypy_path = "stubs"
 
 [tool.django-stubs]
 django_settings_module = "config.settings"
+
+[tool.uv.sources]
+wagtail-evente = { index = "pypi-ikso" }
+
+[[tool.uv.index]]
+name = "pypi-ikso"
+url = "https://pypi.ikso.net/simple"
+authenticate = "always"
+explicit = true

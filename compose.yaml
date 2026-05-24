@@ -6,29 +6,17 @@ secrets:
 
 services:
 
-  caddy:
-    image: caddy:alpine
-    user: $USER_ID:$GROUP_ID
-    environment:
-      - LOCAL_HOST=${LOCAL_HOST}
-    ports:
-      - 127.0.0.1:443:443
-      - 127.0.0.1:24678:24678
-    volumes:
-      - ./containers/volumes/caddy/data:/data:Z
-      - ./containers/volumes/caddy/etc/caddy:/etc/caddy:Z
-    networks:
-      - public
-      - backend
-
   django:
     build:
       dockerfile: containers/Containerfile
       target: development
+      additional_contexts:
+        evente: ../wagtail-evente
       args:
       - HOME=/backend
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
+      - PYPI_PASSWORD=$PYPI_PASSWORD
     command: /bin/sh -c "./manage.py migrate && ./manage.py ${DJANGO_RUNSERVER:-serve}"
     user: $USER_ID:$GROUP_ID
     secrets:
@@ -41,6 +29,7 @@ services:
     volumes:
       - ./backend:/backend:z
       - ./containers/volumes/assets:/assets:z
+      - ../wagtail-evente/src/evente:/backend/evente:z
     working_dir: /backend
     depends_on:
       - caddy
@@ -70,6 +59,21 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/POSTGRES_PASSWORD
     restart: unless-stopped
     networks:
+      - backend
+
+  caddy:
+    image: caddy:alpine
+    user: $USER_ID:$GROUP_ID
+    environment:
+      - LOCAL_HOST=${LOCAL_HOST}
+    ports:
+      - 127.0.0.1:443:443
+      - 127.0.0.1:24678:24678
+    volumes:
+      - ./containers/volumes/caddy/data:/data:Z
+      - ./containers/volumes/caddy/etc/caddy:/etc/caddy:Z
+    networks:
+      - public
       - backend
 
   tailwind:

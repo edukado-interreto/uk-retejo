@@ -3,6 +3,7 @@ name: Docker Image Build and Push
 on:
   push:
     branches: [ "main", "evente" ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
