@@ -4,7 +4,7 @@ default:
     @just --list
 
 shell:
-    {{ django }} shell_plus
+    {{ django }} shell -v 2
 
 db:
     {{ django }} dbshell

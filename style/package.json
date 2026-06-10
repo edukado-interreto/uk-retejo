@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "description": "Tailwind & DaisyUI to compile app.css to static/uk-retejo.css",
   "scripts": {
-    "watch:css": "npx @tailwindcss/cli -i app.css -o ../backend/config/static/uk-retejo.css --watch=always -m",
-    "build:css": "npx @tailwindcss/cli -i app.css -o ../backend/config/static/uk-retejo.css",
-    "watch:evente": "npx @tailwindcss/cli -i evente.css -o ../backend/evente/static/evente/assets/css/main.css --watch=always -m",
-    "build:evente": "npx @tailwindcss/cli -i evente.css -o ../backend/evente/static/evente/assets/css/main.css"
+    "watch:css": "npx @tailwindcss/cli -i app.css -o ../backend/config/static/uk-retejo.css --watch",
+    "build:css": "npx @tailwindcss/cli -i app.css -o ../backend/config/static/uk-retejo.css --minify"
   },
   "repository": {
     "type": "git",

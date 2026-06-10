@@ -86,7 +86,6 @@ services:
       - ./backend:/backend:z
       - ./style:/style:z
     working_dir: /style
-    # tty: true
     user: $USER_ID:$GROUP_ID
     command: /bin/sh -c "npm i; npm run watch:css"
 

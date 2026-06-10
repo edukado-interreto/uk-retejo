@@ -1,0 +1,29 @@
+{% load l10n wagtailcore_tags evente_tags %}
+<table class="excursions">
+    {% if value.caption %}
+        <caption>{{ value.caption }}</caption>
+    {% endif %}
+    <thead>
+        <tr>
+            {% for col in value.columns %}
+                <th scope="col" {% if forloop.counter == block.value.rest_day|add:1 %}class="restday {% tw_color block.value 'bg' 'rest_day_' %}"{% endif%}>{% if col.heading %}{{ col.heading }}{% else %}<span class="opacity-0">Ekskursoj</span>{% endif %}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in value.rows %}
+            <tr{% if row.0.value|first in "D" %} class="halfday {% tw_color block.value 'bg' 'half_day_' %}"{% endif %}>
+                {% for block_value in row %}
+                  {% if forloop.first %}
+                    <th scope="row">{% include_block block_value %}</th>
+                  {% else %}
+                    <td {% if forloop.counter == block.value.rest_day|add:1 %}class="restday {% tw_color block.value 'bg' 'rest_day_' %}"{% endif%}>
+                        {% if block_value.block.name == 'price' %}{{ block_value.value|floatformat:"-2"|localize }}
+                        {% else %}{% include_block block_value %}{% endif %}
+                    </td>
+                  {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

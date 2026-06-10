@@ -1,5 +1,5 @@
 /* @import 'tailwindcss/theme'; */
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../backend/**/templates/**/*.{html,txt}";
 @source "../backend/{apps,config}/**/*.py";
 @source not inline("container");
@@ -50,6 +50,7 @@
 /* @import "./css/navigation.css"; */
 /* @import "./css/photoswipe.css"; */
 /* @import "./css/page.css"; */
+@import "./css/tables.css";
 /* @import "./css/typography.css"; */
 /* @import "./css/blocks/about.css"; */
 /* @import "./css/blocks/countdown.css"; */
@@ -73,15 +74,15 @@
 }
 
 .responsive-object {
-    position: relative;
+  position: relative;
 }
 
 .responsive-object iframe,
 .responsive-object object,
 .responsive-object embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
