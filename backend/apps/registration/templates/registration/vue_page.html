@@ -6,9 +6,36 @@
 {% block content %}
     {{ page.body|richtext }}
 
+  <section class="container">
     <div id="vue-{{ page.vue_module }}"></div>
-  </div>
+  </section>
 
   {% vite_asset page.entrypoint %}
+
+<style>
+    section.container {
+        min-height: 90vh;
+        margin-block: 4rem;
+    }
+
+    form.mainform h3, form.mainform h4 {
+        color: var(--color-primary);
+        background: none;
+        border-bottom: var(--color-secondary) 1px solid;
+    }
+
+    .n-button {
+        background-color: var(--color-secondary);
+        border-color: var(--color-secondary);
+        border: none;
+        transition: filter .3s var(--n-bezier);
+
+        &:not(.n-button--disabled):hover {
+            background-color: var(--color-secondary);
+            border-color: var(--color-secondary);
+            filter: brightness(1.2);
+        }
+    }
+</style>
 {% endblock content %}
 
