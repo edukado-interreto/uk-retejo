@@ -1,37 +1,8 @@
-/* @import 'tailwindcss/theme'; */
 @import "tailwindcss";
 @source "../backend/**/templates/**/*.{html,txt}";
 @source "../backend/{apps,config}/**/*.py";
-@source not inline("container");
 
 @plugin "@tailwindcss/typography";
-
-/* @plugin "daisyui" { themes: light --default, dark --prefersdark, cmyk; } */
-
-/* @plugin "daisyui/theme" {
-  name: "light";
-  default: true;
-  prefersdark: false;
-  color-scheme: light;
-  --spacing: .2rem;
-  --color-primary: oklch(45.7% 0.299 269.0);
-  --color-secondary: oklch(59.9% 0.242 22.5);
-  --menu-active-bg: var(--color-info);
-}
-
-@plugin "daisyui/theme" {
-  name: "dark";
-  default: false;
-  prefersdark: true;
-  color-scheme: dark;
-  --spacing: .2rem;
-  --color-primary: oklch(45.7% 0.299 269.0);
-  --color-secondary: oklch(59.9% 0.242 22.5);
-  --menu-active-bg: var(--color-info);
-}
- */
-
-/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 @theme {
   --color-primary: #5033ff;
@@ -46,17 +17,9 @@
 }
 */
 
-/* @import "./css/footer.css"; */
-/* @import "./css/navigation.css"; */
 /* @import "./css/photoswipe.css"; */
-/* @import "./css/page.css"; */
 @import "./css/tables.css";
 /* @import "./css/typography.css"; */
-/* @import "./css/blocks/about.css"; */
-/* @import "./css/blocks/countdown.css"; */
-/* @import "./css/blocks/hero.css"; */
-/* @import "./css/blocks/perks.css"; */
-/* @import "./css/blocks/presentation.css"; */
 @import "./css/blocks/program-proposal.css";
 @import "./css/blocks/timeline.css";
 
