@@ -1,5 +1,13 @@
-<div class="pp accordion-item">
-  <details class="accordion-collapse show" open>
-  {% for item in value %}{{ item }}{% endfor %}
-  </details>
-</div>
+{% load wagtailcore_tags %}<article class="program-proposal prose">
+  {% for block in value %}
+    {% if block.block_type == "title_day" %}
+      <h2 class="title-day">{{ block.value.title }}</h2>
+    {% else %}
+      <div class="accordion">
+        <details open>
+        {% include_block block %}
+        </details>
+      </div>
+    {% endif %}
+  {% endfor %}
+</article>

@@ -1,11 +1,11 @@
 <summary class="flex justify-between cursor-pointer collapse-title accordion-button">
-  <h5 class="inline-block not-prose">{{ self.title }}</h5>
+  <h3 class="inline-block not-prose">{{ self.title }}</h3>
   {% if self.deadline %}
   <div class="badge badge-lg badge-secondary font-bold">
     ĝis la {{ self.deadline | date }} 
   </div>
   {% endif %}
 </summary>
-<div data-theme="dark" class="description accordion-collapse collapse-content prose lg:prose-xl">
+<div class="description accordion-collapse collapse-content prose lg:prose-lg">
   {{ self.description }}
 </div>

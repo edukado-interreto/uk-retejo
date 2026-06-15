@@ -1,13 +1,13 @@
 /* === TIMELINE === */
 
-.tl {
-  @apply md:max-w-[80vw] mx-auto pt-40;
+.timeline {
+  @apply relative md:max-w-[80vw] mx-auto;
 
   &::before {
     /* vertical bar for timeline */
-    @apply hidden md:block absolute bg-white left-1/2 top-[500px] w-[2px];
+    @apply hidden md:block absolute bg-slate-100 left-1/2 top-[50px] w-[2px];
     content: "";
-    height: calc(100% - 400px);
+    height: calc(100% - 100px);
     transform: translateX(-50%);
   }
 
@@ -60,7 +60,7 @@
 
     &:hover {
       &::before {
-        background-color: var(--color-primary);
+        background-color: var(--color-secondary);
       }
 
       &:nth-child(odd) {
@@ -77,12 +77,8 @@
 
       .heading-box {
         .day-of-week {
-          @apply text-base bg-primary;
+          @apply text-white bg-secondary;
         }
-      }
-
-      .day-of-week {
-        @apply text-base bg-primary;
       }
 
       .info-box {
@@ -96,13 +92,13 @@
     }
 
     .heading-box {
-      @apply hidden md:flex;
+      @apply hidden md:flex content-center;
       width: 50%;
       padding: 0 64px;
 
       .day-of-week {
-        @apply hidden md:block px-6 py-2 rounded-xl text-2xl text-center font-bold;
-        @apply text-primary bg-blue-200;
+        @apply hidden md:block mb-0 px-6 py-2 rounded-xl text-2xl text-center font-bold;
+        @apply text-secondary bg-secondary/10;
         transition: all 0.3s ease-in-out;
       }
     }
@@ -124,7 +120,8 @@
     }
 
     .time {
-      @apply my-4 px-6 py-2 rounded-xl text-primary bg-blue-200 inline-flex font-medium text-lg;
+      @apply my-4 px-6 py-2 rounded-xl text-primary inline-flex font-medium text-lg;
+      background-color: color-mix(in oklab, var(--color-primary) 10%, white 90%);
     }
 
     .title {

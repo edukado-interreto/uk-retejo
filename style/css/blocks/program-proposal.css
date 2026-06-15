@@ -1,33 +1,25 @@
-.program-proposal-page {
-  @apply mb-24;
+.program-proposal {
+  @apply mb-24 mx-auto;
 
-  h4 {
-    @apply mt-6 px-6 py-4 bg-primary text-white text-center text-2xl font-bold;
+  .title-day {
+    @apply mt-8 mb-0 px-6 py-4 bg-secondary text-white text-center text-2xl font-bold;
 
     &.heading {
       @apply mb-0;
     }
   }
 
-  .block-paragraph_block {
-    @apply my-24;
-  }
-}
-
-.pp {
   details {
-    @apply rounded-none;
-
     summary {
-      @apply bg-primary/90 text-white px-6 py-4;
+      @apply px-6 py-4 bg-primary/80 hover:bg-primary/90 text-white transition;
 
-      h5 {
-        @apply text-white text-xl font-bold;
+      h3 {
+        @apply mb-0 text-white text-xl font-bold;
       }
     }
 
     .description {
-      @apply text-base bg-primary/80 font-medium;
+      @apply bg-primary/10 p-8;
 
       & ul:first-of-type {
         @apply mt-0 pt-3;

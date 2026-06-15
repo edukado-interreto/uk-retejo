@@ -217,6 +217,10 @@ class TimelineBlock(StreamBlock):
         template = "base/blocks/timeline_block.html"
 
 
+class ProgramProposalTitleBlock(StructBlock):
+    title = CharBlock(label=_("Title (day)"))
+
+
 class ProgramProposalItemBlock(StructBlock):
     title = CharBlock()
     deadline = DateBlock(blank=True, required=False)
@@ -227,6 +231,7 @@ class ProgramProposalItemBlock(StructBlock):
 
 
 class ProgramProposalBlock(StreamBlock):
+    title_day = ProgramProposalTitleBlock(blank=True, required=False)
     program_type = ProgramProposalItemBlock(blank=True, required=False)
 
     class Meta:
