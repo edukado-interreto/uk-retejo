@@ -29,13 +29,13 @@
         </n-button>
       </div>
 
-      <program-day :program="dayProgram" />
+      <program-day :program="dayProgram" ref="programDayElement" />
     </template>
   </template>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, nextTick } from 'vue';
 import { formatDateString, dayOfWeekEO } from '@/helpers/time.js';
 import axios from 'axios';
 import ProgramDay from '@/components/program/ProgramDay.vue';
@@ -44,6 +44,7 @@ import { useLocalStorage } from '@vueuse/core';
 
 const program = ref(undefined);
 const pickedDay = ref(null);
+const programDayElement = ref(null);
 
 function fetchData() {
   axios
@@ -59,6 +60,9 @@ function fetchData() {
 
       if (days.value.includes(formattedDate)) {
         pickedDay.value = formattedDate;
+        nextTick(() => {
+          programDayElement.value.scrollToHour(today.getHours());
+        });
       } else {
         pickedDay.value = days.value[0];
       }

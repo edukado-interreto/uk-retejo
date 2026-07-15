@@ -25,9 +25,9 @@
     <li>
       <router-link :to="{ name: 'unuaBulteno' }">Unua Bulteno</router-link>
     </li>
-    <!-- <li>
-      <router-link :to="{ name: 'duaBulteno' }"> Dua Bulteno </router-link>
-    </li> -->
+    <li>
+      <router-link :to="{ name: 'duaBulteno' }">Dua Bulteno</router-link>
+    </li>
     <!-- <li>
       <a href="https://iik.uea.org/2026/" target="_blank">
         Infana Kongreseto (IIK)
@@ -47,6 +47,17 @@
         </n-icon>
       </a>
     </li>
+    <li>
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLScKd20mTBjN7YScuokEKK7FFrXUfbRyhJoQ1yIqy1NSZyKlSg/viewform"
+        target="_blank"
+      >
+        Mendo de salono
+        <n-icon size="18">
+          <ExternalLinkIcon />
+        </n-icon>
+      </a>
+    </li>
     <!-- <li>
       <a href="https://forms.gle/Aoyrw4yLVeAP58mr9" target="_blank">
         Salonmendilo
@@ -56,7 +67,13 @@
       </a>
     </li> -->
     <li>
-      <a href="https://www.graztourismus.at/Prospekte/PDFs/sights-of-graz-esperanto-2025.pdf" target="_blank">
+      <router-link :to="{ name: 'alvenebloj' }">Alvenebloj kaj rabatoj</router-link>
+    </li>
+    <li>
+      <a
+        href="https://www.graztourismus.at/Prospekte/PDFs/grazer-sehenswuerdigkeiten-esperanto-2025.pdf"
+        target="_blank"
+      >
         Broŝuro pri Graz
         <n-icon size="18">
           <ExternalLinkIcon />

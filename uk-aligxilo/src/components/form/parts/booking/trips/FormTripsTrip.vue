@@ -17,7 +17,13 @@
     />
   </div>
 
-  <n-modal v-model:show="showModal" preset="card" style="max-width: 900px" :title="descriptionTitle" size="small">
+  <n-modal v-model:show="showModal" preset="card" style="max-width: 900px" size="small">
+    <template #header>
+      <span v-html="descriptionTitle"></span>
+    </template>
+    <div v-if="descriptionSubtitle">
+      <strong>{{ descriptionSubtitle }}</strong>
+    </div>
     <div v-html="descriptionText"></div>
   </n-modal>
 </template>
@@ -27,6 +33,7 @@ import { ref } from 'vue';
 import { NIcon } from 'naive-ui';
 import InformationCircleOutline from '@/components/ui/icons/InformationCircleOutline.vue';
 import FormTripsSessionsCheckboxes from './FormTripsSessionsCheckboxes.vue';
+import DOMPurify from 'dompurify';
 
 const props = defineProps({
   trip: Array,
@@ -39,11 +46,13 @@ const modelValue = defineModel('modelValue');
 // Modal
 const showModal = ref(false);
 const descriptionTitle = ref('');
+const descriptionSubtitle = ref('');
 const descriptionText = ref('');
 
 function showDescription(option) {
-  descriptionTitle.value = option.id + '. ' + option.name;
-  descriptionText.value = option.description;
+  descriptionTitle.value = DOMPurify.sanitize(option.id + '. ' + option.name);
+  descriptionSubtitle.value = DOMPurify.sanitize(option.subtitle);
+  descriptionText.value = DOMPurify.sanitize(option.description);
   showModal.value = true;
 }
 </script>
@@ -51,6 +60,7 @@ function showDescription(option) {
 <style scoped>
 div.trip {
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 h6 {

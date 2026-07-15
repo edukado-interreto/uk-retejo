@@ -5,73 +5,59 @@
       {{ error }}
     </n-alert>
   </template>
-  <div
-      v-else-if="data === undefined"
-      class="loading"
-  >
+  <div v-else-if="data === undefined" class="loading">
     <n-spin size="large" />
   </div>
   <template v-else>
     <congress-header />
     <n-h2>Mendilo por {{ name }} (kongresnumero {{ data.KN }})</n-h2>
-    <main-form :default-data="data" :edit="true" />
+    <main-form :default-data="data" edit />
   </template>
 </template>
 
-<script>
-import CongressHeader from "@/components/layout/CongressHeader.vue";
-import MainForm from "@/components/MainForm.vue";
-import axios from "axios";
-import {useMessage} from "naive-ui";
+<script setup>
+import { ref, computed } from 'vue';
+import CongressHeader from '@/components/layout/CongressHeader.vue';
+import MainForm from '@/components/MainForm.vue';
+import axios from 'axios';
+import { useMessage } from 'naive-ui';
+import { useRoute } from 'vue-router';
 
-export default {
-  name: "EditRegistration",
-  components: {MainForm, CongressHeader},
-  data() {
-    return {
-      uniqueId: undefined,
-      data: undefined,
-      errorTitle: undefined,
-      error: undefined,
-      message: useMessage(),
-    }
-  },
-  computed: {
-    name() {
-      return `${this.data.persona_nomo} ${this.data.familia_nomo}`.trim();
-    }
-  },
-  methods: {
-    fetchData() {
-      axios.post('/getRegistration', { id: this.uniqueId })
-          .then(result => {
-            if (result.data.success) {
-              this.data = result.data.registration;
-              this.data.akcepto_reguloj = true;
-              this.data.kompreno_pago = true;
-            }
-            else {
-              this.error = result.data.error;
-              this.errorTitle = result.data.errorTitle;
-            }
-          })
-          .catch((error) => {
-            this.message.error(error, {
-              keepAliveOnHover: true
-            });
-          });
-    }
-  },
-  created() {
-    this.uniqueId = this.$route.params.id;
-    if (this.uniqueId === undefined) {
-      this.errorTitle = 'Mankanta identigilo';
-      this.error = 'Se vi volas mendi servojn, bonvolu uzi la ligilon, kiu estis sendita al vi per retpoŝto.';
-    }
-    else {
-      this.fetchData();
-    }
-  }
+const data = ref(undefined);
+const errorTitle = ref(undefined);
+const error = ref(undefined);
+
+const message = useMessage();
+const route = useRoute();
+
+const uniqueId = route.params.id;
+if (uniqueId === undefined) {
+  errorTitle.value = 'Mankanta identigilo';
+  error.value = 'Se vi volas mendi servojn, bonvolu uzi la ligilon, kiu estis sendita al vi per retpoŝto.';
+} else {
+  fetchData();
+}
+
+const name = computed(() => `${data.value.persona_nomo} ${data.value.familia_nomo}`.trim());
+
+function fetchData() {
+  axios
+    .post('/getRegistration', { id: uniqueId })
+    .then((result) => {
+      if (result.data.success) {
+        data.value = result.data.registration;
+        data.value.akcepto_reguloj = true;
+        data.value.kompreno_pago = true;
+      } else {
+        error.value = result.data.error;
+        errorTitle.value = result.data.errorTitle;
+      }
+    })
+    .catch((error) => {
+      message.error(error, {
+        keepAliveOnHover: true,
+      });
+    });
 }
 </script>
 

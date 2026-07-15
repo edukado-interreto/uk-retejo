@@ -1,3 +1,5 @@
+import { numberOfDays } from '@/helpers/time.js';
+
 /**
  * @param {string} birthdayStr
  * @param {boolean} showPersonalData
@@ -78,7 +80,7 @@ export const isChild = (birthdayStr, showPersonalData, memberAgeGroup, formOptio
 function membershipPrice(form, formOptions, countryMembershipCategory, showPersonalData, memberAgeGroup) {
   if (
     form.membreco === formOptions.boolValues.yes ||
-    form.volas_membrigxi !== formOptions.boolValues.yes ||
+    (form.volas_membrigxi !== formOptions.boolValues.yes && form.volas_membrigxi !== 'traktata') ||
     form.membreco_tipo === undefined
   ) {
     return 0;
@@ -107,7 +109,15 @@ export const calculatePrice = (
     return null;
   }
 
-  const aligxkotizo = pricesList[form.kotizo].price;
+  let aligxkotizo = pricesList[form.kotizo].price;
+  const days = numberOfDays(form.partopreno_de, form.partopreno_gxis);
+  if (days < 3) {
+    if (form.membreco === formOptions.boolValues.yes || form.volas_membrigxi === formOptions.boolValues.yes) {
+      aligxkotizo = days * formOptions.dayPriceMember;
+    } else {
+      aligxkotizo = days * formOptions.dayPriceNonmember;
+    }
+  }
   const membrokotizo = membershipPrice(form, formOptions, countryMembershipCategory, showPersonalData, memberAgeGroup);
   let total = aligxkotizo + membrokotizo;
   const price = {

@@ -25,27 +25,10 @@
   </n-grid>
 </template>
 
-<script>
+<script setup>
 import TextInput from '@/components/form/fields/TextInput.vue';
 
-export default {
-  components: { TextInput },
-  props: {
-    modelValue: Object,
-  },
-  emits: ['update:modelValue'],
-  name: 'FormNametag',
-  computed: {
-    form: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit('update:modelValue', value);
-      },
-    },
-  },
-};
+const form = defineModel();
 </script>
 
 <style scoped></style>

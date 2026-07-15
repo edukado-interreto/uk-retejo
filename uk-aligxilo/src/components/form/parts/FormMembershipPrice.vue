@@ -4,6 +4,24 @@
       Vidi klarigojn pri la kotizoj
     </router-link>
   </p>
+  <n-grid x-gap="12" cols="1 s:2" responsive="screen">
+    <n-gi>
+      <date-input
+        v-model="form.partopreno_de"
+        field-name="partopreno_de"
+        :min="formOptions.congressStart"
+        :max="form.partopreno_gxis"
+      />
+    </n-gi>
+    <n-gi>
+      <date-input
+        v-model="form.partopreno_gxis"
+        field-name="partopreno_gxis"
+        :min="form.partopreno_de"
+        :max="formOptions.congressEnd"
+      />
+    </n-gi>
+  </n-grid>
   <n-card class="custom-card" title="Membreco">
     <n-grid x-gap="28" cols="1 s:6 m:7" responsive="screen">
       <n-gi span="1 s:5 m:6">
@@ -57,17 +75,12 @@
   </n-card>
 
   <price-type-choice
-    v-model="form.kotizo"
-    v-model:cxefaligxinto="form.cxefaligxinto"
-    v-model:handikapatestilo="form.handikapatestilo"
+    v-model="form"
     :required="requiredFields.kotizo"
     :show-birth-date-warning="showPersonalData"
     :prices-list="pricesList"
     :member-age-group="memberAgeGroup"
-    :birthday="form.naskigxdato"
     :membership="showAsMember"
-    :uea_kodo="form.uea_kodo"
-    :full-name="(form.persona_nomo + ' ' + form.familia_nomo).trim()"
     field-name="kotizo"
     :special-category="specialCategory"
   />
@@ -128,9 +141,9 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import SelectInput from '@/components/form/fields/SelectInput.vue';
 import RadioInput from '@/components/form/fields/RadioInput.vue';
+import DateInput from '@/components/form/fields/DateInput.vue';
 import SlideTransition from '@/components/ui/SlideTransition.vue';
 import PriceTypeChoice from '@/components/form/parts/PriceTypeChoice.vue';
-import { useRouter } from 'vue-router';
 
 const props = defineProps({
   errors: Object,
@@ -171,7 +184,8 @@ const showAsMember = computed(() => {
   }
   return (
     form.value.membreco === formOptions.value.boolValues.yes ||
-    form.value.volas_membrigxi === formOptions.value.boolValues.yes
+    form.value.volas_membrigxi === formOptions.value.boolValues.yes ||
+    form.value.volas_membrigxi === 'traktata'
   );
 });
 

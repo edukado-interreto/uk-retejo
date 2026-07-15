@@ -1,10 +1,10 @@
 <template>
-  <!-- <n-h1>Listo de aliĝintoj</n-h1> -->
+  <n-h1>Listo de aliĝintoj</n-h1>
   <n-card v-if="participants === null" class="custom-card" title="Sekurecdemando">
     <p style="margin-top: 0">En kiu jaro okazos la 111-a UK en Graz?</p>
 
     <n-input-group>
-      <n-input type="text" size="large" style="width: 16em" v-model:value="year" @keydown.enter="fetchData" autofocus />
+      <n-input type="text" size="large" style="width: 16em" v-model:value="year" @keydown.enter="fetchData" />
       <n-button size="large" type="primary" :loading="loading" @click="fetchData"> Sendi </n-button>
     </n-input-group>
   </n-card>
@@ -94,17 +94,17 @@
 </template>
 
 <script>
-import { NInputGroup } from 'naive-ui';
+import { NInputGroup, useMessage } from 'naive-ui';
 import axios from 'axios';
-import { useMessage } from 'naive-ui';
 import { mapGetters } from 'vuex';
+import { flagEmoji } from '@/helpers/functions';
 
 export default {
   name: 'RegisteredParticipants',
   components: { NInputGroup },
   data() {
     return {
-      year: '2026',
+      year: '',
       loading: false,
       message: useMessage(),
       participants: null,
@@ -198,7 +198,7 @@ export default {
           const country = {
             code: c,
             name: this.countries[c].name,
-            flag: this.flagEmoji(c),
+            flag: flagEmoji(c),
             participants,
             hidden,
           };

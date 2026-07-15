@@ -34,3 +34,18 @@ export const dayOfWeekEO = (date, capitalize = false) => {
   }
   return days[day];
 };
+
+export const daysBetweenDates = (date1, date2) => {
+  if (!date1 || !date2) return 0;
+  const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+  const firstDate = new Date(date1);
+  const secondDate = new Date(date2);
+  return Math.round(Math.abs((firstDate - secondDate) / oneDay));
+};
+
+export const numberOfDays = (startStr, endStr) => {
+  if (startStr === null || endStr === null) {
+    return 0;
+  }
+  return daysBetweenDates(startStr, endStr) + 1;
+};

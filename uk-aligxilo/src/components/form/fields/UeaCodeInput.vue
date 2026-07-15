@@ -147,7 +147,7 @@ export default {
             }
             this.incorrect = !this.correct;
             this.alreadyBooked = 'alreadyBooked' in result.data && result.data.alreadyBooked;
-            if ('redirect' in result.data.member) {
+            if ('member' in result.data && 'redirect' in result.data.member) {
               window.location = result.data.member.redirect;
             }
           })

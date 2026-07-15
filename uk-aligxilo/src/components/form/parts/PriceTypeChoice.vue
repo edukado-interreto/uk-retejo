@@ -23,15 +23,14 @@
             {{ formOptions.membership[formOptions.boolValues.no] }}
           </n-tooltip>
         </n-gi>
-
         <template v-for="(info, key) in filteredPricesList" :key="key">
           <n-gi :span="2">
             <n-radio
-              :checked="modelValue === key"
+              :checked="form.kotizo === key"
               :value="key"
               :name="fieldName"
               :disabled="!isEditable"
-              @change="modelValue = key"
+              @change="form.kotizo = key"
             >
               <strong>{{ info.name }}</strong>
             </n-radio>
@@ -53,25 +52,29 @@
 
           <n-gi
             v-if="
-              (key === 'kunulo' && modelValue === 'kunulo') || (key === 'akompananto' && modelValue === 'akompananto')
+              (key === 'kunulo' && form.kotizo === 'kunulo') || (key === 'akompananto' && form.kotizo === 'akompananto')
             "
             offset="0 s:2"
             span="3 s:8"
           >
             <text-input
-              v-model="cxefaligxinto"
+              v-model="form.cxefaligxinto"
               field-name="cxefaligxinto"
               :manual-error="cxefaligxintoError"
               required
             />
           </n-gi>
-          <n-gi v-else-if="key === 'handikapulo' && modelValue === 'handikapulo'" offset="0 s:2" span="3 s:8">
-            <radio-input v-model="handikapatestilo" field-name="handikapatestilo" :options="formOptions.handicap" />
+          <n-gi v-else-if="key === 'handikapulo' && form.kotizo === 'handikapulo'" offset="0 s:2" span="3 s:8">
+            <radio-input
+              v-model="form.handikapatestilo"
+              field-name="handikapatestilo"
+              :options="formOptions.handicap"
+            />
           </n-gi>
           <n-gi
             v-else-if="
-              ((key === 'junulo' && modelValue === 'junulo') || (key === 'infano' && modelValue === 'infano')) &&
-              (birthday === null || birthday === '') &&
+              ((key === 'junulo' && form.kotizo === 'junulo') || (key === 'infano' && form.kotizo === 'infano')) &&
+              (form.birthday === null || form.birthday === '') &&
               showBirthDateWarning
             "
             span="3 s:10"
@@ -92,11 +95,11 @@ import { useStore } from 'vuex';
 import { isYouth, isChild } from '@/helpers/price.js';
 import TextInput from '../fields/TextInput.vue';
 import RadioInput from '../fields/RadioInput.vue';
+import { numberOfDays } from '@/helpers/time.js';
 
 const props = defineProps({
   fieldName: String,
   memberAgeGroup: String,
-  birthday: String,
   required: {
     type: Boolean,
     default: false,
@@ -109,14 +112,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  uea_kodo: {
-    type: String,
-    default: null,
-  },
-  fullName: {
-    type: String,
-    default: null,
-  },
   pricesList: Object,
   specialCategory: {
     type: String,
@@ -124,10 +119,7 @@ const props = defineProps({
   },
 });
 
-const modelValue = defineModel({ type: String });
-
-const cxefaligxinto = defineModel('cxefaligxinto', String);
-const handikapatestilo = defineModel('handikapatestilo', String);
+const form = defineModel({ type: String });
 
 const store = useStore();
 const formOptions = computed(() => store.getters.formOptions);
@@ -138,42 +130,54 @@ const field = computed(() => fields.value[props.fieldName]);
 const isEditable = computed(() => !editMode.value || field.value.editable !== false);
 
 const showYouth = computed(() =>
-  isYouth(props.birthday, props.showPersonalData, props.memberAgeGroup, formOptions.value),
+  isYouth(form.value.birthday, props.showPersonalData, props.memberAgeGroup, formOptions.value),
 );
 const showChild = computed(() =>
-  isChild(props.birthday, props.showPersonalData, props.memberAgeGroup, formOptions.value),
+  isChild(form.value.birthday, props.showPersonalData, props.memberAgeGroup, formOptions.value),
 );
 
 const cxefaligxintoError = computed(() => {
-  if (!props.cxefaligxinto) {
+  if (!form.value.cxefaligxinto) {
     return null;
   }
   if (
-    (props.uea_kodo && props.uea_kodo === props.cxefaligxinto) ||
-    (props.fullName && props.fullName === props.cxefaligxinto)
+    (form.value.uea_kodo && form.value.uea_kodo === form.value.cxefaligxinto) ||
+    (fullName.value && fullName.value === form.value.cxefaligxinto)
   ) {
-    return 'Vi ne povas esti via propra ' + modelValue.value + '.';
+    return 'Vi ne povas esti via propra ' + form.value.kotizo + '.';
   }
   return null;
 });
 
 const filteredPricesList = computed(() => {
+  let partialPriceMember = 9999999;
+  let partialPriceNonMember = 9999999;
+  const days = numberOfDays(form.value.partopreno_de, form.value.partopreno_gxis);
+  if (days > 0 && days < 3) {
+    partialPriceMember = days * formOptions.value.dayPriceMember;
+    partialPriceNonMember = days * formOptions.value.dayPriceNonmember;
+  }
+
   const list = {};
   for (const [key, value] of Object.entries(props.pricesList)) {
-    if (value.public || key === props.specialCategory || (editMode.value && modelValue.value === key)) {
+    if (value.public || key === props.specialCategory || (editMode.value && form.value.kotizo === key)) {
       if (!(key === 'junulo' && !showYouth.value) && !(key === 'infano' && !showChild.value)) {
-        list[key] = value;
+        list[key] = { ...value };
+        list[key].priceM = Math.min(value.priceM, partialPriceMember);
+        list[key].priceNM = Math.min(value.priceNM, partialPriceNonMember);
       }
     }
   }
   return list;
 });
 
+const fullName = computed(() => (form.value.persona_nomo ? form.value.familia_nomo.trim() : ''));
+
 watch(
   () => filteredPricesList.value,
   (newList) => {
-    if (!(modelValue.value in newList)) {
-      modelValue.value = 'baza';
+    if (!(form.value.kotizo in newList)) {
+      form.value.kotizo = 'baza';
     }
   },
 );

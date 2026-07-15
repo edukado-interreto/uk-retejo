@@ -47,41 +47,44 @@ const STEP = 30; // minutes
 
 const placesSort = [
   'Zamenhof',
+  'Moerbeek',
+  'Dobrzyński',
+  'Dobrzyński /Dobĵinjski/',
+  'Steiner /Ŝtajner/',
+  'Steiner',
+  'Franquesa Solé',
+  'Fried /Fri:d/',
+  'Fried',
   'Hodler',
-  'Höger',
-  'Corsetti',
-  'Gacond',
-  'Podhradská',
-  'Seemannová',
-  'Urbanova',
-  'Urbanová',
-  'Kilian',
-  'Schulhof ',
-  'Čejka',
-  'Ginz',
   'Lapenna',
-  'Korto Cink',
-  'korto Cink',
+  'Metzger /Mecger/',
+  'Metzger',
+  'Haas /Ha:z/',
+  'Haas',
+  'Jonas',
+  'Halbedl',
+  'Schick /Ŝik/',
+  'Schick',
   'Aliloke',
   'aliloke',
 ];
 
 const roomNumbers = {
-  Zamenhof: 'H1 Cosmo&shy;politan – Zoner Boby Hall',
-  Hodler: 'H1 Cosmo&shy;politan – London Hall',
-  Höger: 'H1 Cosmo&shy;politan – Berlin Hall',
-  Corsetti: 'Q01',
-  Gacond: 'Q02',
-  Podhradská: 'Q03',
-  Seemannová: 'Q14',
-  Kilian: 'Q25',
-  Schulhof: 'Q28',
-  Urbanová: 'Q15',
-  Čejka: 'Q38',
-  Ginz: 'X02',
-  Lapenna: 'Konstruaĵo X',
-  'Korto Cink': 'Konstruaĵo Q',
-  'korto Cink': 'Konstruaĵo Q',
+  Zamenhof: 'Stefaniensaal',
+  Moerbeek: 'Kammermusiksaal',
+  Dobrzyński: 'Blauer Salon',
+  'Dobrzyński /Dobĵinjski/': 'Blauer Salon',
+  'Steiner /Ŝtajner/': 'Saal Steiermark',
+  'Franquesa Solé': 'K1+K2',
+  'Fried /Fri:d/': 'K3',
+  Fried: 'K3',
+  Hodler: 'K4+K5',
+  Lapenna: 'K6-K7',
+  'Metzger /Mecger/': 'Meeting x',
+  Metzger: 'Meeting x',
+  'Haas /Ha:z/': 'K0',
+  Haas: 'K0',
+  Jonas: 'Teretaĝe',
 };
 
 const rooms = computed(() => {
@@ -139,6 +142,21 @@ const programWithTime = computed(() => {
       end: new Date(`${p.day} ${p.end}`),
     };
   });
+});
+
+function scrollToHour(hour) {
+  const scrollContainer = document.querySelector('.program-scroll');
+  if (scrollContainer) {
+    const scrollPosition = (hour - earliest.value.getHours()) * CELL_WIDTH;
+    scrollContainer.scroll({
+      left: scrollPosition,
+      behavior: 'smooth',
+    });
+  }
+}
+
+defineExpose({
+  scrollToHour,
 });
 </script>
 

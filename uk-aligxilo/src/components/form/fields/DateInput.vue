@@ -74,6 +74,8 @@ export default {
       }
     },
     field() {
+      console.info(this.fields)
+      console.info(this.fieldName)
       return this.fields[this.fieldName];
     },
     isRequired() {

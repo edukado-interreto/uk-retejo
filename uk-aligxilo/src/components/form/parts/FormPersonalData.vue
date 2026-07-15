@@ -102,6 +102,7 @@ import RadioInput from '@/components/form/fields/RadioInput.vue';
 import DateInput from '@/components/form/fields/DateInput.vue';
 import { mapGetters } from 'vuex';
 import { useDialog } from 'naive-ui';
+import { flagEmoji } from '@/helpers/functions';
 
 export default {
   components: { DateInput, RadioInput, TextInput, SelectInput },
@@ -130,7 +131,7 @@ export default {
     },
     countryOptions() {
       return Object.keys(this.countries).map((key) => {
-        return { value: key, label: this.flagEmoji(key) + ' ' + this.countries[key].name };
+        return { value: key, label: flagEmoji(key) + ' ' + this.countries[key].name };
       });
     },
   },

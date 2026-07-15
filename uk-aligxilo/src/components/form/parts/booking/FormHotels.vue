@@ -74,6 +74,7 @@ import UeaCodeInput from '@/components/form/fields/UeaCodeInput.vue';
 import TextInput from '@/components/form/fields/TextInput.vue';
 import DateInput from '@/components/form/fields/DateInput.vue';
 import CheckboxInput from '@/components/form/fields/CheckboxInput.vue';
+import DOMPurify from 'dompurify';
 
 const props = defineProps({
   modelValue: Object,
@@ -99,11 +100,12 @@ const hotelOptions = computed(() => {
     const newHotel = {
       value: hotel.id,
       label: `${hotel.id}: ${hotel.name}`,
-      description: hotel.description,
+      description: DOMPurify.sanitize(hotel.description),
     };
     if (fullHotels.value.includes(hotel.id)) {
       newHotel.label += ' <span style="color: #ff2626">(plena!)</span>';
     }
+    newHotel.label = DOMPurify.sanitize(newHotel.label);
     hotels.push(newHotel);
   });
   return hotels;

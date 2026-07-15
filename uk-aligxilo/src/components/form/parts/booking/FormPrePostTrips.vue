@@ -3,7 +3,14 @@
     {{ form[type + '_cxefmendanto_nomo'] }} jam mendis {{ type === 'ak' ? 'antaŭ' : 'post' }}kongreson por vi.
   </n-alert>
   <template v-else>
-    <radio-input v-model="form[type]" :field-name="type" :options="trips" :disabled-options="fullTrips" vertical />
+    <radio-input
+      v-model="form[type]"
+      :field-name="type"
+      :options="trips"
+      :disabled-options="fullTrips"
+      vertical
+      @update:model-value="form[type + '_cxambro'] = null"
+    />
     <slide-transition>
       <div v-if="form[type] && Object.keys(rooms).length > 1">
         <radio-input
@@ -50,6 +57,7 @@ import RadioInput from '@/components/form/fields/RadioInput.vue';
 import SlideTransition from '@/components/ui/SlideTransition.vue';
 import UeaCodeInput from '@/components/form/fields/UeaCodeInput.vue';
 import TextInput from '@/components/form/fields/TextInput.vue';
+import DOMPurify from 'dompurify';
 
 export default {
   name: 'FormPrePostTrips',
@@ -88,6 +96,7 @@ export default {
           if (this.fullTrips.includes(trip.id)) {
             trips[trip.id] += ' <span style="color: #ff2626">(plena!)</span>';
           }
+          trips[trip.id] = DOMPurify.sanitize(trips[trip.id]);
         });
       return trips;
     },
@@ -120,6 +129,7 @@ export default {
         if (this.fullRooms.includes(r)) {
           rooms[r] += ' <span style="color: #ff2626">(plena!)</span>';
         }
+        rooms[r] = DOMPurify.sanitize(rooms[r]);
       });
       return rooms;
     },

@@ -17,8 +17,11 @@
       <tr v-if="preCongressPrice > 0">
         <td>Antaŭkongresa ekskurso</td>
         <td>
-          {{ preCongressName }}<br />
-          {{ preCongressPriceForOne }}&nbsp;€ × {{ preCongressPeople }} persono{{ j(preCongressPeople) }}
+          {{ preCongressName }}
+          <template v-if="preCongressHasRooms">
+            <br />
+            {{ preCongressPriceForOne }}&nbsp;€ × {{ preCongressPeople }} persono{{ j(preCongressPeople) }}
+          </template>
         </td>
         <td>{{ preCongressPrice }}&nbsp;€</td>
       </tr>
@@ -77,143 +80,158 @@
   <n-p v-if="sum > 0">Detalojn pri pagmanieroj vi ricevos retpoŝte post kontrolo de via mendo.</n-p>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { daysBetweenDates } from '@/helpers/time.js';
 
-export default {
-  name: 'FormBookingPrice',
-  props: {
-    form: Object,
-  },
-  computed: {
-    ...mapGetters(['formOptions', 'prices']),
+const props = defineProps({
+  form: Object,
+});
 
-    banquetPrice() {
-      if (this.form.bankedo === this.formOptions.boolValues.yes) {
-        return this.prices.banquet;
-      }
-      return 0;
-    },
+const store = useStore();
+const formOptions = computed(() => store.getters.formOptions);
+const prices = computed(() => store.getters.prices);
 
-    tripsWithPrices() {
-      const trips = {};
-      this.formOptions.trips.forEach((t) => {
-        t.sessions.forEach((s) => {
-          if (this.form.ekskursoj.includes(s.id)) {
-            trips[s.fullName] = t.price;
-          }
-        });
-      });
-      return trips;
-    },
-    tripsPrice() {
-      return Object.values(this.tripsWithPrices).reduce((a, b) => a + b, 0);
-    },
+const banquetPrice = computed(() => {
+  if (props.form.bankedo && props.form.bankedo !== formOptions.value.boolValues.no) {
+    return prices.value.banquet[props.form.bankedo];
+  }
+  return 0;
+});
 
-    hotelName() {
-      return this.formOptions.hotels[this.form.hotelo].name;
-    },
-    peopleInRoom() {
-      return this.formOptions.hotels[this.form.hotelo].payForRoom
-        ? this.formOptions.hotels[this.form.hotelo].rooms[this.form.hotelo_cxambro].people
-        : 1;
-    },
-    roomPrice() {
-      return this.formOptions.hotels[this.form.hotelo].rooms[this.form.hotelo_cxambro].price;
-    },
-    nights() {
-      return this.daysBetweenDates(this.form.hotelo_de, this.form.hotelo_gxis);
-    },
-    hotelPrice() {
-      if (this.form.hotelo_cxefmendanto !== '') {
-        return 0;
+const tripsWithPrices = computed(() => {
+  const trips = {};
+  formOptions.value.trips.forEach((t) => {
+    t.sessions.forEach((s) => {
+      if (props.form.ekskursoj.includes(s.id)) {
+        trips[s.fullName] = t.price;
       }
-      if (!this.form.hotelo || !this.form.hotelo_cxambro || !this.form.hotelo_de || !this.form.hotelo_gxis) {
-        return 0;
-      }
-      return this.roomPrice * this.peopleInRoom * this.nights;
-    },
+    });
+  });
+  return trips;
+});
 
-    preCongressName() {
-      return this.formOptions.preposttrips[this.form.ak].name;
-    },
-    preCongressPriceForOne() {
-      const rooms = this.formOptions.preposttrips[this.form.ak].rooms;
-      if (!(this.form.ak_cxambro in rooms)) {
-        return null;
-      }
-      return rooms[this.form.ak_cxambro].price;
-    },
-    preCongressPeople() {
-      return this.formOptions.preposttrips[this.form.ak].rooms[this.form.ak_cxambro].people;
-    },
-    preCongressPrice() {
-      if (this.form.ak_cxefmendanto !== '') {
-        return 0;
-      }
-      if (!this.form.ak || this.preCongressPriceForOne === null) {
-        return 0;
-      }
-      return this.preCongressPriceForOne * this.preCongressPeople;
-    },
+const tripsPrice = computed(() => Object.values(tripsWithPrices.value).reduce((a, b) => a + b, 0));
 
-    postCongressName() {
-      return this.formOptions.preposttrips[this.form.pk].name;
-    },
-    postCongressPriceForOne() {
-      const rooms = this.formOptions.preposttrips[this.form.pk].rooms;
-      if (!(this.form.pk_cxambro in rooms)) {
-        return null;
-      }
-      return rooms[this.form.pk_cxambro].price;
-    },
-    postCongressPeople() {
-      return this.formOptions.preposttrips[this.form.pk].rooms[this.form.pk_cxambro].people;
-    },
-    postCongressPrice() {
-      if (this.form.pk_cxefmendanto !== '') {
-        return 0;
-      }
-      if (!this.form.pk || this.postCongressPriceForOne === null) {
-        return 0;
-      }
-      return this.postCongressPriceForOne * this.postCongressPeople;
-    },
+const hotelName = computed(() => {
+  return formOptions.value.hotels[props.form.hotelo]?.name;
+});
 
-    transportationPrice() {
-      if ('transporta_bileto' in this.form && this.form.transporta_bileto) {
-        return this.prices.transportation;
-      }
-      return 0;
-    },
+const peopleInRoom = computed(() => {
+  if (!props.form.hotelo) return 1;
+  return formOptions.value.hotels[props.form.hotelo].payForRoom
+    ? formOptions.value.hotels[props.form.hotelo].rooms[props.form.hotelo_cxambro].people
+    : 1;
+});
 
-    sum() {
-      return Math.max(
-        0,
-        this.banquetPrice +
-          this.tripsPrice +
-          this.hotelPrice +
-          this.preCongressPrice +
-          this.postCongressPrice +
-          this.transportationPrice -
-          this.form.sumo_rabato_mendo +
-          this.form.sumo_malrabato_mendo,
-      );
-    },
-  },
-  methods: {
-    j(n) {
-      return n > 1 ? 'j' : '';
-    },
-    daysBetweenDates(date1, date2) {
-      const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
-      const firstDate = new Date(date1);
-      const secondDate = new Date(date2);
+const roomPrice = computed(() => {
+  if (!props.form.hotelo || !props.form.hotelo_cxambro) return 0;
+  return formOptions.value.hotels[props.form.hotelo].rooms[props.form.hotelo_cxambro].price;
+});
 
-      return Math.round(Math.abs((firstDate - secondDate) / oneDay));
-    },
-  },
-};
+const nights = computed(() => {
+  return daysBetweenDates(props.form.hotelo_de, props.form.hotelo_gxis);
+});
+
+const hotelPrice = computed(() => {
+  if (props.form.hotelo_cxefmendanto !== '') {
+    return 0;
+  }
+  if (!props.form.hotelo || !props.form.hotelo_cxambro || !props.form.hotelo_de || !props.form.hotelo_gxis) {
+    return 0;
+  }
+  return roomPrice.value * peopleInRoom.value * nights.value;
+});
+
+const preCongressName = computed(() => {
+  return formOptions.value.preposttrips[props.form.ak]?.name;
+});
+
+const preCongressPriceForOne = computed(() => {
+  if (!props.form.ak) return null;
+  const rooms = formOptions.value.preposttrips[props.form.ak].rooms;
+  if (!(props.form.ak_cxambro in rooms)) {
+    return null;
+  }
+  return rooms[props.form.ak_cxambro].price;
+});
+
+const preCongressHasRooms = computed(() => {
+  if (!props.form.ak) return false;
+  return Object.keys(formOptions.value.preposttrips[props.form.ak].rooms).length > 1;
+});
+
+const preCongressPeople = computed(() => {
+  if (!props.form.ak || !props.form.ak_cxambro) return 0;
+  return formOptions.value.preposttrips[props.form.ak].rooms[props.form.ak_cxambro].people;
+});
+
+const preCongressPrice = computed(() => {
+  if (props.form.ak && !preCongressHasRooms.value) {
+    return formOptions.value.preposttrips[props.form.ak].rooms[''].price;
+  }
+  if (props.form.ak_cxefmendanto !== '') {
+    return 0;
+  }
+  if (!props.form.ak || preCongressPriceForOne.value === null) {
+    return 0;
+  }
+  return preCongressPriceForOne.value * preCongressPeople.value;
+});
+
+const postCongressName = computed(() => {
+  return formOptions.value.preposttrips[props.form.pk]?.name;
+});
+
+const postCongressPriceForOne = computed(() => {
+  if (!props.form.pk) return null;
+  const rooms = formOptions.value.preposttrips[props.form.pk].rooms;
+  if (!(props.form.pk_cxambro in rooms)) {
+    return null;
+  }
+  return rooms[props.form.pk_cxambro].price;
+});
+
+const postCongressPeople = computed(() => {
+  if (!props.form.pk || !props.form.pk_cxambro) return 0;
+  return formOptions.value.preposttrips[props.form.pk].rooms[props.form.pk_cxambro].people;
+});
+
+const postCongressPrice = computed(() => {
+  if (props.form.pk_cxefmendanto !== '') {
+    return 0;
+  }
+  if (!props.form.pk || postCongressPriceForOne.value === null) {
+    return 0;
+  }
+  return postCongressPriceForOne.value * postCongressPeople.value;
+});
+
+const transportationPrice = computed(() => {
+  if ('transporta_bileto' in props.form && props.form.transporta_bileto) {
+    return prices.value.transportation;
+  }
+  return 0;
+});
+
+const sum = computed(() => {
+  return Math.max(
+    0,
+    banquetPrice.value +
+      tripsPrice.value +
+      hotelPrice.value +
+      preCongressPrice.value +
+      postCongressPrice.value +
+      transportationPrice.value -
+      (props.form.sumo_rabato_mendo ? parseFloat(props.form.sumo_rabato_mendo) : 0) +
+      (props.form.sumo_malrabato_mendo ? parseFloat(props.form.sumo_malrabato_mendo) : 0),
+  );
+});
+
+function j(n) {
+  return n > 1 ? 'j' : '';
+}
 </script>
 
 <style scoped>

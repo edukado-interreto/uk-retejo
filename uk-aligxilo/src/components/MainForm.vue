@@ -127,6 +127,7 @@ import FormNametag from '@/components/form/parts/FormNametag.vue';
 import FormMembershipPrice from '@/components/form/parts/FormMembershipPrice.vue';
 import FormConditions from '@/components/form/parts/FormConditions.vue';
 import FormPayment from '@/components/form/parts/FormPayment.vue';
+
 const FormBooking = defineAsyncComponent(() => import('@/components/form/parts/FormBooking.vue'));
 
 export default {
@@ -167,6 +168,7 @@ export default {
       specialCategory: null,
 
       membershipLocked: false,
+      maxPeriod: 10,
 
       success: false,
       errors: { value: {} }, // Trick to make it reactive in provide/inject
@@ -234,25 +236,28 @@ export default {
 
         mangxotipo: this.edit && this.foodTypeRequired,
         mangxotipo_kunlogxanto: this.edit && this.foodTypeCompanionRequired,
-        ak_cxambro: this.edit && this.form.ak,
+        ak_cxambro: this.edit && !!this.form.ak,
         ak_kunlogxanto2:
           this.edit &&
-          this.form.ak &&
+          !!this.form.ak &&
           (this.akPeopleInRoom > 2 || (this.akPeopleInRoom == 2 && !this.form.ak_kunlogxanto)),
         pk_cxambro: this.edit && this.form.pk,
         pk_kunlogxanto2:
           this.edit &&
-          this.form.pk &&
+          !!this.form.pk &&
           (this.pkPeopleInRoom > 2 || (this.pkPeopleInRoom == 2 && !this.form.pk_kunlogxanto)),
-        hotelo_cxambro: this.edit && this.form.hotelo,
-        hotelo_alternativo: this.edit && this.form.hotelo,
-        hotelo_de: this.edit && this.form.hotelo,
-        hotelo_gxis: this.edit && this.form.hotelo,
+        hotelo_cxambro: this.edit && !!this.form.hotelo,
+        hotelo_alternativo: this.edit && !!this.form.hotelo,
+        hotelo_de: this.edit && !!this.form.hotelo,
+        hotelo_gxis: this.edit && !!this.form.hotelo,
         hotelo_kunlogxanto2:
           this.edit &&
-          this.form.hotelo &&
+          !!this.form.hotelo &&
           this.hotelPayForRoom &&
           (this.hotelPeopleInRoom > 2 || (this.hotelPeopleInRoom == 2 && !this.form.hotelo_kunlogxanto)),
+        sxtataneco: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
+        pasporto: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
+        eldoninto_pasporto: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
       };
 
       // In edit mode: all non-editable fields are made non-mandatory to avoid potential bugs
@@ -297,7 +302,12 @@ export default {
       const formData = {
         ...this.form,
         kongreslibro_adreso: this.form.konsento_kongreslibro ? this.form.kongreslibro_adreso : null,
-        volas_membrigxi: this.form.membreco === this.formOptions.boolValues.no ? this.form.volas_membrigxi : null,
+        volas_membrigxi:
+          this.form.membreco === this.formOptions.boolValues.no
+            ? this.form.volas_membrigxi === this.formOptions.boolValues.yes
+              ? true
+              : false
+            : null,
         membreco_tipo:
           this.form.membreco === this.formOptions.boolValues.no &&
           this.form.volas_membrigxi === this.formOptions.boolValues.yes
@@ -341,9 +351,6 @@ export default {
       }
 
       if (this.edit) {
-        if (this.form.bankedo !== this.formOptions.boolValues.yes) {
-          formData.bankedo_tipo = '';
-        }
         if (!this.foodTypeRequired) {
           formData.mangxotipo = '';
         }
@@ -377,6 +384,11 @@ export default {
         }
         if (this.hotelPeopleInRoom == 1) {
           formData.hotelo_kunlogxanto2 = '';
+        }
+        if (!this.form.hotelo && !this.form.ak_cxambro && !this.form.pk_cxambro) {
+          formData.sxtataneco = '';
+          formData.pasporto = '';
+          formData.eldoninto_pasporto = '';
         }
       }
 
@@ -435,11 +447,15 @@ export default {
     },
     pricesList() {
       const prices = {};
-      const period = this.edit && 'aligxperiodo' in this.form ? this.form.aligxperiodo : this.currentPeriod;
+      const period =
+        this.edit && 'aligxperiodo' in this.form
+          ? this.form.aligxperiodo
+          : Math.min(this.currentPeriod, this.maxPeriod);
       for (const key in this.prices.participation) {
         const membershipIndex =
           this.form.membreco === this.formOptions.boolValues.yes ||
-          this.form.volas_membrigxi === this.formOptions.boolValues.yes
+          this.form.volas_membrigxi === this.formOptions.boolValues.yes ||
+          this.form.volas_membrigxi === 'traktata'
             ? 0
             : 1;
         prices[key] = {
@@ -469,7 +485,7 @@ export default {
       return this.detailedSum.sum;
     },
     foodTypeRequired() {
-      if (this.form.ak || this.form.pk) {
+      if ((this.form.ak && Object.keys(this.formOptions.preposttrips[this.form.ak].rooms).length > 1) || this.form.pk) {
         return true;
       }
       for (const trip of this.form.ekskursoj) {
@@ -522,6 +538,7 @@ export default {
             positiveText: 'Mi komprenis',
           });
         }
+        this.maxPeriod = data.member.maxPeriod;
       } else {
         this.missingFields = [];
         this.memberAgeGroup = null;
@@ -529,6 +546,7 @@ export default {
         this.specialCategory = null;
         this.discount = 0;
         this.membershipLocked = false;
+        this.maxPeriod = 10;
       }
     },
     sendForm(e) {

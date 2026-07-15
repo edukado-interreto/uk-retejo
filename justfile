@@ -1,6 +1,6 @@
 #Module for Python / Django
 mod py 'backend'
-# 
+ 
 # Module for CSS / Tailwind / DaisyUI
 mod style
 
@@ -18,7 +18,7 @@ install: create_secrets apply_selinux copy_dotenv py::copy_dotenv load_prod_data
     @printf "\nFarite. Nun tajpu:\n\njust run\n"
 
 [parallel]
-install-dependencies: py::install style::install install-uk-retejo
+install-dependencies: py::install style::install install-vue
 
 [parallel]
 update: py::update style::update pull
@@ -33,8 +33,12 @@ django:
     {{dc}} up -w --build django
 
 
-install-uk-retejo:
+install-vue:
     npm -C uk-aligxilo install
+
+
+build-vue:
+    npm -C uk-aligxilo run build
 
 fontawesome:
     mkdir -p {{fa_static}}/css

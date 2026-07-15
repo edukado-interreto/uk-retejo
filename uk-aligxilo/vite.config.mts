@@ -13,11 +13,16 @@ export default defineConfig(() => ({
     outDir: absolute("../backend/apps/registration/static/vue"),
     emptyOutDir: true,
     manifest: "manifest.json",
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         edit: "src/edit.js",
         participants: "src/participants.js",
         registration: "src/registration.js",
+      },
+      output: {
+        codeSplitting: {
+          groups: [{ name: "naive-ui", test: /node_modules\/naive-ui/ }],
+        },
       },
     },
   },

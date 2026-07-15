@@ -48,7 +48,8 @@
   <ul>
     <li>
       <strong>Individua membro de UEA</strong>: Dumviva membro (DM aŭ DMJ), Membro Baza (MB aŭ MB-T), Membro-Abonanto
-      (MA aŭ MA-T). <em>Aligitaj membroj eniras kategorion 2, kiam temas pri kongresa kotizo.</em>
+      (MA aŭ MA-T) en la momento de aliĝo.
+      <em>Aligitaj membroj eniras kategorion 2, kiam temas pri kongresa kotizo.</em>
     </li>
     <li>
       <strong>Komitatano</strong>: Tiu, kiu estas membro aŭ observanto en la Komitato de UEA en la momento de la aliĝo.

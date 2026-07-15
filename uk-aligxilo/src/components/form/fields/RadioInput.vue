@@ -14,7 +14,10 @@
     </n-radio-group>
   </n-form-item>
 
-  <n-modal v-model:show="showModal" preset="card" style="max-width: 600px" :title="descriptionTitle" size="small">
+  <n-modal v-model:show="showModal" preset="card" style="max-width: 600px" size="small">
+    <template #header>
+      <span v-html="descriptionTitle"></span>
+    </template>
     <div v-html="descriptionText"></div>
   </n-modal>
 </template>
