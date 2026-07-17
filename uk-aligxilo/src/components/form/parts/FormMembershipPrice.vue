@@ -4,13 +4,14 @@
       Vidi klarigojn pri la kotizoj
     </router-link>
   </p>
-  <n-grid x-gap="12" cols="1 s:2" responsive="screen">
+  <n-grid style="display: none" x-gap="12" cols="1 s:2" responsive="screen">
     <n-gi>
       <date-input
         v-model="form.partopreno_de"
         field-name="partopreno_de"
         :min="formOptions.congressStart"
         :max="form.partopreno_gxis"
+        readonly
       />
     </n-gi>
     <n-gi>

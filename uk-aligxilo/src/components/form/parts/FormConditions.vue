@@ -33,10 +33,10 @@
       </strong>
     </p>
     <p>
-      <strong
-        ><a href="https://uea.org/teko/regularoj/kongresa_regularo#a2" target="_blank">Kongresa Regularo</a>
-        (ekstrakto):</strong
-      >
+      <strong>
+        <a href="https://uea.org/teko/regularoj/kongresa_regularo#a2" target="_blank">Kongresa Regularo</a>
+        (ekstrakto):
+      </strong>
       <q>
         2.4. Kongresanoj devas fari nenion, kio kontraŭas la Kongresan Regularon, aŭ malutilas al la UK, kaj devas
         submetiĝi al la leĝoj de la lando, kie okazas la UK.

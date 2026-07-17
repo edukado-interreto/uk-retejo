@@ -7,7 +7,7 @@
       <p style="font-size: 1.1rem" v-if="sum > 0 && form.pagmaniero === 'Stripe'">
         Via pago ({{ sum }}&nbsp;€) sukcese efektiviĝis.
       </p>
-      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 112-a Universala Kongreso de Esperanto.</p>
+      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 111-a Universala Kongreso de Esperanto.</p>
     </template>
     <p style="font-size: 1.1rem">
       Retmesaĝo kun pli detalaj informoj estis sendita al
@@ -83,16 +83,19 @@
 
     <div v-show="!edit && (sum === null || sum > 0)">
       <n-h3>Pagmaniero</n-h3>
-      <p>
-        <strong>Pagenda sumo: {{ sum }}&nbsp;€</strong>
-      </p>
-      <form-payment
-        ref="payments"
-        v-model="form"
-        v-model:is-loading="isLoading"
-        :form-to-send="formToSend"
-        :ueaCodeValid="ueaCodeValid"
-      />
+      <p v-if="sum === null">Bonvolu elekti tipon de aliĝkotizo por vidi la pagmanierojn.</p>
+      <template v-else>
+        <p>
+          <strong>Pagenda sumo: {{ sum }}&nbsp;€</strong>
+        </p>
+        <form-payment
+          ref="payments"
+          v-model="form"
+          v-model:is-loading="isLoading"
+          :form-to-send="formToSend"
+          :ueaCodeValid="ueaCodeValid"
+        />
+      </template>
     </div>
 
     <template v-if="edit">
@@ -305,8 +308,8 @@ export default {
         volas_membrigxi:
           this.form.membreco === this.formOptions.boolValues.no
             ? this.form.volas_membrigxi === this.formOptions.boolValues.yes
-              ? true
-              : false
+              ? this.formOptions.boolValues.yes
+              : this.formOptions.boolValues.no
             : null,
         membreco_tipo:
           this.form.membreco === this.formOptions.boolValues.no &&
