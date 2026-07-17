@@ -49,7 +49,7 @@
             />
 
             <slide-transition>
-              <div v-if="form.volas_membrigxi === formOptions.boolValues.yes">
+              <div v-if="form.volas_membrigxi === formOptions.boolValues.yes || form.volas_membrigxi === true">
                 <select-input
                   v-model="form.membreco_tipo"
                   field-name="membreco_tipo"

@@ -33,7 +33,7 @@ const themeOverrides = {
     boxShadow: 'inset 0 0 0 1px #909090',
   },
 };
-const loading = ref(true);
+const loading = ref(false);
 
 const store = useStore();
 
@@ -43,5 +43,5 @@ function loaddata() {
   });
 }
 
-loaddata();
+//loaddata();
 </script>

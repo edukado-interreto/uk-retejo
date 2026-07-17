@@ -1,7 +1,7 @@
 <template>
   <n-h1>Listo de aliĝintoj</n-h1>
   <n-card v-if="participants === null" class="custom-card" title="Sekurecdemando">
-    <p style="margin-top: 0">En kiu jaro okazos la 111-a UK en Graz?</p>
+    <p style="margin-top: 0">En kiu jaro okazos la 112-a UK en Melburno?</p>
 
     <n-input-group>
       <n-input type="text" size="large" style="width: 16em" v-model:value="year" @keydown.enter="fetchData" />
@@ -10,7 +10,7 @@
   </n-card>
   <template v-else>
     <p>
-      {{ participants.length }} personoj el {{ numberOfCountries }} landoj jam aliĝis al la 111-a Universala Kongreso de
+      {{ participants.length }} personoj el {{ numberOfCountries }} landoj jam aliĝis al la 112-a Universala Kongreso de
       Esperanto.
     </p>
     <div style="text-align: center; margin: 2rem 0">

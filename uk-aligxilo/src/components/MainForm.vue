@@ -7,7 +7,7 @@
       <p style="font-size: 1.1rem" v-if="sum > 0 && form.pagmaniero === 'Stripe'">
         Via pago ({{ sum }}&nbsp;€) sukcese efektiviĝis.
       </p>
-      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 111-a Universala Kongreso de Esperanto.</p>
+      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 112-a Universala Kongreso de Esperanto.</p>
     </template>
     <p style="font-size: 1.1rem">
       Retmesaĝo kun pli detalaj informoj estis sendita al
@@ -534,7 +534,7 @@ export default {
           this.dialog.warning({
             title: 'Vi jam aliĝis',
             content:
-              'Vi jam aliĝis al la 111-a UK. Se vi volas ŝanĝi ion en via mendo, ne plenigu la aliĝilon denove, sed kontaktu kongresoj@co.uea.org.',
+              'Vi jam aliĝis al la 112-a UK. Se vi volas ŝanĝi ion en via mendo, ne plenigu la aliĝilon denove, sed kontaktu kongresoj@co.uea.org.',
             positiveText: 'Mi komprenis',
           });
         }
