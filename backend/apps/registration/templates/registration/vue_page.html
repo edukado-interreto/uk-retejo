@@ -22,11 +22,12 @@
         color: var(--color-primary);
         background: none;
         border-bottom: var(--color-secondary) 1px solid;
+        font-family: var(--font-unbounded);
     }
 
     .n-button {
-        background-color: var(--color-secondary);
-        border-color: var(--color-secondary);
+        background-color: var(--color-blue-700);
+        border-color: var(--color-blue-900);
         border: none;
         transition: filter .3s var(--n-bezier);
 
@@ -34,6 +35,14 @@
             background-color: var(--color-secondary);
             border-color: var(--color-secondary);
             filter: brightness(1.2);
+
+            .n-button__border {
+                border: none;
+            }
+        }
+
+        .n-button__border {
+            border: none;
         }
     }
 </style>

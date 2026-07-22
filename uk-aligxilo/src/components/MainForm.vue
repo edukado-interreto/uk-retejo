@@ -7,7 +7,7 @@
       <p style="font-size: 1.1rem" v-if="sum > 0 && form.pagmaniero === 'Stripe'">
         Via pago ({{ sum }}&nbsp;€) sukcese efektiviĝis.
       </p>
-      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 111-a Universala Kongreso de Esperanto.</p>
+      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 112-a Universala Kongreso de Esperanto.</p>
     </template>
     <p style="font-size: 1.1rem">
       Retmesaĝo kun pli detalaj informoj estis sendita al
@@ -111,7 +111,7 @@
 
     <n-form-item>
       <n-button @click="sendForm" size="large" type="primary" :loading="isLoading" :disabled="!canSubmit">
-        {{ edit ? 'Konservi la mendon' : 'Mi aliĝas' }}
+        <strong style="font-size: 1.1em">{{ edit ? 'Konservi la mendon' : 'Mi aliĝas' }}</strong>
       </n-button>
     </n-form-item>
   </n-form>
