@@ -4,13 +4,12 @@ import { defineConfig } from "vite"
 
 const absolute = (path: string) => fileURLToPath(import.meta.resolve(path))
 
-// https://vite.dev/config/build-options.html
-// https://vite.dev/guide/env-and-mode.html#modes
-// https://vitejs.dev/config/
+const BASE_PATH = "/static/vue/"
+
 export default defineConfig(() => ({
-  base: "/static/vue/",
+  base: BASE_PATH,
   build: {
-    outDir: absolute("../backend/apps/registration/static/vue"),
+    outDir: absolute(`../backend/apps/registration${BASE_PATH}`),
     emptyOutDir: true,
     manifest: "manifest.json",
     rolldownOptions: {
