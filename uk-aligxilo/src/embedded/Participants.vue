@@ -42,7 +42,7 @@ function loaddata() {
   });
 }
 
-//loaddata();
+loaddata();
 </script>
 
 <style lang="scss">
