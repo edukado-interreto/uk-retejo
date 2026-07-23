@@ -77,7 +77,7 @@ export const isChild = (birthdayStr, showPersonalData, memberAgeGroup, formOptio
   return birthday.getTime() >= child.getTime();
 };
 
-function membershipPrice(form, formOptions, countryMembershipCategory, showPersonalData, memberAgeGroup) {
+function membershipPrice(form, formOptions, prices, countryMembershipCategory, showPersonalData, memberAgeGroup) {
   if (
     form.membreco === formOptions.boolValues.yes ||
     (form.volas_membrigxi !== formOptions.boolValues.yes && form.volas_membrigxi !== 'traktata') ||
@@ -93,32 +93,45 @@ function membershipPrice(form, formOptions, countryMembershipCategory, showPerso
       type = 'MB50';
     }
   }
-  return formOptions.membershipPrice[countryMembershipCategory][type];
+  return prices.membershipPrice[countryMembershipCategory][type];
 }
 
 export const calculatePrice = (
   form,
   pricesList,
   countryMembershipCategory,
+  countryCategory,
   discount,
   formOptions,
+  prices,
   showPersonalData,
   memberAgeGroup,
 ) => {
   if (form.kotizo === null) {
     return null;
   }
-
+  const isMember =
+    form.membreco === true ||
+    form.membreco === formOptions.boolValues.yes ||
+    form.volas_membrigxi === formOptions.boolValues.yes ||
+    form.volas_membrigxi === 'traktata';
   let aligxkotizo = pricesList[form.kotizo].price;
   const days = numberOfDays(form.partopreno_de, form.partopreno_gxis);
   if (days < 3) {
-    if (form.membreco === formOptions.boolValues.yes || form.volas_membrigxi === formOptions.boolValues.yes) {
+    if (isMember) {
       aligxkotizo = days * formOptions.dayPriceMember;
     } else {
       aligxkotizo = days * formOptions.dayPriceNonmember;
     }
   }
-  const membrokotizo = membershipPrice(form, formOptions, countryMembershipCategory, showPersonalData, memberAgeGroup);
+  const membrokotizo = membershipPrice(
+    form,
+    formOptions,
+    prices,
+    countryMembershipCategory,
+    showPersonalData,
+    memberAgeGroup,
+  );
   let total = aligxkotizo + membrokotizo;
   const price = {
     aligxkotizo: aligxkotizo,
@@ -137,11 +150,20 @@ export const calculatePrice = (
       }
     }
   }
+
+  if (prices.earlyDiscounts && form.kotizo && prices.earlyDiscounts[form.kotizo]) {
+    const earlyDiscount = prices.earlyDiscounts[form.kotizo][isMember ? 0 : 1][countryCategory];
+    if (earlyDiscount !== undefined) {
+      price.earlyDiscount = -earlyDiscount;
+      total -= earlyDiscount;
+    }
+  }
+
   if (discount !== 0 && aligxkotizo > discount) {
     price.discount = -discount;
     total -= discount;
   }
   total = Math.round(total * 100) / 100;
-  price.sum = total;
+  price.sum = Math.max(total, 0);
   return price;
 };

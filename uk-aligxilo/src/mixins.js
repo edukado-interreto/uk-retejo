@@ -2,7 +2,6 @@ export default {
   methods: {
     scrollTo(id, pixels = 32) {
       this.$nextTick(() => {
-        console.log('scrolling to #' + id);
         const element = document.getElementById(id);
         if (element !== null) {
           const top = element.getBoundingClientRect().top + window.scrollY - pixels;

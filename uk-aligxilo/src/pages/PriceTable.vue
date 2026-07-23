@@ -75,81 +75,134 @@
     <li>nemalhaveblaj akompanantoj de handikapuloj.</li>
   </ul>
 
-  <n-h4>Aliĝkategorio</n-h4>
+  <template v-if="prices.earlyDiscounts">
+    <n-h4>Rabato pro frua aliĝo</n-h4>
+    <p>
+      Se vi aliĝas dum la <em>antaŭa</em>, 111-a Universala Kongreso de Esperanto en Graz, t.e. ĝis la 8-a de aŭgusto
+      2026, vi ricevas jenan rabaton:
+    </p>
+
+    <n-table :single-line="false" size="small" class="discount-table">
+      <thead>
+        <tr>
+          <th>Ĉu vi mem partoprenas en la 111-a UK?</th>
+          <th colspan="2">Jes</th>
+          <th colspan="2">Ne</th>
+        </tr>
+        <tr>
+          <th>Aliĝkategorio</th>
+          <th :class="{ active: countryCategory === 'A' }">A</th>
+          <th :class="{ active: countryCategory === 'B' }">B</th>
+          <th :class="{ active: countryCategory === 'A' }">A</th>
+          <th :class="{ active: countryCategory === 'B' }">B</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(type, index) in aligxtipoj" :key="index">
+          <th>{{ type.title }}</th>
+          <td style="text-align: center" :class="{ active: countryCategory === 'A' }">
+            -{{ type.discount.A + prices.pastParticipantDiscount }}
+          </td>
+          <td style="text-align: center" :class="{ active: countryCategory === 'B' }">
+            -{{ type.discount.B + prices.pastParticipantDiscount }}
+          </td>
+          <td style="text-align: center" :class="{ active: countryCategory === 'A' }">-{{ type.discount.A }}</td>
+          <td style="text-align: center" :class="{ active: countryCategory === 'B' }">-{{ type.discount.B }}</td>
+        </tr>
+      </tbody>
+    </n-table>
+  </template>
+
+  <n-h4>Landokategorioj</n-h4>
   <ul>
-    <li><strong>A-landoj:</strong> {{ aCountries }}</li>
-    <li><strong>B-landoj:</strong> {{ bCountries }}</li>
+    <li><strong>A-landoj:</strong> <span v-html="aCountries"></span></li>
+    <li><strong>B-landoj:</strong> <span v-html="bCountries"></span></li>
   </ul>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import DOMPurify from 'dompurify';
 
-export default {
-  name: 'PriceTable',
-  data() {
-    return {
-      aligxtipoj: [],
-      countryCategory: null,
-    };
+const store = useStore();
+
+const currentPeriod = computed(() => store.getters.currentPeriod);
+const registrationPeriods = computed(() => store.getters.registrationPeriods);
+const prices = computed(() => store.getters.prices);
+const countries = computed(() => store.getters.countries);
+const formOptions = computed(() => store.getters.formOptions);
+const detectedCountry = computed(() => store.getters.detectedCountry);
+
+const countryCategory = computed(() => {
+  if (!detectedCountry.value) {
+    return null;
+  }
+  const country = countries.value[detectedCountry.value];
+  return country ? country.category : null;
+});
+
+function countriesByCategory(cat) {
+  const list = Object.values(countries.value)
+    .filter((c) => c.category === cat)
+    .map((c) => (c = c.name))
+    .sort(function (a, b) {
+      return Intl.Collator('eo').compare(a, b);
+    })
+    .map((c) => {
+      if (
+        detectedCountry.value &&
+        countries.value[detectedCountry.value] &&
+        countries.value[detectedCountry.value].name === c
+      ) {
+        return `<strong>${c}</strong>`;
+      }
+      return c;
+    })
+    .join(', ');
+  return DOMPurify.sanitize(list);
+}
+
+const aCountries = computed(() => countriesByCategory('A'));
+const bCountries = computed(() => countriesByCategory('B'));
+
+const lastPeriod = computed(() => {
+  const date = new Date(registrationPeriods.value[registrationPeriods.value.length - 1]);
+  date.setDate(date.getDate() + 1); // Add 1 day
+  return date.toISOString().split('T')[0];
+});
+const periods = computed(() => [
+  'Ĝis ' + registrationPeriods.value[0],
+  'Ĝis ' + registrationPeriods.value[1],
+  'Ĝis ' + registrationPeriods.value[2],
+  'Ekde ' + lastPeriod.value,
+]);
+
+const aligxtipoj = [
+  {
+    title: '1. Individua membro de UEA (ne inkluzivas aligitajn membrojn)',
+    prices: prices.value.participation.baza.price[0],
+    discount: prices.value.earlyDiscounts ? prices.value.earlyDiscounts.baza[0] : null,
   },
-  computed: {
-    ...mapGetters(['currentPeriod', 'registrationPeriods', 'prices', 'countries', 'formOptions']),
-    aCountries() {
-      return this.countriesByCategory('A');
-    },
-    bCountries() {
-      return this.countriesByCategory('B');
-    },
-    lastPeriod() {
-      const date = new Date(this.registrationPeriods[this.registrationPeriods.length - 1]);
-      date.setDate(date.getDate() + 1); // Add 1 day
-      return date.toISOString().split('T')[0];
-    },
-    periods() {
-      return [
-        'Ĝis ' + this.registrationPeriods[0],
-        'Ĝis ' + this.registrationPeriods[1],
-        'Ĝis ' + this.registrationPeriods[2],
-        'Ekde ' + this.lastPeriod,
-      ];
-    },
+  {
+    title: '2. Ne individua membro de UEA',
+    prices: prices.value.participation.baza.price[1],
+    discount: prices.value.earlyDiscounts ? prices.value.earlyDiscounts.baza[1] : null,
   },
-  methods: {
-    countriesByCategory(cat) {
-      return Object.values(this.countries)
-        .filter((c) => c.category === cat)
-        .map((c) => c.name)
-        .sort(function (a, b) {
-          return Intl.Collator('eo').compare(a, b);
-        })
-        .join(', ');
-    },
+  {
+    title: '3. Komitatano / kunulo / junulo / handikapulo, mem individua membro de UEA',
+    prices: prices.value.participation.komitatano.price[0],
+    discount: prices.value.earlyDiscounts ? prices.value.earlyDiscounts.komitatano[0] : null,
   },
-  created() {
-    this.aligxtipoj = [
-      {
-        title: '1. Individua membro de UEA (ne inkluzivas aligitajn membrojn)',
-        prices: this.prices.participation.baza.price[0],
-      },
-      {
-        title: '2. Ne individua membro de UEA',
-        prices: this.prices.participation.baza.price[1],
-      },
-      {
-        title: '3. Komitatano / kunulo / junulo / handikapulo, mem individua membro de UEA',
-        prices: this.prices.participation.komitatano.price[0],
-      },
-      {
-        title: '4. Kunulo / junulo / handikapulo, ne individua membro de UEA',
-        prices: this.prices.participation.junulo.price[1],
-      },
-    ];
+  {
+    title: '4. Kunulo / junulo / handikapulo, ne individua membro de UEA',
+    prices: prices.value.participation.junulo.price[1],
+    discount: prices.value.earlyDiscounts ? prices.value.earlyDiscounts.junulo[1] : null,
   },
-};
+];
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 thead th {
   font-weight: bold;
   text-align: center;
@@ -165,6 +218,27 @@ thead th {
 
 td.active,
 th.active {
-  background-color: #ccffcc;
+  background-color: #bcddfc;
+}
+
+ul {
+  padding-left: 1.5em;
+}
+
+li {
+  list-style-type: disc;
+}
+
+.discount-table {
+  width: auto;
+  margin: 2em auto;
+
+  th {
+    padding: 4px 8px;
+  }
+
+  td {
+    padding: 4px 16px;
+  }
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
   <p>
-    <router-link :to="{ name: 'pricetable' }" target="_blank" style="font-size: 1.2em">
-      Vidi klarigojn pri la kotizoj
-    </router-link>
+    <a :href="websiteUrl + '/kotizoj/'" target="_blank" style="font-size: 1.2em">Vidi klarigojn pri la kotizoj</a>
   </p>
   <n-grid style="display: none" x-gap="12" cols="1 s:2" responsive="screen">
     <n-gi>
@@ -167,6 +165,7 @@ const store = useStore();
 const formOptions = computed(() => store.getters.formOptions);
 const fields = computed(() => store.getters.fields);
 const editMode = computed(() => store.getters.editMode);
+const websiteUrl = import.meta.env.VITE_WEBSITE_URL;
 
 const membrigxo_options = computed(() => {
   const options = {
@@ -209,8 +208,11 @@ const priceWithLabels = computed(() => {
     return null;
   }
   const price = [{ title: 'Aliĝkotizo', sum: props.detailedSum.aligxkotizo }];
+  if ('earlyDiscount' in props.detailedSum) {
+    price.push({ title: 'Rabato pro aliĝo dum UK 2026', sum: props.detailedSum.earlyDiscount });
+  }
   if ('discount' in props.detailedSum) {
-    price.push({ title: 'Rabato pro via partopreno en UK 2025', sum: props.detailedSum.discount });
+    price.push({ title: 'Rabato pro via partopreno en UK 2026', sum: props.detailedSum.discount });
   }
   if ('membrigxo' in props.detailedSum) {
     price.push({ title: 'Membrokotizo', sum: props.detailedSum.membrigxo });
@@ -248,7 +250,10 @@ const membercoHelp = computed(() => {
 table.price {
   border-collapse: collapse;
   font-size: 1.2em;
+  margin: auto;
+
   margin-top: 2rem;
+  max-width: 600px;
 
   tr {
     vertical-align: top;

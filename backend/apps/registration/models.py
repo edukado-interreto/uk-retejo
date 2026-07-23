@@ -23,6 +23,7 @@ class VueMixin(Page):
 class VuePage(VueMixin, Page):
     class VueModule(models.TextChoices):
         PARTICIPANTS = "participants", "Aliĝintoj"
+        PRICE = "price", "Kotizoj"
 
     vue_module = models.CharField(choices=VueModule, default=VueModule.PARTICIPANTS)
 

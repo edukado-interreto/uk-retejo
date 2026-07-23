@@ -43,7 +43,7 @@
     />
 
     <n-alert type="success" v-if="discount > 0" :closable="false" style="margin-top: 1rem; margin-bottom: 2rem">
-      Pro via partopreno en UK 2025 vi ricevas {{ discount }}-eŭran rabaton.
+      Pro via partopreno en UK 2026 vi ricevas {{ discount }}-eŭran rabaton.
     </n-alert>
 
     <slide-transition>
@@ -85,7 +85,7 @@
       <n-h3>Pagmaniero</n-h3>
       <p v-if="sum === null">Bonvolu elekti tipon de aliĝkotizo por vidi la pagmanierojn.</p>
       <template v-else>
-        <p>
+        <p style="font-size: 1.2em">
           <strong>Pagenda sumo: {{ sum }}&nbsp;€</strong>
         </p>
         <form-payment
@@ -475,8 +475,10 @@ export default {
         this.form,
         this.pricesList,
         this.countryMembershipCategory,
+        this.countryCategory,
         this.discount,
         this.formOptions,
+        this.prices,
         this.showPersonalData,
         this.memberAgeGroup,
       );

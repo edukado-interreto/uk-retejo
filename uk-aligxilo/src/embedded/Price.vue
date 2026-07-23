@@ -6,7 +6,7 @@
         <div v-if="loading" class="loading">
           <n-spin size="large" />
         </div>
-        <registered-participants v-else />
+        <price-table v-else />
       </n-dialog-provider>
     </n-message-provider>
   </n-config-provider>
@@ -17,7 +17,7 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { NDialogProvider, NConfigProvider, NMessageProvider, NGlobalStyle } from 'naive-ui';
 import { eo, dateEo } from 'naive-ui';
-import RegisteredParticipants from '@/pages/RegisteredParticipants.vue';
+import PriceTable from '@/pages/PriceTable.vue';
 
 const themeOverrides = {
   common: {
@@ -32,7 +32,7 @@ const themeOverrides = {
   },
 };
 
-const loading = ref(false);
+const loading = ref(true);
 
 const store = useStore();
 
@@ -42,7 +42,7 @@ function loaddata() {
   });
 }
 
-//loaddata();
+loaddata();
 </script>
 
 <style lang="scss">

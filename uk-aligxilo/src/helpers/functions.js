@@ -2,7 +2,6 @@ import { nextTick } from 'vue';
 
 export const scrollTo = (id, pixels = 32) => {
   nextTick(() => {
-    console.log('scrolling to #' + id);
     const element = document.getElementById(id);
     if (element !== null) {
       const top = element.getBoundingClientRect().top + window.scrollY - pixels;
