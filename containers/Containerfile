@@ -1,4 +1,4 @@
-# --- BASE STAGE ---
+#VITE_WEBSITE_URL --- BASE STAGE ---
 FROM python:3.14-alpine AS base
 
 ARG HOME=/backend
@@ -52,6 +52,7 @@ WORKDIR $HOME
 FROM node:24-alpine AS vite-build
 
 ARG VITE_API_URL
+ARG VITE_WEBSITE_URL
 ARG VITE_STRIPE_PUBLISHABLE_KEY
 
 RUN \

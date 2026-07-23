@@ -52,6 +52,7 @@ jobs:
             COMMIT_HASH=${{ steps.gen_tags.outputs.SHORT_COMMIT_HASH }}
             GIT_BRANCH=${{ github.ref_name }}
             VITE_API_URL=ALIGXILO_API_URL
+            VITE_WEBSITE_URL=ALIGXILO_WEBSITE_URL
             VITE_STRIPE_PUBLISHABLE_KEY=ALIGXILO_STRIPE_PUBLISHABLE_KEY
             VITE_OUT_DIR=/backend/apps/registration/static/vue
           tags: |
