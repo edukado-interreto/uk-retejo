@@ -17,6 +17,7 @@ export default defineConfig(() => ({
         edit: "src/edit.js",
         participants: "src/participants.js",
         registration: "src/registration.js",
+        price: "src/price.js",
       },
       output: {
         codeSplitting: {
