@@ -1,9 +1,10 @@
-from django.db import models
 from django.core.exceptions import ImproperlyConfigured
+from django.db import models
 from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
+from apps.base.models import BasePageMixin
 from config.utils import field_panels
 
 
@@ -20,17 +21,17 @@ class VueMixin(Page):
         return f"src/{self.vue_module}.js"
 
 
-class VuePage(VueMixin, Page):
+class VuePage(VueMixin, BasePageMixin, Page):
     class VueModule(models.TextChoices):
         PARTICIPANTS = "participants", "Aliĝintoj"
         PRICE = "price", "Kotizoj"
 
     vue_module = models.CharField(choices=VueModule, default=VueModule.PARTICIPANTS)
 
-    content_panels = field_panels("body", "vue_module")
+    content_panels = field_panels("header_image", "body", "vue_module")
 
 
-class RegistrationPage(VueMixin, RoutablePageMixin, Page):
+class RegistrationPage(VueMixin, BasePageMixin, RoutablePageMixin, Page):
     class VueModule(models.TextChoices):
         REGISTRATION = "registration", "Aliĝilo"
         EDIT = "edit", "Mendilo"
@@ -46,7 +47,7 @@ class RegistrationPage(VueMixin, RoutablePageMixin, Page):
         self._vue_module = value
         return self._vue_module
 
-    content_panels = field_panels("body")
+    content_panels = field_panels("header_image", "body")
 
     @path("mendilo/<str:unique_id>/")
     def edit_page(self, request, unique_id=None):
