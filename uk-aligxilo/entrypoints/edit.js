@@ -1,9 +1,9 @@
 import axios from "axios"
 import { createApp } from "vue"
-import Edit from "./embedded/Edit.vue"
-import mixins from "./mixins.js"
-import naive from "./plugins/naive-ui.js"
-import store from "./store.js"
+import Edit from "@/embedded/Edit.vue"
+import mixins from "@/mixins.js"
+import naive from "@/plugins/naive-ui.js"
+import store from "@/store.js"
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
 

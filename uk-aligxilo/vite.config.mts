@@ -1,10 +1,23 @@
-import { fileURLToPath, URL } from "node:url"
+import { readdirSync } from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+
 import vue from "@vitejs/plugin-vue"
 import { defineConfig } from "vite"
 
 const absolute = (path: string) => fileURLToPath(import.meta.resolve(path))
 
 const BASE_PATH = "/static/vue/"
+
+const ENTRYPOINTS = Object.fromEntries(
+  readdirSync("./entrypoints")
+    .map(path.parse)
+    .map((f: path) => [f.name, `entrypoints/${f.base}`])
+)
+
+const codeSplitting = {
+  groups: [{ name: "naive-ui", test: /node_modules\/naive-ui/ }],
+}
 
 export default defineConfig(() => ({
   base: BASE_PATH,
@@ -13,25 +26,12 @@ export default defineConfig(() => ({
     emptyOutDir: true,
     manifest: "manifest.json",
     rolldownOptions: {
-      input: {
-        edit: "src/edit.js",
-        participants: "src/participants.js",
-        registration: "src/registration.js",
-        price: "src/price.js",
-      },
-      output: {
-        codeSplitting: {
-          groups: [{ name: "naive-ui", test: /node_modules\/naive-ui/ }],
-        },
-      },
+      input: ENTRYPOINTS,
+      output: { codeSplitting },
     },
   },
   clearScreen: false,
   plugins: [vue()],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-  },
+  resolve: { alias: { "@": absolute("./src") } },
   server: { host: "0.0.0.0", port: 5173 },
 }))

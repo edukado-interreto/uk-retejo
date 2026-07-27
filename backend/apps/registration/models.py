@@ -18,7 +18,7 @@ class VueMixin(Page):
     def entrypoint(self):
         if not hasattr(self, "vue_module"):
             raise ImproperlyConfigured("A VuePage must have a vue_module field.")
-        return f"src/{self.vue_module}.js"
+        return f"entrypoints/{self.vue_module}.js"
 
 
 class VuePage(VueMixin, BasePageMixin, Page):
