@@ -1,4 +1,4 @@
-#VITE_WEBSITE_URL --- BASE STAGE ---
+# --- BASE STAGE ---
 FROM python:3.14-alpine AS base
 
 ARG HOME=/backend

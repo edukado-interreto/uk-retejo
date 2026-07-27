@@ -49,6 +49,7 @@ jobs:
           secrets: |
             "PYPI_PASSWORD=${{ secrets.PYPI_PASSWORD }}"
           build-args: |
+            HOME=/backend
             COMMIT_HASH=${{ steps.gen_tags.outputs.SHORT_COMMIT_HASH }}
             GIT_BRANCH=${{ github.ref_name }}
             VITE_API_URL=ALIGXILO_API_URL
