@@ -113,6 +113,9 @@ if DEBUG:
 
 ROOT_URLCONF = "config.urls"
 
+DJANGO_ADMIN_URL = config("DJANGO_ADMIN_URL", "django-admin")
+WAGTAIL_ADMIN_URL = config("WAGTAIL_ADMIN_URL", "admin")
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
