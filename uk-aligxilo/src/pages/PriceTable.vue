@@ -208,6 +208,11 @@ thead th {
   text-align: center;
 }
 
+.n-table tbody tr th:first-child,
+.n-table tbody tr td:first-child {
+  text-align: left;
+}
+
 .n-table th {
   white-space: normal;
 }
