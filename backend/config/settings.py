@@ -160,7 +160,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "eo"
 LANGUAGES = [("eo", _("Esperanto"))]
-TIME_ZONE = "Europe/Prague"
+TIME_ZONE = "UTC"
 FORMAT_MODULE_PATH = ["config.formats"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -216,6 +216,10 @@ WAGTAILEMBEDS_FINDERS = EMBEDS_FINDERS
 WAGTAILMENUS_ACTIVE_ANCESTOR_CLASS = "active"
 
 # Ignoring these WARNINGS:
+#
+# <class 'django.db.models.manager.BasePageManagerFromPageQuerySet'>: (treebeard.E001)
+# django.db.models.manager.BasePageManagerFromPageQuerySet does not subclass treebeard.mp_tree.MP_NodeManager. This will cause an error in Treebeard 6.
+#
 # wagtailmenus.MainMenu/FlatMenu: (wagtailadmin.W002) MainMenu/FlatMenu.content_panels will have
 # no effect on snippets editing
 # 	HINT: Ensure that MainMenu/FlatMenu uses `panels` instead of `content_panels` or
@@ -223,7 +227,7 @@ WAGTAILMENUS_ACTIVE_ANCESTOR_CLASS = "active"
 # 	There are no default tabs on non-Page models so there will be no Content tab
 # 	for the content_panels to render in.
 # See: https://github.com/jazzband/wagtailmenus/issues/464
-SILENCED_SYSTEM_CHECKS = ["wagtailadmin.W002"]
+SILENCED_SYSTEM_CHECKS = ["treebeard.E001", "wagtailadmin.W002"]
 
 
 # Vue / Vite integration

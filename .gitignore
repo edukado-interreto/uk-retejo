@@ -1,6 +1,7 @@
 **/.env
 backend/.*hist*
 backend/apps/registration/static/vue
+backend/evente
 containers/secrets/*
 containers/volumes/assets/**
 containers/volumes/caddy/data/**
