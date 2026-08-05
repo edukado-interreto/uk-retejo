@@ -6,9 +6,10 @@ from apps.base.models import BasePageMixin
 from config.utils import field_panels
 from evente.blocks.heroes import HeroBlock
 from evente.blocks.layouts import BodyContent
+from evente.models import EventPageMixin
 
 
-class HomePage(Page):
+class HomePage(EventPageMixin, Page):
     hero = StreamField(
         HeroBlock,
         verbose_name=_("hero"),
@@ -20,7 +21,7 @@ class HomePage(Page):
         blank=True,
     )
 
-    content_panels = field_panels("hero", "body")
+    content_panels = field_panels("event", "hero", "body")
 
 
 class SimplePage(BasePageMixin, Page):

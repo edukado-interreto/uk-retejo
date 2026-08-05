@@ -92,6 +92,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "evente.middleware.CurrentEventMiddleware",
 ]
 
 if DEBUG:
