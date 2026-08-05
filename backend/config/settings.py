@@ -70,7 +70,6 @@ INSTALLED_APPS = [
     "apps.program",
     "apps.registration",
     "apps.search",
-    "apps.site_settings",
 ]
 
 if DEBUG:
