@@ -1088,15 +1088,15 @@ wheels = [
 
 [[package]]
 name = "wagtail-evente"
-version = "0.6.1"
+version = "0.6.2"
 source = { registry = "https://pypi.ikso.net/simple" }
 dependencies = [
     { name = "wagtail" },
     { name = "wagtailmenus" },
 ]
-sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.6.1.tar.gz", hash = "sha256:14726ddf60aea461da344235b641021011b33293195ca78a7e8d5ceaa532a6dd" }
+sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.6.2.tar.gz", hash = "sha256:822d550daca90deab7d31ee1ad1a5e12ed4dc1b02281d74c4e97a949a00b04c4" }
 wheels = [
-    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.6.1-py3-none-any.whl", hash = "sha256:88698188adfa57f3572d98ba408072347d072f5e373d4397ddbcc5df0f1b0783" },
+    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.6.2-py3-none-any.whl", hash = "sha256:9cbdad8478c32fe5bb7b131aaa7c2008119b0ce65c0cac5563eeab86bf0dad3a" },
 ]
 
 [[package]]

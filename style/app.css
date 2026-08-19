@@ -36,6 +36,11 @@
   }
 }
 
+.rich-text img {
+    max-width: 100%;
+    height: auto;
+}
+
 .responsive-object {
   position: relative;
 }
