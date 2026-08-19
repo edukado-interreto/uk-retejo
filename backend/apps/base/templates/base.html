@@ -7,14 +7,8 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
   <link rel="manifest" href="{% static 'site.webmanifest' %}">
-  <title>
-    {% block title %}
-    {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-    {% endblock %}
-    {% block title_suffix %}
-    {% wagtail_site as current_site %}
-    {% if current_site and current_site.site_name %} - {{ current_site.site_name }}{% endif %}
-    {% endblock %}
+  <title>{% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}
+    {% block title_suffix %}{% wagtail_site as current_site %}{% if current_site and current_site.site_name %} - {{ current_site.site_name }}{% endif %}{% endblock %}
   </title>
   {% if page.search_description %}
   <meta name="description" content="{{ page.search_description }}">
@@ -44,10 +38,8 @@
 <body class="{% block body_class %}{% endblock %}">
   {% wagtailuserbar "bottom-left" %}
 
-  {# include "evente/snippets/preloader.html" only #}
+  {# include "evente/snippets/preloader.html" #}
   {% include "evente/snippets/scroll_top.html" only %}
-  {% include "evente/snippets/header_search.html" only %}
-  {% include "evente/snippets/cart_mini_area.html" only %}
   {% include "evente/header/header.html" %}
 
   {# {% include "navigation.html" %} #}
