@@ -27,11 +27,11 @@ dev = [
   "ruff>=0.15.7",
 ]
 prod = [
-  "wagtail-evente>=0.6.0",
+  "wagtail-evente>=0.7.0",
 ]
 
 [tool.ruff.lint]
-ignore = ["E731"] # lambda/def
+ignore = ["E731"]  # lambda/def
 
 [tool.ruff.lint.isort]
 known-third-party = ["django", "wagtail"]
