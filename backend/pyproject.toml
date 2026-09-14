@@ -15,7 +15,7 @@ dependencies = [
   "python-slugify>=8.0.4",
   "sentry-sdk[django]>=2.54.0",
   "toml-decouple>=0.11.0",
-  "wagtail>=7.0,<8",
+  "wagtail>=8.0,<9",
   "wagtailmenus>=4.0.5",
 ]
 
