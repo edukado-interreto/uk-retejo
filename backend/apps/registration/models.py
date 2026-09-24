@@ -21,14 +21,20 @@ class VueMixin(Page):
         return f"entrypoints/{self.vue_module}.js"
 
 
-class VuePage(VueMixin, BasePageMixin, Page):
+class VuePage(VueMixin, BasePageMixin, RoutablePageMixin, Page):
     class VueModule(models.TextChoices):
+        REGISTRATION = "registration", "Aliĝilo"
+        EDIT = "edit", "Mendilo"
         PARTICIPANTS = "participants", "Aliĝintoj"
         PRICE = "price", "Kotizoj"
 
     vue_module = models.CharField(choices=VueModule, default=VueModule.PARTICIPANTS)
 
     content_panels = field_panels("header_image", "body", "vue_module")
+
+    @path("<str:unique_id>/")
+    def edit_page(self, request, unique_id=None):
+        return self.render(request)
 
 
 class RegistrationPage(VueMixin, BasePageMixin, RoutablePageMixin, Page):
