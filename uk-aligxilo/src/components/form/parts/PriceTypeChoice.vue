@@ -119,7 +119,7 @@ const props = defineProps({
   },
 });
 
-const form = defineModel({ type: String });
+const form = defineModel({ type: Object });
 
 const store = useStore();
 const formOptions = computed(() => store.getters.formOptions);

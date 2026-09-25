@@ -4,6 +4,7 @@
       <div class="radio-option" v-for="option in optionsList" :key="option.value">
         <n-radio :value="option.value" :disabled="isEditable && disabledOptions.includes(option.value)">
           <span v-html="option.label"></span>
+          <div v-if="option.value in remarks" class="remark">{{ remarks[option.value] }}</div>
         </n-radio>
         <n-button text style="font-size: 20px" v-if="option.description" @click="showDescription(option)">
           <n-icon color="#2050cf">
@@ -58,6 +59,10 @@ const props = defineProps({
   disabledOptions: {
     type: Array,
     default: () => [],
+  },
+  remarks: {
+    type: Object,
+    default: () => ({}),
   },
 });
 
@@ -119,5 +124,9 @@ function showDescription(option) {
   .button {
     position: absolute;
   }
+}
+.remark {
+  color: var(--n-feedback-text-color);
+  font-size: 0.95em;
 }
 </style>

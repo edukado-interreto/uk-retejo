@@ -85,8 +85,10 @@
       <n-h3>Pagmaniero</n-h3>
       <p v-if="sum === null">Bonvolu elekti tipon de aliĝkotizo por vidi la pagmanierojn.</p>
       <template v-else>
-        <p style="font-size: 1.2em">
-          <strong>Pagenda sumo: {{ sum }}&nbsp;€</strong>
+        <p style="font-size: 1.3em">
+          <strong>
+            Pagenda sumo: <span style="font-size: 1.1em">{{ sum }}&nbsp;€</span>
+          </strong>
         </p>
         <form-payment
           ref="payments"
