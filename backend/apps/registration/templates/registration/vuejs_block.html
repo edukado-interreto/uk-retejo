@@ -1,0 +1,22 @@
+{% load static wagtailcore_tags django_vite %}
+<div id="vue-{{ self.vue_module }}" class="mount-point"></div>
+
+{% vite_asset entrypoint %}
+
+<style>
+    .mount-point {
+        min-height: 90vh;
+        margin-block: 4rem;
+    }
+
+    form.mainform h3, form.mainform h4 {
+        color: var(--color-primary);
+        background: none;
+        border-bottom: var(--color-secondary) 1px solid;
+        font-family: var(--font-unbounded);
+    }
+    
+    h1.n-h1, h2.n-h2, h3.n-h3, h4.n-h4 {
+        font-family: var(--font-unbounded);
+    }
+</style>

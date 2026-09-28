@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
-from django.contrib.staticfiles.views import serve
 from django.core.files.storage import storages
 from django.http import HttpRequest
 from django.shortcuts import redirect

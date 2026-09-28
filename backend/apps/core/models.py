@@ -1,4 +1,5 @@
 from django.utils.translation import gettext_lazy as _
+from wagtail.contrib.routable_page.models import RoutablePageMixin, re_path
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
@@ -24,7 +25,7 @@ class HomePage(EventPageMixin, Page):
     content_panels = field_panels("event", "hero", "body")
 
 
-class SimplePage(BasePageMixin, Page):
+class SimplePage(BasePageMixin, RoutablePageMixin, Page):
     body = StreamField(
         BodyContent,
         verbose_name=_("body"),
@@ -32,3 +33,12 @@ class SimplePage(BasePageMixin, Page):
     )
 
     content_panels = field_panels("header_image", "body")
+
+    class Meta:
+        verbose_name = "Page"
+
+    @re_path(r"^(?P<unique_id>[0-9a-f]{32,38})/$")
+    def mendilo(self, request, unique_id=None):
+        """Assuming ID is hexadecimal string of length 32 to 38."""
+        ctx = {"unique_id": unique_id} if unique_id else None
+        return self.render(request, context_overrides=ctx)
