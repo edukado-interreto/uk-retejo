@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name="simplepage",
-            options={"verbose_name": "Page"},
+            options={"verbose_name": "Simple page"},
         ),
         migrations.AlterField(
             model_name="homepage",

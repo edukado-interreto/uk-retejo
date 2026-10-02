@@ -21,6 +21,7 @@ class HomePage(EventPageMixin, Page):
         blank=True,
     )
 
+    parent_page_types = ["evente.EventeSiteRoot"]
     content_panels = field_panels("event", "hero", "body")
 
 
@@ -34,7 +35,7 @@ class SimplePage(BasePageMixin, RoutablePageMixin, Page):
     content_panels = field_panels("header_image", "body")
 
     class Meta:
-        verbose_name = "Page"
+        verbose_name = _("Simple page")
 
     @re_path(r"^(?P<unique_id>[0-9a-f]{32,38})/$")
     def mendilo(self, request, unique_id=None):
