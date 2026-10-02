@@ -1,11 +1,12 @@
-from django.utils.translation import gettext, gettext_lazy as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from apps.base.blocks import BaseStreamBlock
-from apps.base.models import BasePageMixin
 from apps.home.blocks import HomeStreamBlock
 from config.utils import field_panels
+from evente.models import BasePageMixin
 
 
 class BasicPage(BasePageMixin, Page):

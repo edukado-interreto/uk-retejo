@@ -3,11 +3,10 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, re_path
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
-from apps.base.models import BasePageMixin
 from config.utils import field_panels
 from evente.blocks.heroes import HeroBlock
 from evente.blocks.layouts import BodyContent
-from evente.models import EventPageMixin
+from evente.models import BasePageMixin, EventPageMixin
 
 
 class HomePage(EventPageMixin, Page):

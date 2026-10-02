@@ -1,9 +1,9 @@
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
-from apps.base.models import BasePageMixin
 from apps.program.blocks import ProgramProposalStreamBlock, TimelineStreamBlock
 from config.utils import field_panels
+from evente.models import BasePageMixin
 
 
 class TimelinePage(BasePageMixin, Page):

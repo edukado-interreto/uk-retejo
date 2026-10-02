@@ -5,7 +5,6 @@ from enum import Enum
 from ipaddress import ip_address, ip_network
 from typing import cast
 
-from django.http import HttpRequest
 from django.utils.module_loading import import_string
 
 

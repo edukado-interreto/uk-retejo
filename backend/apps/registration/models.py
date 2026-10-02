@@ -4,8 +4,8 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, path
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
-from apps.base.models import BasePageMixin
 from config.utils import field_panels
+from evente.models import BasePageMixin
 
 
 class VuePage(BasePageMixin, RoutablePageMixin, Page):
