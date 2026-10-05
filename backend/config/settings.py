@@ -6,7 +6,6 @@ from dj_database_url import parse as db_url_parse
 from django.utils.translation import gettext_lazy as _
 from toml_decouple import TomlDecouple, config
 
-from .embeds import EMBEDS_FINDERS
 from .error_tracking import setup_bugsink
 from .logs import PROD_LOGGING
 from .utils import Environment, InternalIPs, django_vite_dev_mode
@@ -209,7 +208,6 @@ WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.databa
 WAGTAILDOCS_EXTENSIONS = "csv docx key odt pdf pptx rtf txt xlsx zip".split()
 # https://docs.wagtail.org/en/stable/topics/writing_templates.html#responsive-embeds
 WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
-WAGTAILEMBEDS_FINDERS = EMBEDS_FINDERS
 
 # Wagtail Menus
 # Sets also the "active" CSS class on the top-level menu on a sub-page
