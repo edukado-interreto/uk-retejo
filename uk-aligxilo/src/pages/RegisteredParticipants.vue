@@ -5,7 +5,7 @@
 
     <n-input-group>
       <n-input type="text" size="large" style="width: 16em" v-model:value="year" @keydown.enter="fetchData" />
-      <n-button size="large" type="primary" :loading="loading" @click="fetchData"> Sendi </n-button>
+      <n-button size="large" type="primary" :loading="loading" @click="fetchData">Sendi</n-button>
     </n-input-group>
   </n-card>
   <template v-else>
@@ -36,7 +36,7 @@
           {{ letter }}
         </n-button>
       </div>
-      <n-table :single-line="false" striped size="small">
+      <n-table :single-line="false" striped size="small" style="max-width: 800px; margin: auto">
         <thead>
           <tr>
             <th>Nomo</th>
@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <tr v-for="(participant, index) in filteredListByName" :key="index">
-            <td v-if="participant.hidden" class="hidden">Kaŝita</td>
+            <td v-if="participant.hidden" class="participant-hidden">Kaŝita</td>
             <td v-else>
               {{ participant.first_name }}
               <strong>{{ participant.last_name }}</strong>
@@ -71,7 +71,7 @@
       <n-card
         v-for="(country, index) in filteredListByCountry"
         :key="index"
-        class="custom-card"
+        class="custom-card country-card"
         :title="`${country.flag} ${country.name} (${country.participants.length + country.hidden})`"
       >
         <ul v-if="country.participants.length > 0" style="margin: 0">
@@ -81,7 +81,7 @@
           </li>
         </ul>
         <p v-if="country.hidden === 1">
-          Unu {{ country.participants.length > 0 ? 'alia ' : '' }}partoprenanto el {{ country.name }} ne konsentis aperi
+          1 {{ country.participants.length > 0 ? 'alia ' : '' }}partoprenanto el {{ country.name }} ne konsentis aperi
           en la publika listo de partoprenantoj.
         </p>
         <p v-else-if="country.hidden > 1">
@@ -93,201 +93,173 @@
   </template>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import { NInputGroup, useMessage } from 'naive-ui';
 import axios from 'axios';
-import { mapGetters } from 'vuex';
 import { flagEmoji } from '@/helpers/functions';
 
-export default {
-  name: 'RegisteredParticipants',
-  components: { NInputGroup },
-  data() {
-    return {
-      year: '',
-      loading: false,
-      message: useMessage(),
-      participants: null,
-      modeName: true,
-      filterLetter: null,
-      filterCountry: null,
-    };
-  },
-  computed: {
-    ...mapGetters(['countries']),
-    numberOfCountries() {
-      if (this.participants === null) {
-        return 0;
-      }
-      const countries = this.participants.map((p) => p.country).filter((c) => c in this.countries);
+defineOptions({ name: 'RegisteredParticipants' });
 
-      let uniqueCount = 0;
-      countries.forEach((element, index) => {
-        if (countries.indexOf(element) === index) {
-          uniqueCount += 1;
-        }
-      });
-      return uniqueCount;
-    },
-    listByName() {
-      const listWithCountries = this.participants.map((p) => {
-        return {
-          ...p,
-          country: p.country in this.countries ? this.countries[p.country].name : p.country,
-        };
-      });
-      const notHidden = listWithCountries
-        .filter((p) => !p.hidden)
-        .sort(function (a, b) {
-          if (a.last_name === b.last_name) {
-            return Intl.Collator('eo').compare(a.first_name, b.first_name);
-          }
-          return Intl.Collator('eo').compare(a.last_name, b.last_name);
-        });
-      const hidden = listWithCountries
-        .filter((p) => p.hidden)
-        .sort(function (a, b) {
-          return Intl.Collator('eo').compare(a.country, b.country);
-        });
-      return [...notHidden, ...hidden];
-    },
-    filteredListByName() {
-      if (this.filterLetter === null) {
-        return this.listByName;
-      }
-      return this.listByName.filter(
-        (p) => !p.hidden && this.assignLetter(p.last_name.charAt(0).toUpperCase()) === this.filterLetter,
-      );
-    },
-    firstLetters() {
-      const letters = [];
-      this.participants.forEach((p) => {
-        if (!p.hidden) {
-          const letter = this.assignLetter(p.last_name.charAt(0).toUpperCase());
-          if (!letters.includes(letter)) {
-            letters.push(letter);
-          }
-        }
-      });
-      letters.sort(function (a, b) {
-        return Intl.Collator('eo').compare(a, b);
-      });
-      return letters;
-    },
-    listByCountry() {
-      const uniqueCountries = [];
-      this.participants.forEach((p) => {
-        if (p.country in this.countries && !uniqueCountries.includes(p.country)) {
-          uniqueCountries.push(p.country);
-        }
-      });
+const store = useStore();
+const message = useMessage();
 
-      const countries = [];
-      const otherCountries = [];
-      uniqueCountries.forEach((c) => {
-        const hidden = this.participants.filter((p) => p.country === c && p.hidden).length;
-        const participants = this.participants
-          .filter((p) => p.country === c && !p.hidden)
-          .sort(function (a, b) {
-            if (a.last_name === b.last_name) {
-              return Intl.Collator('eo').compare(a.first_name, b.first_name);
-            }
-            return Intl.Collator('eo').compare(a.last_name, b.last_name);
-          });
-        if (c in this.countries) {
-          const country = {
-            code: c,
-            name: this.countries[c].name,
-            flag: flagEmoji(c),
-            participants,
-            hidden,
-          };
-          countries.push(country);
-        } else {
-          const country = {
-            code: c,
-            name: 'Forpasintoj',
-            flag: '',
-            participants,
-            hidden,
-          };
-          otherCountries.push(country);
-        }
-      });
+const year = ref('');
+const loading = ref(false);
+const participants = ref(null);
+const modeName = ref(true);
+const filterLetter = ref(null);
+const filterCountry = ref(null);
 
-      countries.sort(function (a, b) {
-        return Intl.Collator('eo').compare(a.name, b.name);
-      });
+const countries = computed(() => store.getters.countries);
 
-      return [...countries, ...otherCountries];
-    },
-    filteredListByCountry() {
-      if (this.filterCountry === null) {
-        return this.listByCountry;
-      }
-      return this.listByCountry.filter((c) => c.code === this.filterCountry);
-    },
-  },
-  methods: {
-    assignLetter(letter) {
-      const substitutions = {
-        Č: 'Ĉ',
-        Š: 'Ŝ',
-        Ş: 'Ŝ',
-        Ș: 'Ŝ',
-        Ś: 'S',
-        Ł: 'L',
-        Ž: 'Z',
-        Ż: 'Z',
-        Ź: 'Z',
-        É: 'E',
-        Å: 'A',
-        Á: 'A',
-        İ: 'I',
-        Í: 'I',
-        Ó: 'O',
-        Ö: 'O',
-        Ü: 'U',
-      };
-      if (letter in substitutions) {
-        return substitutions[letter];
-      }
-      return letter;
-    },
-    fetchData() {
-      this.loading = true;
-      axios
-        .post('/participants', { year: this.year })
-        .then((result) => {
-          if (result.data.success) {
-            this.participants = result.data.participants;
-          } else {
-            this.message.error('Malĝusta respondo.', {
-              keepAliveOnHover: true,
-            });
-          }
-        })
-        .catch((error) => {
-          this.message.error(error, {
-            keepAliveOnHover: true,
-          });
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-  },
-};
-</script>
+const collator = Intl.Collator('eo');
 
-<style scoped>
-.n-table th {
-  font-weight: bold;
+function compareByName(a, b) {
+  if (a.last_name === b.last_name) {
+    return collator.compare(a.first_name, b.first_name);
+  }
+  return collator.compare(a.last_name, b.last_name);
 }
 
-.hidden {
+const letterSubstitutions = {
+  Č: 'Ĉ',
+  Š: 'Ŝ',
+  Ş: 'Ŝ',
+  Ș: 'Ŝ',
+  Ś: 'S',
+  Ł: 'L',
+  Ž: 'Z',
+  Ż: 'Z',
+  Ź: 'Z',
+  É: 'E',
+  Å: 'A',
+  Á: 'A',
+  İ: 'I',
+  Í: 'I',
+  Ó: 'O',
+  Ö: 'O',
+  Ü: 'U',
+};
+
+function assignLetter(letter) {
+  return letterSubstitutions[letter] ?? letter;
+}
+
+function firstLetter(participant) {
+  return assignLetter(participant.last_name.charAt(0).toUpperCase());
+}
+
+const numberOfCountries = computed(() => {
+  if (participants.value === null) {
+    return 0;
+  }
+  return new Set(participants.value.map((p) => p.country).filter((c) => c in countries.value)).size;
+});
+
+const listByName = computed(() => {
+  const listWithCountries = participants.value.map((p) => ({
+    ...p,
+    country: p.country in countries.value ? countries.value[p.country].name : p.country,
+  }));
+  const notHidden = listWithCountries.filter((p) => !p.hidden).sort(compareByName);
+  const hidden = listWithCountries.filter((p) => p.hidden).sort((a, b) => collator.compare(a.country, b.country));
+  return [...notHidden, ...hidden];
+});
+
+const filteredListByName = computed(() => {
+  if (filterLetter.value === null) {
+    return listByName.value;
+  }
+  return listByName.value.filter((p) => !p.hidden && firstLetter(p) === filterLetter.value);
+});
+
+const firstLetters = computed(() => {
+  const letters = new Set(participants.value.filter((p) => !p.hidden).map(firstLetter));
+  return [...letters].sort((a, b) => collator.compare(a, b));
+});
+
+const listByCountry = computed(() => {
+  const uniqueCountries = new Set(participants.value.map((p) => p.country).filter((c) => c in countries.value));
+
+  const knownCountries = [];
+  const otherCountries = [];
+  uniqueCountries.forEach((c) => {
+    const hidden = participants.value.filter((p) => p.country === c && p.hidden).length;
+    const countryParticipants = participants.value.filter((p) => p.country === c && !p.hidden).sort(compareByName);
+    if (c in countries.value) {
+      knownCountries.push({
+        code: c,
+        name: countries.value[c].name,
+        flag: flagEmoji(c),
+        participants: countryParticipants,
+        hidden,
+      });
+    } else {
+      otherCountries.push({
+        code: c,
+        name: 'Forpasintoj',
+        flag: '',
+        participants: countryParticipants,
+        hidden,
+      });
+    }
+  });
+
+  knownCountries.sort((a, b) => collator.compare(a.name, b.name));
+
+  return [...knownCountries, ...otherCountries];
+});
+
+const filteredListByCountry = computed(() => {
+  if (filterCountry.value === null) {
+    return listByCountry.value;
+  }
+  return listByCountry.value.filter((c) => c.code === filterCountry.value);
+});
+
+async function fetchData() {
+  loading.value = true;
+  try {
+    const result = await axios.post('/participants', { year: year.value });
+    if (result.data.success) {
+      participants.value = result.data.participants;
+    } else {
+      message.error('Malĝusta respondo.', { keepAliveOnHover: true });
+    }
+  } catch (error) {
+    message.error(String(error), { keepAliveOnHover: true });
+  } finally {
+    loading.value = false;
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.n-table th {
+  font-weight: bold;
+
+  td,
+  th {
+    padding-left: 8px;
+  }
+}
+
+.participant-hidden {
   font-style: italic;
-  color: #777;
+  color: #7a7a7a;
+}
+
+.n-card.custom-card.country-card {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  p {
+    margin-top: 1em;
+    margin-bottom: 0;
+  }
 }
 
 .buttonsList {

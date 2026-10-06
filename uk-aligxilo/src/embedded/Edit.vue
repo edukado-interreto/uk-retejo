@@ -68,7 +68,7 @@ if (match === null) {
 
 const themeOverrides = {
   common: {
-    primaryColor: '#3366FF',
+    primaryColor: '#009966',
     fontFamily: 'Poppins, sans-serif',
   },
   Checkbox: {

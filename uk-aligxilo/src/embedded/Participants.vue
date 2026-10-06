@@ -21,7 +21,7 @@ import RegisteredParticipants from '@/pages/RegisteredParticipants.vue';
 
 const themeOverrides = {
   common: {
-    primaryColor: '#3366FF',
+    primaryColor: '#009966',
     fontFamily: 'Poppins, sans-serif',
   },
   Checkbox: {

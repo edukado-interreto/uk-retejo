@@ -1,22 +1,35 @@
 <template>
-  <n-alert v-if="success" type="success" id="successAlert" :closable="false" style="margin-bottom: 2rem">
-    <template v-if="edit">
-      <p style="font-size: 1.1rem">Via mendo estis sukcese sendita al la Kongresa Fako.</p>
-    </template>
-    <template v-else>
-      <p style="font-size: 1.1rem" v-if="sum > 0 && form.pagmaniero === 'Stripe'">
-        Via pago ({{ sum }}&nbsp;€) sukcese efektiviĝis.
-      </p>
-      <p style="font-size: 1.1rem">Vi sukcese aliĝis al la 112-a Universala Kongreso de Esperanto.</p>
-    </template>
-    <p style="font-size: 1.1rem">
+  <n-alert
+    v-if="success && edit"
+    type="success"
+    id="successAlert"
+    :closable="false"
+    style="margin-bottom: 2rem"
+    title="Via mendo estis sukcese sendita al la Kongresa Fako."
+  >
+    <p>
       Retmesaĝo kun pli detalaj informoj estis sendita al
       {{ formToSend.retadreso ? formToSend.retadreso : 'via retpoŝtadreso' }}.
     </p>
     <p style="text-align: center">
-      <n-button @click="$router.go()" type="primary" size="large">{{
-        edit ? 'Redakti la mendon' : 'Aligi plian personon'
-      }}</n-button>
+      <n-button @click="$router.go()" type="primary" size="large">Redakti la mendon</n-button>
+    </p>
+  </n-alert>
+  <n-alert
+    v-else-if="success && !edit"
+    type="success"
+    id="successAlert"
+    :closable="false"
+    style="margin-bottom: 2rem"
+    title="Vi sukcese aliĝis al la 112-a Universala Kongreso de Esperanto."
+  >
+    <p v-if="sum > 0 && form.pagmaniero === 'Stripe'">Via pago ({{ sum }}&nbsp;€) sukcese efektiviĝis.</p>
+    <p>
+      Retmesaĝo kun pli detalaj informoj estis sendita al
+      {{ formToSend.retadreso ? formToSend.retadreso : 'via retpoŝtadreso' }}.
+    </p>
+    <p style="text-align: center">
+      <n-button @click="$router.go()" type="primary" size="large">Aligi plian personon</n-button>
     </p>
   </n-alert>
 
@@ -653,7 +666,6 @@ export default {
 <style lang="scss">
 form.mainform {
   padding-left: 1rem;
-  border-left: 1px solid #25aae1;
 
   @media screen and (max-width: 1024px) {
     padding-left: 0;
@@ -667,8 +679,6 @@ form.mainform {
 
   h3,
   h4 {
-    color: #3366ff;
-    background: #ccffcc;
     margin: 2rem 0 2.6rem;
   }
 
@@ -689,14 +699,27 @@ form.mainform {
 
   a {
     text-decoration: none;
-    color: #0030db;
+    color: var(--color-primary);
   }
 
   a:hover,
   a:active,
   a:focus {
     text-decoration: underline;
-    color: #3366ff;
+    color: var(--color-secondary);
+  }
+}
+
+.n-alert .n-alert-body {
+  p {
+    font-size: 1.1rem;
+  }
+
+  .n-alert-body__title {
+    font-family: var(--font-unbounded);
+    margin-top: 3px;
+    margin-bottom: 6px;
+    transform: scaleY(1.1);
   }
 }
 </style>

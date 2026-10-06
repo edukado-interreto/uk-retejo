@@ -21,7 +21,7 @@ import { eo, dateEo } from 'naive-ui';
 
 const themeOverrides = {
   common: {
-    primaryColor: '#3366FF',
+    primaryColor: '#009966',
     fontFamily: 'Poppins, sans-serif',
   },
   Checkbox: {
