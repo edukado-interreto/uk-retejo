@@ -13,6 +13,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from apps.base.views import serve_upload
+from apps.core import views as core_views
 from apps.search import views as search_views
 from evente import urls as evente_urls
 
@@ -44,6 +45,7 @@ urlpatterns = [
     path("favicon.ico", favicon),
     *static_urlpatterns,
     *media_urlpatterns(view=serve_upload),
+    path("wagtail/api/html/get-embed/", core_views.api_get_embed),
     path(f"{settings.DJANGO_ADMIN_URL}/", admin.site.urls),
     path(f"{settings.WAGTAIL_ADMIN_URL}/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
