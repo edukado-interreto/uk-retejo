@@ -252,7 +252,7 @@ async function fetchData() {
 }
 
 .n-card.custom-card.country-card {
-  max-width: 800px;
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 
@@ -263,7 +263,6 @@ async function fetchData() {
 }
 
 .buttonsList {
-  text-align: center;
   margin: 2rem 0;
 }
 
