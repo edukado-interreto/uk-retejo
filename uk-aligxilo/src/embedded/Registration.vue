@@ -1,36 +1,17 @@
 <template>
-  <n-config-provider :theme-overrides="themeOverrides" :locale="eo" :date-locale="dateEo">
-    <n-global-style />
-    <n-message-provider>
-      <n-dialog-provider>
-        <div v-if="loading" class="loading">
-          <n-spin size="large" />
-        </div>
-        <main-form v-else :default-data="form" />
-      </n-dialog-provider>
-    </n-message-provider>
-  </n-config-provider>
+  <base-app>
+    <div v-if="loading" class="loading">
+      <n-spin size="large" />
+    </div>
+    <main-form v-else :default-data="form" />
+  </base-app>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-import MainForm from '@/components/MainForm.vue';
 import { useStore } from 'vuex';
-import { NDialogProvider, NConfigProvider, NMessageProvider, NGlobalStyle } from 'naive-ui';
-import { eo, dateEo } from 'naive-ui';
-
-const themeOverrides = {
-  common: {
-    primaryColor: '#009966',
-    fontFamily: 'Poppins, sans-serif',
-  },
-  Checkbox: {
-    border: '1px solid #909090',
-  },
-  Radio: {
-    boxShadow: 'inset 0 0 0 1px #909090',
-  },
-};
+import BaseApp from './BaseApp.vue';
+import MainForm from '@/components/MainForm.vue';
 
 const loading = ref(true);
 
@@ -115,56 +96,6 @@ function isTodayInRange(startStr, endStr) {
   return current >= start && current <= end;
 }
 </script>
-
-<style lang="scss">
-.n-card.custom-card {
-  margin: 2em 0;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  background-color: #fff;
-
-  @media only screen and (max-width: 1024px) {
-    border-radius: 12px;
-  }
-
-  @media only screen and (max-width: 600px) {
-    border-radius: 6px;
-  }
-
-  & .n-card-header {
-    font-family: Unbounded, sans-serif;
-
-    @media only screen and (max-width: 1024px) {
-      padding: 0.7rem 0 0.7rem 0.7rem;
-    }
-
-    @media only screen and (max-width: 600px) {
-      padding: 0.5rem 0 0.5rem 0.5rem;
-      font-size: 1rem;
-    }
-  }
-
-  & .n-card__content {
-    @media only screen and (max-width: 1024px) {
-      padding: 0 0.7rem 0.7rem 0.7rem;
-    }
-
-    @media only screen and (max-width: 600px) {
-      padding: 0 0.5rem 0.5rem 0.5rem;
-    }
-  }
-
-  &.margin-bottom {
-    margin-top: 0.2rem;
-    margin-bottom: 1.9rem;
-  }
-
-  & + & {
-    margin-top: 2.5rem;
-  }
-}
-</style>
 
 <style scoped>
 .loading {
