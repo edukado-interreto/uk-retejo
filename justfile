@@ -26,11 +26,11 @@ update: py::update style::update pull
 
 # Start the whole project in dev mode with Vue and Tailwind
 run:
-    {{dc}} up -w --build postgres django vue tailwind
+    {{dc}} up -w --build caddy django postgres tailwind vue
 
 # Start the Django project in dev mode
 django:
-    {{dc}} up -w --build django
+    {{dc}} up -w --build caddy django
 
 
 install-vue:
@@ -135,3 +135,20 @@ load_prod_data:
 # Download production upload files (images, documents)
 dl_prod_uploads:
     rsync -Prhz ikso.net:/srv/projects/uk-retejo/assets/uploads ./containers/volumes/assets/
+
+install-ca:
+    #!/usr/bin/env sh
+    CADDY_CERT=containers/volumes/caddy/data/caddy/pki/authorities/local/root.crt
+    if [ -x "$(command -v trust)" ]; then
+        echo "Installing Caddy root.crt globally"
+        sudo trust anchor --store $CADDY_CERT
+    elif [ -x "$(command -v update-ca-certificates)" ]; then
+        CA_DIR=/usr/local/share/ca-certificates
+        CA_NAME=caddy_uk-retejo_$(date +'%Y-%m-%d').crt
+        echo "Installing Caddy root.crt to $CA_DIR/$CA_NAME"
+        sudo cp $CADDY_CERT $CA_DIR/$CA_NAME
+        echo sudo update-ca-certificates
+    else
+        echo "Unknown Linux distribution";
+        exit 1
+    fi

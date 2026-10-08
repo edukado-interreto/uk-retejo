@@ -33,7 +33,7 @@ def debug_urlpatterns():
         return [
             *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
             # API for testing:
-            path("api/2026/", include(dev_urls)),
+            path("api/2027/", include(dev_urls)),
             # Evente by Themeadapt
             path("evente/", include(evente_urls)),
             *debug_toolbar_urls(),
