@@ -4,7 +4,9 @@
 
 @plugin "@tailwindcss/typography";
 
-@theme {
+@theme { /* Will be overwritten by style in <head> */
+  --color-primary: black;
+  --color-secondary: black;
 }
 
 /* @layer theme {

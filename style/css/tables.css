@@ -1,25 +1,23 @@
-main section table {
-  background-color: white;
-  width: 100%;
+@layer base {
+  main section table {
+    background-color: white;
+    width: 100%;
 
-  caption {
-    padding: 0.5em;
+    caption {
+      padding: 0.5em;
+    }
+
+    th,
+    td {
+      border: solid gray 1px;
+      padding: 0.5em;
+    }
+
   }
 
-  tr {
-    text-align: center;
-  }
-
-  th,
-  td {
-    border: solid gray 1px;
-    padding: 0.5em;
-  }
-
-}
-
-table.excursions {
-  tbody tr td:last-of-type {
-    display: flex
+  table.excursions {
+    tbody tr td:last-of-type {
+      display: flex
+    }
   }
 }
