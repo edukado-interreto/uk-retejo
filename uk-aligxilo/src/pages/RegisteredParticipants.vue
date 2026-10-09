@@ -180,32 +180,47 @@ const firstLetters = computed(() => {
   return [...letters].sort((a, b) => collator.compare(a, b));
 });
 
+
 const listByCountry = computed(() => {
-  const uniqueCountries = new Set(participants.value.map((p) => p.country).filter((c) => c in countries.value));
+  // Group participants in one pass, then sort each group once
+  const groups = new Map();
+
+  for (const participant of participants.value) {
+    const code = participant.country;
+    let group = groups.get(code);
+
+    if (!group) {
+      group = { visible: [], hidden: 0 };
+      groups.set(code, group);
+    }
+
+    if (participant.hidden) {
+      group.hidden++;
+    } else {
+      group.visible.push(participant);
+    }
+  }
 
   const knownCountries = [];
   const otherCountries = [];
-  uniqueCountries.forEach((c) => {
-    const hidden = participants.value.filter((p) => p.country === c && p.hidden).length;
-    const countryParticipants = participants.value.filter((p) => p.country === c && !p.hidden).sort(compareByName);
-    if (c in countries.value) {
-      knownCountries.push({
-        code: c,
-        name: countries.value[c].name,
-        flag: flagEmoji(c),
-        participants: countryParticipants,
-        hidden,
-      });
+
+  for (const [code, group] of groups) {
+    group.visible.sort(compareByName);
+
+    const country = {
+      code,
+      name: countries.value[code]?.name ?? 'Forpasintoj',
+      flag: countries.value[code] ? flagEmoji(code) : '',
+      participants: group.visible,
+      hidden: group.hidden,
+    };
+
+    if (countries.value[code]) {
+      knownCountries.push(country);
     } else {
-      otherCountries.push({
-        code: c,
-        name: 'Forpasintoj',
-        flag: '',
-        participants: countryParticipants,
-        hidden,
-      });
+      otherCountries.push(country);
     }
-  });
+  }
 
   knownCountries.sort((a, b) => collator.compare(a.name, b.name));
 
@@ -213,10 +228,11 @@ const listByCountry = computed(() => {
 });
 
 const filteredListByCountry = computed(() => {
-  if (filterCountry.value === null) {
-    return listByCountry.value;
-  }
-  return listByCountry.value.filter((c) => c.code === filterCountry.value);
+  const list = listByCountry.value;
+
+  return filterCountry.value === null
+    ? list
+    : list.filter((country) => country.code === filterCountry.value);
 });
 
 async function fetchData() {
