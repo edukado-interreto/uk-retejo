@@ -32,6 +32,8 @@ run:
 django:
     {{dc}} up -w --build caddy django
 
+uv-sync:
+    uv --directory backend sync
 
 install-vue:
     npm -C uk-aligxilo install
