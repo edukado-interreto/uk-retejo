@@ -16,6 +16,7 @@ dependencies = [
   "sentry-sdk[django]>=2.54.0",
   "toml-decouple>=0.11.0",
   "wagtail>=8.0,<9",
+  "wagtail-custom-code-editor>=1.0.7",
   "wagtailmenus>=4.0.5",
 ]
 
@@ -27,7 +28,7 @@ dev = [
   "ruff>=0.15.7",
 ]
 prod = [
-  "wagtail-evente>=0.10.2",
+  "wagtail-evente>=0.10.3",
 ]
 
 [tool.ruff.lint]
