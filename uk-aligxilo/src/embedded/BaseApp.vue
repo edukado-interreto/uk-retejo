@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme-overrides="themeOverrides" :locale="eo" :date-locale="dateEo">
+  <n-config-provider preflight-style-disabled :theme-overrides="themeOverrides" :locale="eo" :date-locale="dateEo">
     <n-global-style />
     <n-message-provider>
       <n-dialog-provider>
