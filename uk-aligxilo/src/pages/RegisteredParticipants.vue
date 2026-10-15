@@ -1,10 +1,9 @@
 <template>
-  <n-h1>Listo de aliĝintoj</n-h1>
   <n-card v-if="participants === null" class="custom-card" title="Sekurecdemando">
     <p style="margin-top: 0">En kiu jaro okazos la 112-a UK en Melburno?</p>
 
     <n-input-group>
-      <n-input type="text" size="large" style="width: 16em" v-model:value="year" @keydown.enter="fetchData" />
+      <n-input type="text" size="large" style="width: 16em" autofocus v-model:value="year" @keydown.enter="fetchData" />
       <n-button size="large" type="primary" :loading="loading" @click="fetchData">Sendi</n-button>
     </n-input-group>
   </n-card>
@@ -23,6 +22,7 @@
         </n-button>
       </n-input-group>
     </div>
+
 
     <template v-if="modeName">
       <div class="buttonsList">
