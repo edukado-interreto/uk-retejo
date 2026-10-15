@@ -38,4 +38,4 @@ install:
 
 [group('uv')]
 update:
-    uv sync --upgrade
+    uv lock --upgrade
