@@ -48,8 +48,8 @@ urlpatterns = [
     path("wagtail/api/html/get-embed/", core_views.api_get_embed),
     path(f"{settings.DJANGO_ADMIN_URL}/", admin.site.urls),
     path(f"{settings.WAGTAIL_ADMIN_URL}/", include(wagtailadmin_urls)),
-    path("uploads/documents/", include(wagtaildocs_urls)),
-    path("search/", search_views.search, name="search"),
+    path("dokumentoj/", include(wagtaildocs_urls)),
+    path("trovi/", search_views.search, name="search"),
     *debug_urlpatterns(),
     path("", include(wagtail_urls)),
 ]
