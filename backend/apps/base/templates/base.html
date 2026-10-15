@@ -1,4 +1,4 @@
-{% load i18n static wagtailcore_tags wagtailuserbar django_vite menu_tags evente_tags %}<!DOCTYPE html>
+{% load i18n static wagtailcore_tags wagtailuserbar django_vite menu_tags evente_tags %}{% load_current_settings as event_settings %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8">
@@ -38,11 +38,11 @@
 <body class="{% block body_class %}{% endblock %}">
   {% wagtailuserbar "bottom-left" %}
 
-  {# include "evente/snippets/preloader.html" #}
+  {% if event_settings.use_preloader %}
+    {% include "evente/snippets/preloader.html" %}
+  {% endif %}
   {% include "evente/snippets/scroll_top.html" only %}
   {% include "evente/header/header.html" %}
-
-  {# {% include "navigation.html" %} #}
 
   {% block main %}
     <main class="{% block main_class %}{% endblock %}" style="{% block main_style %}min-height: 60vh{% endblock %}">
@@ -58,12 +58,14 @@
 
   {# Animate On Scroll #}
   <script src="{% static 'aos.js' %}"></script>
+  {% if event_settings.use_preloader %}
   <script>
     if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
       document.head.innerHTML += `<link rel="stylesheet" href="{% static 'aos.css' %}">`;
       AOS.init({once:true,duration:1000});
     }
   </script>
+  {% endif %}
 
   {# Photoswipe gallery #}
   <script type="module" async>

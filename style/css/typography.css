@@ -1,19 +1,15 @@
 /* === TYPOGRAPY === */
 
-.content.prose {
-  max-width: unset !important;
-  font-size: clamp(100%, 2.5vw, 130%);
+@layer utilities {
+  .prose {
+    max-width: none;
+    font-family: var(--font-poppins);
 
-  >*:not(.full-width) {
-    @apply mx-4 md:mx-20 lg:mx-[20vw];
+    h1, h2, h3, h4 {
+      font-family: var(--font-unbounded);
+    }
+    p {
+      font-size: clamp(100%, 2.5vw, 130%);
+    }
   }
-}
-
-/* H1 */
-.heading-title {
-  @apply text-center font-bold text-white text-4xl my-12;
-}
-
-.heading {
-  @apply text-center font-bold text-info-content dark:text-info my-12;
 }

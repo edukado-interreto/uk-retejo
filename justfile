@@ -38,9 +38,14 @@ uv-sync:
 install-vue:
     npm -C uk-aligxilo install
 
-
 build-vue:
     npm -C uk-aligxilo run build
+
+css:
+    just style::build
+
+watch-css:
+    just style::watch
 
 fontawesome:
     mkdir -p {{fa_static}}/css

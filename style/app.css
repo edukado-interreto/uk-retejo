@@ -4,37 +4,17 @@
 
 @plugin "@tailwindcss/typography";
 
-@theme { /* Will be overwritten by style in <head> */
+@theme {
+  /* The colors will be overwritten by style in <head> */
   --color-primary: black;
   --color-secondary: black;
 }
 
-/* @layer theme {
-  :root,
-  :host {
-    --font-sans: Raleway, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  }
-}
-*/
-
 /* @import "./css/photoswipe.css"; */
 @import "./css/tables.css";
-/* @import "./css/typography.css"; */
+@import "./css/typography.css";
 @import "./css/blocks/program-proposal.css";
 @import "./css/blocks/timeline.css";
-
-@layer utilities {
-  .prose {
-    font-family: var(--font-poppins);
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      font-family: var(--font-unbounded);
-    }
-  }
-}
 
 .rich-text img {
   max-width: 100%;
