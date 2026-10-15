@@ -1194,7 +1194,7 @@ dev = [
     { name = "faker", specifier = ">=40.4.0" },
     { name = "ruff", specifier = ">=0.15.7" },
 ]
-prod = [{ name = "wagtail-evente", specifier = ">=0.10.9", index = "https://pypi.ikso.net/simple" }]
+prod = [{ name = "wagtail-evente", specifier = ">=0.10.10", index = "https://pypi.ikso.net/simple" }]
 
 [[package]]
 name = "urllib3"
@@ -1249,16 +1249,16 @@ sdist = { url = "https://files.pythonhosted.org/packages/d8/9c/fee85c5dfb19cd510
 
 [[package]]
 name = "wagtail-evente"
-version = "0.10.9"
+version = "0.10.10"
 source = { registry = "https://pypi.ikso.net/simple" }
 dependencies = [
     { name = "wagtail" },
     { name = "wagtail-custom-code-editor" },
     { name = "wagtailmenus" },
 ]
-sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.10.9.tar.gz", hash = "sha256:15d397e5466f99b95fe11b5070e49bd20cd0c3b41255ad58462a06df23e8d7c4" }
+sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.10.10.tar.gz", hash = "sha256:03e84949142e89df1ba7c275071d3b5d02c689e80150002ee7d88d8808363f82" }
 wheels = [
-    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.10.9-py3-none-any.whl", hash = "sha256:a875d2914306836fd2d23e9bcf9fd84b1fff024b4e3b401f90f8047ecfbad677" },
+    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.10.10-py3-none-any.whl", hash = "sha256:8f27dac9237f1337bfb414a7c35c45b97bf0b32ca6c4582532bdae0826111ecd" },
 ]
 
 [[package]]
