@@ -1,5 +1,9 @@
 /* === TYPOGRAPY === */
 
+.td-breadcrumb-title {
+  text-transform: unset;
+}
+
 @layer utilities {
   .prose {
     max-width: none;
@@ -13,3 +17,4 @@
     }
   }
 }
+
