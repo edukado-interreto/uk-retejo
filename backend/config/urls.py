@@ -2,11 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
-from django.core.files.storage import storages
-from django.http import HttpRequest
-from django.shortcuts import redirect
 from django.urls import include, path
-from django.views.decorators.cache import cache_page
 from django_rsgi.urls import media_urlpatterns
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
@@ -23,11 +19,6 @@ if settings.DEBUG:
     from apps.devel import urls as dev_urls
 
 
-@cache_page(60 * 60 * 24 * 30)
-def favicon(_request: HttpRequest):
-    return redirect(storages["staticfiles"].url("favicon.ico"), permanent=True)
-
-
 def debug_urlpatterns():
     if settings.DEBUG:
         return [
@@ -42,7 +33,7 @@ def debug_urlpatterns():
 
 
 urlpatterns = [
-    path("favicon.ico", favicon),
+    path("favicon.ico", core_views.favicon),
     *static_urlpatterns,
     *media_urlpatterns(view=serve_upload),
     path("wagtail/api/html/get-embed/", core_views.api_get_embed),
