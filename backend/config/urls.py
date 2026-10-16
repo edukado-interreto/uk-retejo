@@ -12,6 +12,7 @@ from apps.base.views import serve_upload
 from apps.core import views as core_views
 from apps.search import views as search_views
 from evente import urls as evente_urls
+from evente.views import error_404, error_500
 
 if settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
@@ -42,5 +43,7 @@ urlpatterns = [
     path("dokumentoj/", include(wagtaildocs_urls)),
     path("trovi/", search_views.search, name="search"),
     *debug_urlpatterns(),
+    path("404/", error_404),
+    path("500/", error_500),
     path("", include(wagtail_urls)),
 ]
