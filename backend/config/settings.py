@@ -170,10 +170,10 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 STATICFILES_DIRS = [CONFIG_DIR / "static"]
-STATIC_URL = "static/"
+STATIC_URL = config("STATIC_URL", "static/")
 STATIC_ROOT = BASE_DIR / "../assets/static"
 
-MEDIA_URL = "/uploads/"
+MEDIA_URL = config("MEDIA_URL", "/uploads/")
 MEDIA_ROOT = BASE_DIR / "../assets/uploads"
 
 STORAGES = {
