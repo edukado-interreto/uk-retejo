@@ -198,6 +198,9 @@ WAGTAIL_SITE_NAME = "Universala Kongreso"
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = f"https://{HOSTNAME}"
 
+# Redirects
+WAGTAILREDIRECTS_AUTO_CREATE = False
+
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.database"}}
@@ -206,7 +209,7 @@ WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.databa
 # This can be omitted to allow all files, but note that this may present a security risk
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
-WAGTAILDOCS_EXTENSIONS = "csv docx key odt pdf pptx rtf txt xlsx zip".split()
+WAGTAILDOCS_EXTENSIONS = "csv docx odt pdf pptx key rtf txt xlsx zip".split()
 # https://docs.wagtail.org/en/stable/topics/writing_templates.html#responsive-embeds
 WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
 
@@ -243,8 +246,11 @@ DJANGO_VITE = {
 }
 
 
+#### GRANIAN SETTINGS ####
+
+GRANIAN_RELOAD_IGNORE_DIRS = ["static"]
+
+
 if ENVIRONMENT.deployed:
     LOGGING = PROD_LOGGING
     setup_bugsink(config)
-
-GRANIAN_RELOAD_IGNORE_DIRS = ["static"]
