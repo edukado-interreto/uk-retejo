@@ -214,13 +214,11 @@ WAGTAILDOCS_EXTENSIONS = "csv docx odt pdf pptx key rtf txt xlsx zip".split()
 WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
 
 # Wagtail Menus
+WAGTAILMENUS_MAIN_MENUS_EDITABLE_IN_WAGTAILADMIN = False
 # Sets also the "active" CSS class on the top-level menu on a sub-page
 WAGTAILMENUS_ACTIVE_ANCESTOR_CLASS = "active"
 
 # Ignoring these WARNINGS:
-#
-# <class 'django.db.models.manager.BasePageManagerFromPageQuerySet'>: (treebeard.E001)
-# django.db.models.manager.BasePageManagerFromPageQuerySet does not subclass treebeard.mp_tree.MP_NodeManager. This will cause an error in Treebeard 6.
 #
 # wagtailmenus.MainMenu/FlatMenu: (wagtailadmin.W002) MainMenu/FlatMenu.content_panels will have
 # no effect on snippets editing
@@ -229,7 +227,7 @@ WAGTAILMENUS_ACTIVE_ANCESTOR_CLASS = "active"
 # 	There are no default tabs on non-Page models so there will be no Content tab
 # 	for the content_panels to render in.
 # See: https://github.com/jazzband/wagtailmenus/issues/464
-SILENCED_SYSTEM_CHECKS = ["treebeard.E001", "wagtailadmin.W002"]
+SILENCED_SYSTEM_CHECKS = ["wagtailadmin.W002"]
 
 
 # Vue / Vite integration

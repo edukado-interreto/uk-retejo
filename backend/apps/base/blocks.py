@@ -18,15 +18,15 @@ from apps.base.models import FontAwesomeIcon
 
 
 class CallToActionBlock(StructBlock):
-    url = URLBlock(required=False, help_text="Link to another website page")
-    page = PageChooserBlock(required=False, help_text="Link to a page")
-    text = CharBlock(required=True, help_text="Text to display in the button")
+    url = URLBlock(required=False, help_text=_("Link to another website page"))
+    page = PageChooserBlock(required=False, help_text=_("Link to a page"))
+    text = CharBlock(required=True, help_text=_("Text to display in the button"))
 
     def clean(self, value):
         result = super().clean(value)
         if not (result["page"] or result["url"]):
             raise ValidationError(
-                "You must specify either an internal page or an external URL"
+                _("You must specify either an internal page or an external URL.")
             )
         return result
 
