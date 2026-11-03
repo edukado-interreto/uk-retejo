@@ -162,6 +162,7 @@ LANGUAGE_CODE = "eo"
 LANGUAGES = [("eo", _("Esperanto"))]
 TIME_ZONE = "UTC"
 FORMAT_MODULE_PATH = ["config.formats"]
+LOCALE_PATHS = [BASE_DIR / "wagtail_translations"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

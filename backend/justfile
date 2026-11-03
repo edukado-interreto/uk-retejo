@@ -39,3 +39,9 @@ install:
 [group('uv')]
 update:
     uv lock --upgrade
+
+messages:
+    uv run django-admin makemessages --locale=eo --add-location file -i base -i devel -i home
+
+compile:
+    uv run django-admin compilemessages --ignore .venv
