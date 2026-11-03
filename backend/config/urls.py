@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
+from django.http import Http404
 from django.urls import include, path
 from django_rsgi.urls import media_urlpatterns
 from wagtail import urls as wagtail_urls
@@ -43,7 +44,10 @@ urlpatterns = [
     path("dokumentoj/", include(wagtaildocs_urls)),
     path("trovi/", search_views.search, name="search"),
     *debug_urlpatterns(),
-    path("404/", error_404),
+    path("404/", error_404, {"exception": Http404("Page not found")}),
     path("500/", error_500),
     path("", include(wagtail_urls)),
 ]
+
+handler404 = "evente.views.error_404"
+handler500 = "evente.views.error_500"
