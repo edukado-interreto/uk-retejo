@@ -13,7 +13,7 @@ from apps.base.views import serve_upload
 from apps.core import views as core_views
 from apps.search import views as search_views
 from evente import urls as evente_urls
-from evente.views import error_404, error_500
+from evente.views import page_not_found, server_error
 
 if settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
@@ -44,10 +44,10 @@ urlpatterns = [
     path("dokumentoj/", include(wagtaildocs_urls)),
     path("trovi/", search_views.search, name="search"),
     *debug_urlpatterns(),
-    path("404/", error_404, {"exception": Http404("Page not found")}),
-    path("500/", error_500),
+    path("404/", page_not_found, {"exception": Http404("Page not found")}),
+    path("500/", server_error),
     path("", include(wagtail_urls)),
 ]
 
-handler404 = "evente.views.error_404"
-handler500 = "evente.views.error_500"
+handler404 = "evente.views.page_not_found"
+handler500 = "evente.views.server_error"

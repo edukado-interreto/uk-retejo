@@ -28,11 +28,11 @@ dev = [
   "ruff>=0.15.7",
 ]
 prod = [
-  "wagtail-evente>=0.11.26",
+  "wagtail-evente>=0.11.27",
 ]
 
 [tool.ruff.lint]
-ignore = ["E731", "RUF012"]  # lambda/def, Class mutable attr
+ignore = ["E731", "RUF012", "SIM102"]  # lambda/def, Class mutable attr, combine if
 
 [tool.ruff.lint.isort]
 known-third-party = ["django", "wagtail"]
