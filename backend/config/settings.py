@@ -32,7 +32,6 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 INSTALLED_APPS = [
-    "debug_toolbar",
     "django_extensions",
     "django_rsgi",
     "django_vite",
@@ -72,19 +71,9 @@ INSTALLED_APPS = [
     "apps.search",
 ]
 
-if DEBUG:
-    INSTALLED_APPS += ["apps.devel"]
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-            "LOCATION": "devel_cache",
-        }
-    }
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -94,7 +83,20 @@ MIDDLEWARE = [
     "evente.middleware.CurrentEventMiddleware",
 ]
 
+
 if DEBUG:
+    INSTALLED_APPS = [
+        "corsheaders",
+        "debug_toolbar",
+        *INSTALLED_APPS,
+        "apps.devel",
+    ]
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "devel_cache",
+        }
+    }
     # Make Django Debug Toolbar work with Granian
     os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
     # Make Django Debug Toolbar work with Docker
@@ -102,10 +104,13 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         "SHOW_TOOLBAR_CALLBACK": "config.utils.show_toolbar_on_wagtail"
     }
-# CORS headers for Vite dev mode
-if DEBUG:
-    INSTALLED_APPS = ["corsheaders", *INSTALLED_APPS]
-    MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware", *MIDDLEWARE]
+    # CORS headers for Vite dev mode
+    MIDDLEWARE = [
+        "corsheaders.middleware.CorsMiddleware",
+        *MIDDLEWARE[:2],
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        *MIDDLEWARE[2:],
+    ]
     CORS_ALLOWED_ORIGINS = [
         f"http{secure}://{host}:5173"
         for secure, host in product(("", "s"), ALLOWED_HOSTS)

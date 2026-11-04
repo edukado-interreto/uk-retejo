@@ -16,11 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        with:
+          cleanup: false
 
       - name: Login to GHCR
         uses: docker/login-action@v4
@@ -43,8 +42,11 @@ jobs:
           context: .
           file: containers/Containerfile
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Registry cache instead of GHA cache: layers that are already part of the
+          # pushed image are not uploaded a second time, and GHCR uploads are much
+          # faster than the GHA cache backend (that export took ~57s).
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/django:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/django:buildcache,mode=max,image-manifest=true,oci-mediatypes=true
           target: production
           secrets: |
             "PYPI_PASSWORD=${{ secrets.PYPI_PASSWORD }}"
