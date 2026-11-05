@@ -29,7 +29,7 @@ dev = [
   "ruff>=0.15.7",
 ]
 prod = [
-  "wagtail-evente>=0.12.0",
+  "wagtail-evente>=0.12.2",
 ]
 
 [tool.ruff.lint]
