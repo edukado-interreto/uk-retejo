@@ -23,7 +23,6 @@
   {# Global stylesheets #}
   {# <link rel="stylesheet" href="{% static 'animate.min.css' %}"> #}
   {# <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}"> #}
-  <link rel="stylesheet" href="{% static 'photoswipe/photoswipe.css' %}">
   <link rel="stylesheet" href="{% static 'uk-retejo.css' %}"> 
   {% evente_css_tags %}
   {% evente_theme %}
@@ -66,17 +65,6 @@
     }
   </script>
   {% endif %}
-
-  {# Photoswipe gallery #}
-  <script type="module" async>
-    import PhotoSwipeLightbox from '{% static "photoswipe/photoswipe-lightbox.esm.js" %}';
-    import PhotoSwipe from '{% static "photoswipe/photoswipe.esm.js" %}';
-    const lightbox = new PhotoSwipeLightbox({
-      gallery: ".pswp-gallery",
-      children: "a",
-      pswpModule: PhotoSwipe
-    });
-    lightbox.init();</script>
 
   {% evente_js_tags %}
 
