@@ -33,6 +33,7 @@ services:
       - GRANIAN_HOST=0.0.0.0
       - GRANIAN_RUNTIME_MODE=st
       - GRANIAN_LOG_ACCESS_ENABLED=true
+      - GRANIAN_BACKPRESSURE=8
       - GRANIAN_RELOAD=true
       - GRANIAN_RELOAD_IGNORE_DIRS=static
     volumes:

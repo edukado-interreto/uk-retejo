@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+# check=skip=SecretsUsedInArgOrEnv
 ARG PYTHON_VERSION=3.14
 ARG UV_VERSION=0.12.24
 
@@ -52,7 +54,7 @@ RUN --mount=type=bind,source=backend/uv.lock,target=uv.lock \
 # --- BUILDER STAGE (public deps) ---
 FROM ghcr.io/astral-sh/uv:${UV_VERSION}-python${PYTHON_VERSION}-alpine AS builder
 
-ARG HOME
+ARG HOME=/backend
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PROJECT_ENVIRONMENT=/opt/venv
@@ -83,6 +85,16 @@ RUN --mount=type=secret,id=PYPI_PASSWORD,env=PYPI_PASSWORD \
     export HOME=/tmp/uv-auth UV_CACHE_DIR=/root/.cache/uv && \
     uv auth login pypi.ikso.net -u ikso --password "$PYPI_PASSWORD" && \
     uv sync --frozen --no-dev --group prod --no-install-project
+
+
+# --- SLIM VENV STAGE ---
+# Rebuilt only when dependencies change. The packages’ static files are
+# collected in the static stage, and Django only reads compiled .mo files.
+FROM builder-prod AS venv-slim
+
+RUN find /opt/venv -name "*.po" -delete && \
+    find /opt/venv/lib -type d -name static -prune \
+        ! -exec test -e {}/__init__.py \; -exec rm -rf {} +
 
 
 # --- DEVELOPMENT STAGE ---
@@ -119,14 +131,36 @@ RUN npm run build
 
 
 
+# --- STATIC STAGE ---
+# collectstatic with the full venv. The Vite build stays in the backend:
+# django-vite reads its manifest.json there.
+FROM runtime-base AS static
+
+ARG VITE_OUT_DIR
+
+COPY --from=builder-prod $VIRTUAL_ENV $VIRTUAL_ENV
+COPY backend $HOME/
+COPY --from=vite-build $VITE_OUT_DIR $VITE_OUT_DIR
+
+WORKDIR $HOME
+
+# config/static is emptied but kept, as it is in STATICFILES_DIRS.
+# The project's code is precompiled, like the venv (UV_COMPILE_BYTECODE).
+RUN UK_RETEJO_ENVIRONMENT="build" python manage.py collectstatic -v 2 --noinput && \
+    find config/static -mindepth 1 -delete && \
+    python -m compileall -q .
+
+
+
 # --- PRODUCTION STAGE ---
 FROM runtime-base AS production
 
-ARG USER_ID=1030  # On ikso.net: compose
-ARG GROUP_ID=33  # On ikso.net: www-data
+# On ikso.net: compose
+ARG USER_ID=1030
+# On ikso.net: www-data
+ARG GROUP_ID=33
 ARG GIT_BRANCH=no-branch
 ARG COMMIT_HASH=no-hash
-ARG VITE_OUT_DIR
 
 ENV USER=dj \
     USER_ID=$USER_ID \
@@ -134,38 +168,41 @@ ENV USER=dj \
     UK_GIT_BRANCH=$GIT_BRANCH \
     UK_COMMIT_HASH=$COMMIT_HASH
 
-# Granian serves the collected static files itself, the route must match STATIC_URL.
-# One year of cache: file names are hashed by ManifestStaticFilesStorage or Vite.
+# Backpressure 8 = 4 WSGI threads, avoids Granian's warning about too many threads.
+# Static route must match STATIC_URL, files are hashed so cached for a year.
 ENV GRANIAN_INTERFACE=wsgi \
     GRANIAN_HOST=0.0.0.0 \
     GRANIAN_PORT=8000 \
     GRANIAN_LOG_ACCESS_ENABLED=true \
+    GRANIAN_BACKPRESSURE=8 \
     GRANIAN_STATIC_PATH_ROUTE=/static \
     GRANIAN_STATIC_PATH_MOUNT=/assets/static \
     GRANIAN_STATIC_PATH_EXPIRES=31536000
 
 RUN \
 addgroup -g $GROUP_ID $USER && \
-adduser -D -h $HOME -u $USER_ID -G $USER $USER && \
+adduser -D -H -h $HOME -u $USER_ID -G $USER $USER && \
 install --directory -o $USER -g $USER -m 0755 /assets
 
 # Root-owned (read-only for the app user) and --link makes the layer
 # independent of the base layers, so it stays reusable when the base changes.
-COPY --link --from=builder-prod $VIRTUAL_ENV $VIRTUAL_ENV
+COPY --link --from=venv-slim $VIRTUAL_ENV $VIRTUAL_ENV
 
-COPY --chown=$USER:$GROUP_ID backend $HOME/
+# Backend read-only for the app user, except the Vite build and the static
+# files: replace-vite-env.sh edits the Vite files in place.
+COPY --from=static --exclude=apps/registration/static/vue $HOME $HOME
+COPY --from=static --chown=$USER:$GROUP_ID $HOME/apps/registration/static/vue $HOME/apps/registration/static/vue
+COPY --from=static --chown=$USER:$GROUP_ID /assets/static /assets/static
 
 WORKDIR $HOME
-
-# Install Vite/Vue project
-COPY --from=vite-build --chown=$USER:$GROUP_ID $VITE_OUT_DIR $VITE_OUT_DIR
 
 COPY --from=vite-build --chmod=+x /uk-aligxilo/replace-vite-env.sh /bin/
 
 USER $USER
 
-RUN UK_RETEJO_ENVIRONMENT="build" python manage.py collectstatic -v 2 --noinput
-
 EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:$GRANIAN_PORT/2027/', timeout=4)"
 
 CMD ["granian", "config.wsgi:application"]

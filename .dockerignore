@@ -1,6 +1,11 @@
 containers/
 backend/apps/devel/
 backend/.venv
+backend/evente
+backend/apps/registration/static/vue
+**/__pycache__
+**/.mypy_cache
+**/.ruff_cache
 style/
 uk-aligxilo/dist
 uk-aligxilo/node_modules
