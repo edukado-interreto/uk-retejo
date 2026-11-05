@@ -32,6 +32,9 @@ run:
 django:
     {{dc}} up -w --build caddy django
 
+uv-lock-evente:
+    uv --project backend lock --upgrade-package wagtail-evente
+
 uv-sync:
     uv --directory backend sync
 

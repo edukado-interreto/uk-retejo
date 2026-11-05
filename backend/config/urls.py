@@ -1,10 +1,11 @@
+import re
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
 from django.http import Http404
-from django.urls import include, path
-from django_rsgi.urls import media_urlpatterns
+from django.urls import include, path, re_path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
@@ -37,7 +38,12 @@ def debug_urlpatterns():
 urlpatterns = [
     path("favicon.ico", core_views.favicon),
     *static_urlpatterns,
-    *media_urlpatterns(view=serve_upload),
+    # Uploads are served by Django, also in production
+    re_path(
+        rf"^{re.escape(settings.MEDIA_URL.lstrip('/'))}(?P<path>.*)$",
+        serve_upload,
+        {"document_root": settings.MEDIA_ROOT},
+    ),
     path("wagtail/api/html/get-embed/", core_views.api_get_embed),
     path(f"{settings.DJANGO_ADMIN_URL}/", admin.site.urls),
     path(f"{settings.WAGTAIL_ADMIN_URL}/", include(wagtailadmin_urls)),

@@ -134,6 +134,16 @@ ENV USER=dj \
     UK_GIT_BRANCH=$GIT_BRANCH \
     UK_COMMIT_HASH=$COMMIT_HASH
 
+# Granian serves the collected static files itself, the route must match STATIC_URL.
+# One year of cache: file names are hashed by ManifestStaticFilesStorage or Vite.
+ENV GRANIAN_INTERFACE=wsgi \
+    GRANIAN_HOST=0.0.0.0 \
+    GRANIAN_PORT=8000 \
+    GRANIAN_LOG_ACCESS_ENABLED=true \
+    GRANIAN_STATIC_PATH_ROUTE=/static \
+    GRANIAN_STATIC_PATH_MOUNT=/assets/static \
+    GRANIAN_STATIC_PATH_EXPIRES=31536000
+
 RUN \
 addgroup -g $GROUP_ID $USER && \
 adduser -D -h $HOME -u $USER_ID -G $USER $USER && \
@@ -157,3 +167,5 @@ USER $USER
 RUN UK_RETEJO_ENVIRONMENT="build" python manage.py collectstatic -v 2 --noinput
 
 EXPOSE 8000
+
+CMD ["granian", "config.wsgi:application"]

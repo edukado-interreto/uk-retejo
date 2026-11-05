@@ -1,4 +1,3 @@
-import os
 from itertools import product
 from pathlib import Path
 
@@ -20,8 +19,6 @@ ENVIRONMENT = Environment.init(config, DEBUG)
 SECRET_KEY = "_" if ENVIRONMENT.is_build else config.SECRET_KEY
 
 HOSTNAME = config("HOSTNAME", "127.0.0.1")
-HOST = config("HOST", "0.0.0.0")
-PORT = config("PORT", 8000)
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS", list({HOSTNAME, "localhost", "127.0.0.1", "0.0.0.0"})
 )
@@ -33,7 +30,6 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 INSTALLED_APPS = [
     "django_extensions",
-    "django_rsgi",
     "django_vite",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -97,8 +93,6 @@ if DEBUG:
             "LOCATION": "devel_cache",
         }
     }
-    # Make Django Debug Toolbar work with Granian
-    os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
     # Make Django Debug Toolbar work with Docker
     INTERNAL_IPS = InternalIPs()
     DEBUG_TOOLBAR_CONFIG = {
@@ -187,7 +181,10 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # collectstatic runs at the image build, it writes the manifest
+        "BACKEND": "config.storage.StaticFilesStorage"
+        if ENVIRONMENT.deployed or ENVIRONMENT.is_build
+        else "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
 
@@ -248,11 +245,6 @@ DJANGO_VITE = {
         "dev_server_protocol": "https",  # Overrides http
     }
 }
-
-
-#### GRANIAN SETTINGS ####
-
-GRANIAN_RELOAD_IGNORE_DIRS = ["static"]
 
 
 if ENVIRONMENT.deployed:

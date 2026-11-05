@@ -367,24 +367,6 @@ wheels = [
 ]
 
 [[package]]
-name = "django-rsgi"
-version = "1.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "asgiref" },
-    { name = "django" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/05/2e/19fd237f2daee03340b472b234ff5dfbcfbe466df5929538559c47f6392a/django_rsgi-1.0.0.tar.gz", hash = "sha256:bf644403c6dd5376e0b1d1785cf9e39a99a09c3b2fe9997c26897b11418768df", size = 10559812, upload-time = "2026-02-24T04:27:18.822Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e4/01/61abd33def055d624ea216739a5d645c586a1a12d9ca9c64a9d21b78973a/django_rsgi-1.0.0-py3-none-any.whl", hash = "sha256:c6f0f2a69c521a46f478b17cadca49440469aea9832a06cf95aff5d1e6f536b6", size = 25827, upload-time = "2026-02-24T04:27:17.108Z" },
-]
-
-[package.optional-dependencies]
-server = [
-    { name = "granian", extra = ["reload"] },
-]
-
-[[package]]
 name = "django-stubs"
 version = "6.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1177,8 +1159,8 @@ dependencies = [
     { name = "dj-database-url" },
     { name = "django" },
     { name = "django-extensions" },
-    { name = "django-rsgi", extra = ["server"] },
     { name = "django-vite" },
+    { name = "granian" },
     { name = "psycopg", extra = ["binary"] },
     { name = "pypdfium2" },
     { name = "python-slugify" },
@@ -1195,6 +1177,7 @@ dev = [
     { name = "django-debug-toolbar" },
     { name = "django-stubs", extra = ["compatible-mypy"] },
     { name = "faker" },
+    { name = "granian", extra = ["reload"] },
     { name = "ruff" },
 ]
 prod = [
@@ -1206,8 +1189,8 @@ requires-dist = [
     { name = "dj-database-url", specifier = ">=2.3.0" },
     { name = "django", specifier = "~=6.0.0" },
     { name = "django-extensions", specifier = ">=4.1" },
-    { name = "django-rsgi", extras = ["server"], specifier = ">=1.0.0" },
     { name = "django-vite", specifier = ">=3.1.0" },
+    { name = "granian", specifier = ">=2.8.5" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2.6" },
     { name = "pypdfium2", specifier = ">=5.14.0" },
     { name = "python-slugify", specifier = ">=8.0.4" },
@@ -1224,6 +1207,7 @@ dev = [
     { name = "django-debug-toolbar", specifier = ">=6.2.0" },
     { name = "django-stubs", extras = ["compatible-mypy"], specifier = ">=5.2.9" },
     { name = "faker", specifier = ">=40.4.0" },
+    { name = "granian", extras = ["reload"], specifier = ">=2.8.5" },
     { name = "ruff", specifier = ">=0.15.7" },
 ]
 prod = [{ name = "wagtail-evente", specifier = ">=0.12.3", index = "https://pypi.ikso.net/simple" }]
@@ -1281,7 +1265,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/d8/9c/fee85c5dfb19cd510
 
 [[package]]
 name = "wagtail-evente"
-version = "0.12.3"
+version = "0.12.4"
 source = { registry = "https://pypi.ikso.net/simple" }
 dependencies = [
     { name = "pypdfium2" },
@@ -1289,9 +1273,9 @@ dependencies = [
     { name = "wagtail-custom-code-editor" },
     { name = "wagtailmenus" },
 ]
-sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.12.3.tar.gz", hash = "sha256:30a62448f69b7f6fb2f2c6d3cf5297a364b901ae678a3c2a14cbf79239fc23f5" }
+sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.12.4.tar.gz", hash = "sha256:eb49aa72d10b939e9d3cb3d08a2e5c88d13fd4b2736c9b7e3072a10a27fa9346" }
 wheels = [
-    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.12.3-py3-none-any.whl", hash = "sha256:9e04f0b6e0f1ecafb49a96dbd1aaf9c090e9e4e4406e19bc4388b873f8dcc948" },
+    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.12.4-py3-none-any.whl", hash = "sha256:c4dd9f01de255a9ae4bc0a837faa467939ed18cb880d7cb0c87053394b7ea648" },
 ]
 
 [[package]]
