@@ -50,7 +50,7 @@ urlpatterns = [
     path("dokumentoj/", include(wagtaildocs_urls)),
     path("trovi/", search_views.search, name="search"),
     *debug_urlpatterns(),
-    path("404/", page_not_found, {"exception": Http404("Page not found")}),
+    re_path("404/?.*", page_not_found, {"exception": Http404("Page not found")}),
     path("500/", server_error),
     path("", include(wagtail_urls)),
 ]
