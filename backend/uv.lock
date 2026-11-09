@@ -1265,7 +1265,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/d8/9c/fee85c5dfb19cd510
 
 [[package]]
 name = "wagtail-evente"
-version = "0.12.7"
+version = "0.13.2"
 source = { registry = "https://pypi.ikso.net/simple" }
 dependencies = [
     { name = "pypdfium2" },
@@ -1274,9 +1274,9 @@ dependencies = [
     { name = "wagtail-custom-code-editor" },
     { name = "wagtailmenus" },
 ]
-sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.12.7.tar.gz", hash = "sha256:dd942af65f0a43a65627434f1083eb38ceab1aaccc3f3f64969c403142d84a0f" }
+sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.13.2.tar.gz", hash = "sha256:812bfb603851b7483fb03d82d32cde63d7b251647f694d85240ca83ca5e0ca81" }
 wheels = [
-    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.12.7-py3-none-any.whl", hash = "sha256:52bb388a01d7e7a7cdd9ddbdf73acabc70119bdd6938c5f65d89c2e1cbbeb627" },
+    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.13.2-py3-none-any.whl", hash = "sha256:2880f88a42f5de3e14abda6bfb8ecf56e8673a7ca7dc18864f14f9fdf2b26a59" },
 ]
 
 [[package]]
