@@ -35,7 +35,7 @@ services:
       - GRANIAN_LOG_ACCESS_ENABLED=true
       - GRANIAN_BACKPRESSURE=8
       - GRANIAN_RELOAD=true
-      - GRANIAN_RELOAD_IGNORE_DIRS=static
+      - GRANIAN_RELOAD_IGNORE_PATTERNS='static|templates'
     volumes:
       - ./backend:/backend:z
       - ./containers/volumes/assets:/assets:z
