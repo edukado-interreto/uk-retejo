@@ -1,8 +1,8 @@
 {% load static wagtailimages_tags %}<div class="grid grid-cols-2 md:grid-cols-4" data-lightgallery>
 {% for figure in self %}
-  {% widthratio figure.value.file.get_image_dimensions.1  figure.value.file.get_image_dimensions.0 100 as ratio %} {# ratio = height / width in % #}
+  {% widthratio figure.value.height figure.value.width 100 as ratio %} {# ratio = height / width in % #}
   {% widthratio 200 1 forloop.counter as delay %} {# delay = 200ms x index #}
-  <a href="{% get_media_prefix %}{{figure.value.file }}"
+  <a href="{{ figure.value.file.url }}"
       class="block {% if ratio|add:0 < 50 %}col-span-2{% endif %}"
       target="_blank"  data-aos="fade-up" data-aos-delay="{{ delay }}">
     {% if ratio|add:0 < 50 %}

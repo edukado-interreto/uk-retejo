@@ -1,0 +1,25 @@
+name: Perks
+context:
+  self:
+    title: Kial veni al la UK?
+    background: !image evente/assets/img/hero/bg.jpg
+    videos: []
+    perks:
+      - !block
+        block: apps.base.blocks.PerkBlock
+        title: Kulturaj vesperoj
+        paragraph: <p>Koncertoj, teatro kaj dancado ĉiuvespere.</p>
+        icon: fa-solid fa-music
+        color: sky
+      - !block
+        block: apps.base.blocks.PerkBlock
+        title: Ekskursoj
+        paragraph: <p>Malkovru la regionon kun aliaj kongresanoj.</p>
+        icon: fa-solid fa-bus
+        color: emerald
+      - !block
+        block: apps.base.blocks.PerkBlock
+        title: Prelegoj
+        paragraph: <p>Pli ol cent programeroj dum la semajno.</p>
+        icon: fa-solid fa-microphone
+        color: amber

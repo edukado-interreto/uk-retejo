@@ -1,0 +1,24 @@
+name: About
+context:
+  self:
+    title: Pri la kongreso
+    subtitle: Brno 2025
+    facts:
+      - !block
+        block: apps.base.blocks.FactBlock
+        title: 60 landoj
+        description: Partoprenantoj el la tuta mondo
+        icon: fa-solid fa-earth-europe
+      - !block
+        block: apps.base.blocks.FactBlock
+        title: 7 tagoj
+        description: De sabato ĝis sabato
+        icon: fa-solid fa-calendar-days
+      - !block
+        block: apps.base.blocks.FactBlock
+        title: 1000 kongresanoj
+        description: La plej granda Esperanto-renkontiĝo
+        icon: fa-solid fa-users
+    pictures: ""
+    event_map: https://www.openstreetmap.org/export/embed.html?bbox=16.57%2C49.18%2C16.63%2C49.21&layer=mapnik
+    directions: <p>La kongresejo troviĝas 10 minutojn piede de la stacidomo.</p>

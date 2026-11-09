@@ -6,9 +6,12 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
 from django.http import Http404
 from django.urls import include, path, re_path
+from pattern_library import urls as pattern_library_urls
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.admin.auth import require_admin_access
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail.utils.urlpatterns import decorate_urlpatterns
 
 from apps.base.views import serve_upload
 from apps.core import views as core_views
@@ -46,6 +49,17 @@ urlpatterns = [
     ),
     path("wagtail/api/html/get-embed/", core_views.api_get_embed),
     path(f"{settings.DJANGO_ADMIN_URL}/", admin.site.urls),
+    path(
+        f"{settings.WAGTAIL_ADMIN_URL}/patterns/",
+        include(
+            (
+                decorate_urlpatterns(
+                    pattern_library_urls.urlpatterns, require_admin_access
+                ),
+                pattern_library_urls.app_name,
+            )
+        ),
+    ),
     path(f"{settings.WAGTAIL_ADMIN_URL}/", include(wagtailadmin_urls)),
     path("dokumentoj/", include(wagtaildocs_urls)),
     path("trovi/", search_views.search, name="search"),

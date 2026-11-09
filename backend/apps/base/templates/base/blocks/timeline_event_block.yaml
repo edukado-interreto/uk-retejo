@@ -1,0 +1,6 @@
+name: Timeline event
+context:
+  self:
+    date: 2027-08-02
+    title: Inaŭguro
+    description: <p>Solena malfermo de la kongreso.</p>

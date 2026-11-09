@@ -1,0 +1,6 @@
+name: Fact
+context:
+  self:
+    title: 60 landoj
+    description: Partoprenantoj el la tuta mondo
+    icon: fa-solid fa-earth-europe

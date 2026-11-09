@@ -1,0 +1,18 @@
+name: Timeline
+context:
+  value:
+    - !block
+      block: apps.base.blocks.TimelineEventBlock
+      date: 2027-08-01
+      title: Interkona vespero
+      description: <p>Renkontiĝo kun la aliaj kongresanoj.</p>
+    - !block
+      block: apps.base.blocks.TimelineEventBlock
+      date: 2027-08-02
+      title: Inaŭguro
+      description: <p>Solena malfermo de la kongreso.</p>
+    - !block
+      block: apps.base.blocks.TimelineEventBlock
+      date: 2027-08-05
+      title: Ekskursa tago
+      description: <p>Tuttagaj kaj duontagaj ekskursoj.</p>

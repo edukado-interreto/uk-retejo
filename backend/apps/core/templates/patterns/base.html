@@ -1,0 +1,11 @@
+{% extends "evente/patterns/base.html" %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'uk-retejo.css' %}">
+  {{ block.super }}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'aos.js' %}"></script>
+{% endblock %}

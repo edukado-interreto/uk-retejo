@@ -101,7 +101,10 @@ def show_toolbar_on_wagtail(request) -> bool:
     is_preview_request = "in_preview_panel" in request.GET
     # Real preview request has very few headers:
     is_admin_preview = "HTTP_ACCEPT" not in request.META
+    in_pattern_library = "/patterns/" in request.path
 
-    if any([in_wagtail_admin, is_preview_request, is_admin_preview]):
+    if any(
+        [in_wagtail_admin, is_preview_request, is_admin_preview, in_pattern_library]
+    ):
         return False
     return import_string("debug_toolbar.middleware.show_toolbar")(request)

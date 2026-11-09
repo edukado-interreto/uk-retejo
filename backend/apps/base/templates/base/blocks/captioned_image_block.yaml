@@ -1,0 +1,6 @@
+name: Captioned image
+context:
+  self:
+    image: !image evente/assets/img/about/thumb.jpg
+    caption: Kongresanoj antaŭ la kongresejo
+    attribution: Foto de LKK

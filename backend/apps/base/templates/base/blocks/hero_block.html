@@ -1,6 +1,6 @@
 {% load static wagtailcore_tags wagtailimages_tags %}{% image self.background width-2048 as background %}
 <section id="uk-hero" class="pb-24 mb-22"
-    style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('{% get_media_prefix %}{{ background.file }}');">
+    style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('{{ background.url }}');">
     <h1 class="site-title" data-aos="fade-up">{{ self.title }}</h1>
     {% if self.start_date %}
     <p data-aos="fade-up" data-aos-delay="500" class="description animated">

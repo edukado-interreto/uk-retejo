@@ -1,0 +1,12 @@
+name: Presentation
+context:
+  self:
+    title: Bonvenon al Brno
+    subtitle: La gastiganta urbo
+    main_image: !image evente/assets/img/about/thumb.jpg
+    first_image: !image evente/assets/img/gallery/thumb.jpg
+    second_image: !image evente/assets/img/gallery/thumb-2.jpg
+    third_image: !image evente/assets/img/gallery/thumb-3.jpg
+    paragraph: <p>Brno estas la dua plej granda urbo de Ĉeĥio, konata pro siaj universitatoj kaj vivoplena kulturo.</p>
+    button_text: Pli pri la urbo
+    button_page: !page /urbo/

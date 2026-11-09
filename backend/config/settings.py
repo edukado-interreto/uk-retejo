@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "wagtail",
     "wagtailmenus",
     "wagtail_custom_code_editor",
+    "pattern_library",
     "modelcluster",
     "taggit",
     "django.contrib.admin",
@@ -133,6 +134,19 @@ TEMPLATES = [
         },
     },
 ]
+
+# https://torchbox.github.io/django-pattern-library/
+# Served under the Wagtail admin URL, see config/urls.py
+TEMPLATES[0]["OPTIONS"]["builtins"] = ["pattern_library.loader_tags"]
+PATTERN_LIBRARY = {
+    "SECTIONS": (
+        ("evente", ["evente/blocks"]),
+        ("uk-retejo", ["base"]),
+    ),
+    "TEMPLATE_SUFFIX": ".html",
+    "PATTERN_BASE_TEMPLATE_NAME": "patterns/base.html",
+    "BASE_TEMPLATE_NAMES": ["base.html", "evente/page.html"],
+}
 
 WSGI_APPLICATION = "config.wsgi.application"
 

@@ -1,0 +1,9 @@
+name: Picture wall
+context:
+  self:
+    - value: !image evente/assets/img/gallery/thumb.jpg
+    - value: !image evente/assets/img/banner/banner.jpg
+    - value: !image evente/assets/img/gallery/thumb-2.jpg
+    - value: !image evente/assets/img/gallery/thumb-3.jpg
+    - value: !image evente/assets/img/gallery/thumb-4.jpg
+    - value: !image evente/assets/img/gallery/thumb-5.jpg

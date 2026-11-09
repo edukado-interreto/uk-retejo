@@ -1,0 +1,6 @@
+name: Program proposal item
+context:
+  self:
+    title: Prelego
+    deadline: 2027-05-01
+    description: <p>Proponu prelegon de 45 minutoj pri temo de via elekto.</p>

@@ -1,0 +1,15 @@
+name: Hero
+context:
+  pattern_block: apps.base.blocks.HeroBlock
+  self:
+    title: 110-a Universala Kongreso de Esperanto
+    dates: 2–9 de aŭgusto 2025
+    start_date: 2027-08-02
+    location: Brno, Ĉeĥio
+    background: !image evente/assets/img/hero/bg.jpg
+    call_to_action:
+      page: !page /aligxilo/
+      text: Aliĝu
+    countdown:
+      title: La kongreso komenciĝos post
+      subtitle: Ne maltrafu ĝin!
