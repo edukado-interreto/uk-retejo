@@ -49,6 +49,10 @@ class ExcursionTableBlock(TypedTableBlock):
     )
     price = DecimalBlock(label=_("Price"), min_value=0, decimal_places=2)
 
+    class Meta:
+        label = _("Excursion table")
+        icon = "table"
+
     def value_from_datadict(self, data, files, prefix):
         """Override method to return ExcursionTable instead of TypedTable."""
         table = super().value_from_datadict(data, files, prefix)
@@ -71,7 +75,7 @@ class ExcursionTableBlock(TypedTableBlock):
 class Excursions(StructBlock):
     table = ExcursionTableBlock()
 
-    rest_day = IntegerBlock(default=5)
+    rest_day = IntegerBlock(label=_("Rest day"), default=5)
     rest_day_color = ChoiceBlock(
         tailwind.Colors.choices,
         label=_("Rest day color"),
@@ -95,6 +99,8 @@ class Excursions(StructBlock):
     )
 
     class Meta:
+        label = _("Excursions")
+        icon = "globe"
         template = "program/excursions.html"
         form_layout = BlockGroup(
             children=["table"],
@@ -111,12 +117,12 @@ class Excursions(StructBlock):
 class TimelineStreamBlock(StreamBlock):
     timeline = TimelineBlock(blank=True, required=False)
     heading_block = HeadingBlock()
-    paragraph_block = RichTextBlock(icon="pilcrow")
+    paragraph_block = RichTextBlock(icon="pilcrow", label=_("Paragraph"))
     image_block = CaptionedImageBlock()
 
 
 class ProgramProposalStreamBlock(StreamBlock):
     program_type = ProgramProposalBlock(blank=True, required=False)
     heading_block = HeadingBlock()
-    paragraph_block = RichTextBlock(icon="pilcrow")
+    paragraph_block = RichTextBlock(icon="pilcrow", label=_("Paragraph"))
     image_block = CaptionedImageBlock()

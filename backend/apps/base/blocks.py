@@ -30,12 +30,20 @@ class CallToActionBlock(StructBlock):
             )
         return result
 
+    class Meta:
+        label = _("Call to action")
+        icon = "link-external"
+
 
 class CountdownBlock(StructBlock):
     title = CharBlock(required=True, help_text="Countdown title")
     subtitle = CharBlock(
         required=False, help_text="Countdown sub-title (actually above)"
     )
+
+    class Meta:
+        label = _("Countdown")
+        icon = "history"
 
 
 class CaptionedImageBlock(StructBlock):
@@ -44,6 +52,7 @@ class CaptionedImageBlock(StructBlock):
     attribution = CharBlock(required=False)
 
     class Meta:
+        label = _("Captioned image")
         icon = "image"
         template = "base/blocks/captioned_image_block.html"
 
@@ -62,6 +71,7 @@ class HeadingBlock(StructBlock):
     )
 
     class Meta:
+        label = _("Heading")
         icon = "title"
         template = "base/blocks/heading_block.html"
 
@@ -77,6 +87,7 @@ class HeroBlock(StructBlock):
     countdown = CountdownBlock(blank=True, required=False)
 
     class Meta:
+        label = _("Hero")
         icon = "home"
         template = "base/blocks/hero_block.html"
 
@@ -98,6 +109,7 @@ class PresentationBlock(StructBlock):
     button_page = PageChooserBlock(required=False, help_text="Link to a page")
 
     class Meta:
+        label = _("Presentation")
         icon = "info-circle"
         template = "base/blocks/presentation_block.html"
 
@@ -120,6 +132,7 @@ class PerkBlock(StructBlock):
     )
 
     class Meta:
+        label = _("Perk")
         icon = "check"
         template = "base/blocks/perk_block.html"
 
@@ -127,23 +140,38 @@ class PerkBlock(StructBlock):
 class PerksStreamBlock(StreamBlock):
     perk = PerkBlock(blank=True, required=False)
 
+    class Meta:
+        label = _("Perks")
+        icon = "list-ul"
+
 
 class VideoBlock(EmbedBlock):
-    help_text = (
-        "Insert an URL to embed. For example, https://www.youtube.com/watch?v=xm4qTLcXKc4",
-    )
-    icon = "media"
-    max_width = 640
-    max_height = 360
+    class Meta:
+        label = _("Video")
+        icon = "media"
+        max_width = 640
+        max_height = 360
 
 
 class PerksBlock(StructBlock):
     title = CharBlock(classname="title", required=True)
     background = ImageBlock(blank=True, required=False)
-    videos = StreamBlock([("video", VideoBlock())])
+    videos = StreamBlock(
+        [
+            (
+                "video",
+                VideoBlock(
+                    help_text=_(
+                        "Insert an URL to embed. For example, https://www.youtube.com/watch?v=xm4qTLcXKc4"
+                    )
+                ),
+            )
+        ]
+    )
     perks = PerksStreamBlock()
 
     class Meta:
+        label = _("Perks section")
         icon = "circle-check"
         template = "base/blocks/perks_block.html"
 
@@ -154,6 +182,8 @@ class FactBlock(StructBlock):
     icon = ChoiceBlock(choices=FontAwesomeIcon.get_icon_choices)
 
     class Meta:
+        label = _("Fact")
+        icon = "success"
         template = "base/blocks/fact_block.html"
 
 
@@ -161,6 +191,7 @@ class FactsStreamBlock(StreamBlock):
     fact = FactBlock(blank=True, required=False)
 
     class Meta:
+        label = _("Facts")
         icon = "tasks"
         template = "base/blocks/facts_block.html"
 
@@ -169,6 +200,7 @@ class PictureWallStreamBlock(StreamBlock):
     image = ImageChooserBlock(required=True)
 
     class Meta:
+        label = _("Picture wall")
         icon = "image"
         template = "base/blocks/picture_wall_block.html"
 
@@ -182,15 +214,17 @@ class AboutBlock(StructBlock):
     directions = RichTextBlock(blank=True, required=False)
 
     class Meta:
+        label = _("About")
         icon = "globe"
         template = "base/blocks/about_block.html"
 
 
 class BaseStreamBlock(StreamBlock):
     heading_block = HeadingBlock()
-    paragraph_block = RichTextBlock(icon="pilcrow")
+    paragraph_block = RichTextBlock(icon="pilcrow", label=_("Paragraph"))
     image_block = CaptionedImageBlock()
     embed_block = EmbedBlock(
+        label=_("Embed"),
         help_text="Insert a URL to embed. For example, https://www.youtube.com/watch?v=SGJFWirQ3ks",
         icon="media",
     )
@@ -200,12 +234,14 @@ class TimelineEventBlock(StructBlock):
     date = DateBlock()
     title = CharBlock(
         blank=True,
-        help_text=_("Lasi malplene por afiŝi tagon"),
+        help_text=_("Leave empty to show the day"),
         required=False,
     )
     description = RichTextBlock(blank=True)
 
     class Meta:
+        label = _("Event")
+        icon = "date"
         template = "base/blocks/timeline_event_block.html"
 
 
@@ -213,12 +249,17 @@ class TimelineBlock(StreamBlock):
     events = TimelineEventBlock(blank=True, required=False)
 
     class Meta:
+        label = _("Timeline")
         icon = "calendar-check"
         template = "base/blocks/timeline_block.html"
 
 
 class ProgramProposalTitleBlock(StructBlock):
     title = CharBlock(label=_("Title (day)"))
+
+    class Meta:
+        label = _("Day title")
+        icon = "h3"
 
 
 class ProgramProposalItemBlock(StructBlock):
@@ -227,6 +268,8 @@ class ProgramProposalItemBlock(StructBlock):
     description = RichTextBlock(blank=True)
 
     class Meta:
+        label = _("Program type")
+        icon = "doc-full"
         template = "base/blocks/program_proposal_item_block.html"
 
 
@@ -235,5 +278,6 @@ class ProgramProposalBlock(StreamBlock):
     program_type = ProgramProposalItemBlock(blank=True, required=False)
 
     class Meta:
+        label = _("Program proposals")
         icon = "tasks"
         template = "base/blocks/program_proposal_block.html"
