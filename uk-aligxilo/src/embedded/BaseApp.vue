@@ -17,7 +17,7 @@ import { NDialogProvider, NConfigProvider, NMessageProvider, NGlobalStyle } from
 // Variabloj troveblaj en node_modules/naive-ui/es/_styles/common/light.d.ts
 const themeOverrides = {
   common: {
-    fontFamily: 'var(--font-poppins)',
+    fontFamily: 'var(--font-content)',
     primaryColor: '#009966', // Emerald 600
     primaryColorHover: '#00bc7d', // Emerald 500
     primaryColorPressed: '#006045', // Emerald 800
@@ -51,7 +51,7 @@ const themeOverrides = {
   }
 
   & .n-card-header {
-    font-family: Unbounded, sans-serif;
+    font-family: var(--font-title);
 
     @media only screen and (max-width: 1024px) {
       padding: 0.7rem 0 0.7rem 0.7rem;

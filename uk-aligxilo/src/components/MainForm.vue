@@ -716,7 +716,7 @@ form.mainform {
   }
 
   .n-alert-body__title {
-    font-family: var(--font-unbounded);
+    font-family: var(--font-title);
     margin-top: 3px;
     margin-bottom: 6px;
     transform: scaleY(1.1);

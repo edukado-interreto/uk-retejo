@@ -138,8 +138,8 @@ apply_selinux:
     command -v chcon >/dev/null 2>&1 && exec chcon -t container_file_t -R containers/secrets
 
 load_prod_data:
-    ssh ikso.net 'docker compose -f /srv/Arcane/data/projects/uk-retejo/compose.yaml exec postgres pg_dump -U uk uk | gzip > /tmp/{{dump_file}}'
-    rsync -P ikso.net:/tmp/{{dump_file}} ./containers/volumes/postgresql/
+    ssh ikso.net 'docker compose -f /srv/Arcane/data/projects/uk_retejo/compose.yaml exec postgres pg_dump -U uk uk | gzip > /tmp/{{dump_file}}'
+    rsync -P ikso.net:/tmp/{{dump_file}} . #/containers/volumes/postgresql/
     ssh ikso.net 'rm /tmp/{{dump_file}}'
 
 # Download production upload files (images, documents)

@@ -7,10 +7,10 @@
 @layer utilities {
   .prose {
     max-width: none;
-    font-family: var(--font-poppins);
+    font-family: var(--font-content);
 
     h1, h2, h3, h4 {
-      font-family: var(--font-unbounded);
+      font-family: var(--font-title);
     }
     p {
       font-size: clamp(100%, 2.5vw, 130%);
