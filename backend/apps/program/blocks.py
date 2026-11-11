@@ -1,24 +1,17 @@
 from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
-from evente.choices import tailwind
 from wagtail.blocks import (
     BlockGroup,
     CharBlock,
     ChoiceBlock,
     DecimalBlock,
     IntegerBlock,
-    RichTextBlock,
-    StreamBlock,
     StructBlock,
 )
 from wagtail.contrib.typed_table_block.blocks import TypedTable, TypedTableBlock
 
-from apps.base.blocks import (
-    CaptionedImageBlock,
-    HeadingBlock,
-    ProgramProposalBlock,
-    TimelineBlock,
-)
+from evente.blocks import groups
+from evente.choices import tailwind
 
 
 class ExcursionTable(TypedTable):
@@ -100,6 +93,7 @@ class Excursions(StructBlock):
 
     class Meta:
         label = _("Excursions")
+        group = groups.PROGRAM
         icon = "globe"
         template = "program/excursions.html"
         form_layout = BlockGroup(
@@ -112,17 +106,3 @@ class Excursions(StructBlock):
                 "half_day_lightness",
             ],
         )
-
-
-class TimelineStreamBlock(StreamBlock):
-    timeline = TimelineBlock(blank=True, required=False)
-    heading_block = HeadingBlock()
-    paragraph_block = RichTextBlock(icon="pilcrow", label=_("Paragraph"))
-    image_block = CaptionedImageBlock()
-
-
-class ProgramProposalStreamBlock(StreamBlock):
-    program_type = ProgramProposalBlock(blank=True, required=False)
-    heading_block = HeadingBlock()
-    paragraph_block = RichTextBlock(icon="pilcrow", label=_("Paragraph"))
-    image_block = CaptionedImageBlock()

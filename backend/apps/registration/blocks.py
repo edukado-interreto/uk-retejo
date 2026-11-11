@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail.blocks import ChoiceBlock, StructBlock
 
+from evente.blocks import groups
+
 
 class VueModule(models.TextChoices):
     REGISTRATION = "registration", "Aliĝilo"
@@ -16,7 +18,7 @@ class VueJsBlock(StructBlock):
     class Meta:
         label = _("VueJS module")
         icon = "code"
-        group = _("Expert")
+        group = groups.EXPERT
         template = "registration/vuejs_block.html"
 
     def get_context(self, value, parent_context=None):

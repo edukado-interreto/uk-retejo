@@ -13,7 +13,6 @@ from wagtail.admin.auth import require_admin_access
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
-from apps.base.views import serve_upload
 from apps.core import views as core_views
 from apps.search import views as search_views
 from evente import urls as evente_urls
@@ -44,7 +43,7 @@ urlpatterns = [
     # Uploads are served by Django, also in production
     re_path(
         rf"^{re.escape(settings.MEDIA_URL.lstrip('/'))}(?P<path>.*)$",
-        serve_upload,
+        core_views.serve_upload,
         {"document_root": settings.MEDIA_ROOT},
     ),
     path("wagtail/api/html/get-embed/", core_views.api_get_embed),

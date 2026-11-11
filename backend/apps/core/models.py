@@ -4,8 +4,8 @@ from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from config.utils import field_panels
-from evente.blocks.heroes import HeroBlock
-from evente.blocks.layouts import BodyContent
+from evente.structure.heroes import HeroBlock
+from evente.structure.layouts import BodyContent
 from evente.models import BasePageMixin, EventPageMixin
 
 

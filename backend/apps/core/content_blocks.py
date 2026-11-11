@@ -1,4 +1,4 @@
-from apps.base.blocks import ProgramProposalBlock, TimelineBlock
+from apps.core.blocks import ProgramProposalBlock, TimelineBlock
 from apps.program.blocks import Excursions
 from apps.registration.blocks import VueJsBlock
 

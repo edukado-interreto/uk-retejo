@@ -4,13 +4,13 @@ context:
     - block_type: title_day
       value: {title: Lundo}
     - !block
-      block: apps.base.blocks.ProgramProposalItemBlock
+      block: apps.core.blocks.ProgramProposalItemBlock
       block_type: program_type
       title: Prelego
       deadline: 2027-05-01
       description: <p>Proponu prelegon de 45 minutoj pri temo de via elekto.</p>
     - !block
-      block: apps.base.blocks.ProgramProposalItemBlock
+      block: apps.core.blocks.ProgramProposalItemBlock
       block_type: program_type
       title: Koncerto
       description: <p>Muzikistoj povas proponi vesperan koncerton.</p>

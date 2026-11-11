@@ -1,7 +1,0 @@
-name: Perk
-context:
-  self:
-    title: Kulturaj vesperoj
-    paragraph: <p>Koncertoj, teatro kaj dancado ĉiuvespere.</p>
-    icon: fa-solid fa-music
-    color: sky

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 18:48+0100\n"
+"POT-Creation-Date: 2026-11-10 18:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,34 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/core/blocks.py
+msgid "Leave empty to show the day"
+msgstr "Lasi malplene por afiŝi tagon"
+
+#: apps/core/blocks.py
+msgid "Event"
+msgstr "Evento"
+
+#: apps/core/blocks.py
+msgid "Timeline"
+msgstr "Templinio"
+
+#: apps/core/blocks.py
+msgid "Title (day)"
+msgstr "Titolo (tago)"
+
+#: apps/core/blocks.py
+msgid "Day title"
+msgstr "Taga titolo"
+
+#: apps/core/blocks.py
+msgid "Program type"
+msgstr "Programero"
+
+#: apps/core/blocks.py
+msgid "Program proposals"
+msgstr "Programproponoj"
 
 #: apps/core/models.py
 msgid "hero"

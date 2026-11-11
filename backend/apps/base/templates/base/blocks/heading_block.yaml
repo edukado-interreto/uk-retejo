@@ -1,5 +1,0 @@
-name: Heading
-context:
-  self:
-    heading_text: Kongresa programo
-    size: h2

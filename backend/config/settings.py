@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "wagtail.snippets",
     "wagtail.documents",
     # "wagtail.images",
-    "apps.base.apps.WagtailImagesAppConfig",
+    "apps.core.apps.CustomImagesAppConfig",
     "wagtail.search",
     "wagtail.admin",
     "wagtail",
@@ -60,9 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "evente",
-    "apps.base",  # Deprecated
     "apps.core",
-    "apps.home",
     "apps.program",
     "apps.registration",
     "apps.search",
@@ -141,7 +139,7 @@ TEMPLATES[0]["OPTIONS"]["builtins"] = ["pattern_library.loader_tags"]
 PATTERN_LIBRARY = {
     "SECTIONS": (
         ("evente", ["evente/blocks"]),
-        ("uk-retejo", ["base"]),
+        ("uk-retejo", ["core/blocks"]),
     ),
     "TEMPLATE_SUFFIX": ".html",
     "PATTERN_BASE_TEMPLATE_NAME": "patterns/base.html",
