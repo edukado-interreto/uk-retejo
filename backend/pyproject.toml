@@ -18,6 +18,7 @@ dependencies = [
   "toml-decouple>=0.11.0",
   "wagtail>=8.0,<9",
   "wagtail-custom-code-editor>=1.0.7",
+  "wagtail-mcp>=0.3.0",
   "wagtailmenus>=4.0.5",
 ]
 
@@ -28,11 +29,17 @@ dev = [
   "django-stubs[compatible-mypy]>=5.2.9",
   "faker>=40.4.0",
   "granian[reload]>=2.8.5",
+  "pytest>=9.2.0",
+  "pytest-django>=4.14.0",
   "ruff>=0.15.7",
 ]
 prod = [
   "wagtail-evente>=0.12",
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py"]
 
 [tool.ruff.lint]
 ignore = ["E731", "RUF012", "SIM102"]  # lambda/def, Class mutable attr, combine if

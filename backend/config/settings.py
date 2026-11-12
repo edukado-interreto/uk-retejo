@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "wagtail.contrib.settings",
     "wagtail.contrib.table_block",
     "wagtail.contrib.typed_table_block",
+    "wagtail.api.v3",
+    "wagtail_mcp",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -82,7 +84,7 @@ MIDDLEWARE = [
 if DEBUG:
     INSTALLED_APPS = [
         "corsheaders",
-        "debug_toolbar",
+        *([] if ENVIRONMENT.is_testing else ["debug_toolbar"]),
         *INSTALLED_APPS,
         "apps.devel",
     ]
@@ -101,7 +103,11 @@ if DEBUG:
     MIDDLEWARE = [
         "corsheaders.middleware.CorsMiddleware",
         *MIDDLEWARE[:2],
-        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        *(
+            []
+            if ENVIRONMENT.is_testing
+            else ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+        ),
         *MIDDLEWARE[2:],
     ]
     CORS_ALLOWED_ORIGINS = [
@@ -232,6 +238,8 @@ WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
 WAGTAILMENUS_MAIN_MENUS_EDITABLE_IN_WAGTAILADMIN = False
 # Sets also the "active" CSS class on the top-level menu on a sub-page
 WAGTAILMENUS_ACTIVE_ANCESTOR_CLASS = "active"
+
+WAGTAILAPI_BASE_URL = f"https://{HOSTNAME}/api/v3/"
 
 # Ignoring these WARNINGS:
 #
