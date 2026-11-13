@@ -24,7 +24,11 @@ class HomePage(EventPageMixin, Page):
 
     parent_page_types = ["evente.EventeSiteRoot"]
     content_panels = field_panels("event", "hero", "body")
-    api_fields = [*EventPageMixin.api_fields, APIField("hero"), APIField("body")]
+    api_fields = [
+        *EventPageMixin.api_fields,
+        APIField("hero", writable=True),
+        APIField("body", writable=True),
+    ]
 
 
 class SimplePage(BasePageMixin, RoutablePageMixin, Page):
@@ -35,7 +39,7 @@ class SimplePage(BasePageMixin, RoutablePageMixin, Page):
     )
 
     content_panels = field_panels("header_image", "body")
-    api_fields = [*BasePageMixin.api_fields, APIField("body")]
+    api_fields = [*BasePageMixin.api_fields, APIField("body", writable=True)]
 
     class Meta:
         verbose_name = _("Simple page")
