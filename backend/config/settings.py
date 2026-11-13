@@ -116,6 +116,8 @@ if DEBUG:
     ]
 
 ROOT_URLCONF = "config.urls"
+# URLs without trailing slash, see also WAGTAIL_APPEND_SLASH
+APPEND_SLASH = False
 
 DJANGO_ADMIN_URL = config("DJANGO_ADMIN_URL", "django-admin")
 WAGTAIL_ADMIN_URL = config("WAGTAIL_ADMIN_URL", "admin")
@@ -214,6 +216,9 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 #### WAGTAIL SETTINGS ####
 
 WAGTAIL_SITE_NAME = "Universala Kongreso"
+
+# Serve and link pages without trailing slash
+WAGTAIL_APPEND_SLASH = False
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash

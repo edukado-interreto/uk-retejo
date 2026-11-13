@@ -42,7 +42,7 @@ def test_api_v3_openapi_schema(client):
 
 
 def test_mcp_route_is_available(client):
-    assert client.get("/mcp/").status_code == 405
+    assert client.get("/mcp").status_code == 405
 
 
 def test_mcp_list_capabilities(client, api_token):
@@ -51,7 +51,7 @@ def test_mcp_list_capabilities(client, api_token):
         "Authorization": f"Bearer {api_token}",
         "Accept": "application/json, text/event-stream",
     }
-    response = client.post("/mcp/", data, "application/json", headers=headers)
+    response = client.post("/mcp", data, "application/json", headers=headers)
     assert response.status_code == 200
 
     result = response.json()["result"]

@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import urlpatterns as static_urlpatterns
 from django.http import Http404
 from django.urls import include, path, re_path
+from django.views.generic import RedirectView
 from pattern_library import urls as pattern_library_urls
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
@@ -32,10 +33,15 @@ def debug_urlpatterns():
             # API for testing:
             path("api/2027/", include(dev_urls)),
             # Evente by Themeadapt
+            path("evente", RedirectView.as_view(url="/evente/index.html")),
             path("evente/", include(evente_urls)),
             *debug_toolbar_urls(),
         ]
     return []
+
+
+def admin_redirect(prefix):
+    return [path(prefix, RedirectView.as_view(url=f"/{prefix}/", permanent=False))]
 
 
 urlpatterns = [
@@ -47,7 +53,9 @@ urlpatterns = [
         core_views.serve_upload,
         {"document_root": settings.MEDIA_ROOT},
     ),
-    path("wagtail/api/html/get-embed/", core_views.api_get_embed),
+    path("wagtail/api/html/get-embed", core_views.api_get_embed),
+    # Both admins need a trailing slash, as APPEND_SLASH is False
+    *admin_redirect(settings.DJANGO_ADMIN_URL),
     path(f"{settings.DJANGO_ADMIN_URL}/", admin.site.urls),
     path(
         f"{settings.WAGTAIL_ADMIN_URL}/patterns/",
@@ -60,14 +68,15 @@ urlpatterns = [
             )
         ),
     ),
+    *admin_redirect(settings.WAGTAIL_ADMIN_URL),
     path(f"{settings.WAGTAIL_ADMIN_URL}/", include(wagtailadmin_urls)),
     path("dokumentoj/", include(wagtaildocs_urls)),
-    path("trovi/", search_views.search, name="search"),
+    path("trovi", search_views.search, name="search"),
     *debug_urlpatterns(),
     re_path("404/?.*", page_not_found, {"exception": Http404("Page not found")}),
-    path("500/", server_error),
+    path("500", server_error),
     path("api/v3/", api_v3.urls),
-    path("mcp/", include("wagtail_mcp.urls")),
+    path("mcp", include("wagtail_mcp.urls")),
     path("", include(wagtail_urls)),
 ]
 

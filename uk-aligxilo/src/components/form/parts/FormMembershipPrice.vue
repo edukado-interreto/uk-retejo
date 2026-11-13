@@ -1,6 +1,6 @@
 <template>
   <p>
-    <a :href="websiteUrl + '/kotizoj/'" target="_blank" style="font-size: 1.2em">Vidi klarigojn pri la kotizoj</a>
+    <a :href="websiteUrl + '/kotizoj'" target="_blank" style="font-size: 1.2em">Vidi klarigojn pri la kotizoj</a>
   </p>
   <n-grid style="display: none" x-gap="12" cols="1 s:2" responsive="screen">
     <n-gi>
