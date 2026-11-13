@@ -3,7 +3,7 @@ import pytest
 pytestmark = pytest.mark.django_db
 
 # fmt: off
-MCP_TOOLS = {
+MCP_TOOLS = [
     "whoami",
     "schema_list", "schema_detail",
     "api_schema", "api_call",
@@ -28,7 +28,7 @@ MCP_TOOLS = {
     "sites_list", "sites_detail", "sites_create", "sites_update", "sites_delete",
     "locales_list", "locales_detail",
     "locales_create", "locales_update", "locales_delete",
-}
+]
 # fmt: on
 
 
