@@ -72,6 +72,7 @@ const form = ref({
   konsento_kongreslibro: false,
   kongreslibro_adreso: [],
   konfirmilo: 'elektronike',
+  fotado: null,
   akcepto_reguloj: false,
   pagmaniero: null,
   uea_kodo_paganto: '',
