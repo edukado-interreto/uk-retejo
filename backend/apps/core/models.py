@@ -1,12 +1,13 @@
 from django.utils.translation import gettext_lazy as _
+from wagtail.api import APIField
 from wagtail.contrib.routable_page.models import RoutablePageMixin, re_path
 from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from config.utils import field_panels
+from evente.models import BasePageMixin, EventPageMixin
 from evente.structure.heroes import HeroBlock
 from evente.structure.layouts import BodyContent
-from evente.models import BasePageMixin, EventPageMixin
 
 
 class HomePage(EventPageMixin, Page):
@@ -23,6 +24,7 @@ class HomePage(EventPageMixin, Page):
 
     parent_page_types = ["evente.EventeSiteRoot"]
     content_panels = field_panels("event", "hero", "body")
+    api_fields = [*EventPageMixin.api_fields, APIField("hero"), APIField("body")]
 
 
 class SimplePage(BasePageMixin, RoutablePageMixin, Page):
@@ -33,6 +35,7 @@ class SimplePage(BasePageMixin, RoutablePageMixin, Page):
     )
 
     content_panels = field_panels("header_image", "body")
+    api_fields = [*BasePageMixin.api_fields, APIField("body")]
 
     class Meta:
         verbose_name = _("Simple page")
