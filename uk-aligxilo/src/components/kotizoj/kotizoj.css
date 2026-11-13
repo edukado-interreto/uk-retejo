@@ -1,0 +1,643 @@
+/* Paĝo Kotizoj UK. Ĉiuj klasoj komenciĝas per "kt-", por ne kolizii kun Tailwind de la retejo. */
+
+.kt-page {
+  --kt-green: #006045;
+  --kt-green-title: #007a55;
+  --kt-green-dark: #004230;
+  --kt-mint: #ecfdf5;
+  --kt-mine: #b4ecce;
+  --kt-lime: #8aba50;
+  --kt-mint-line: #c9f2dd;
+  --kt-orange: #ff8904;
+  --kt-ink: #15201b;
+  --kt-text: #2f3d36;
+  --kt-muted: #52605a;
+  --kt-past: #8a958f;
+  --kt-line: #d9e4df;
+  --kt-font-heading: var(--font-title, 'Unbounded', sans-serif);
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  color: var(--kt-text);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.kt-page a {
+  color: var(--kt-green);
+}
+.kt-page a:hover {
+  color: var(--kt-green-dark);
+}
+.kt-page p {
+  margin: 0;
+}
+
+.kt-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.kt-lead {
+  font-size: 20px;
+  line-height: 1.8;
+  max-width: 900px;
+}
+
+.kt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.kt-section--prices {
+  max-width: 1100px;
+}
+
+.kt-h2 {
+  margin: 0;
+  font-family: var(--kt-font-heading);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.25;
+  color: var(--kt-green-title);
+}
+
+.kt-text {
+  color: var(--kt-text);
+}
+
+/* ---------- Butono kaj ligiloj ---------- */
+.kt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: var(--kt-orange);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.kt-btn:hover {
+  filter: brightness(0.95);
+}
+.kt-btn:focus-visible,
+.kt-linkbtn:focus-visible {
+  outline: 3px solid var(--kt-green);
+  outline-offset: 2px;
+}
+
+.kt-linkbtn {
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--kt-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.kt-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--kt-green);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* ---------- Persona skatolo ---------- */
+.kt-persona {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 28px;
+  padding: 28px;
+  border-radius: 16px;
+  background: var(--kt-mint);
+}
+.kt-persona__text {
+  flex: 1 1 420px;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kt-persona__country {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+}
+.kt-persona__title {
+  font-family: var(--kt-font-heading);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--kt-ink);
+}
+.kt-persona__select {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  max-width: 360px;
+}
+
+/* ---------- Tabelo (komputilo) ---------- */
+.kt-table .n-data-table-th {
+  vertical-align: bottom;
+}
+.kt-table .kt-col-group {
+  vertical-align: middle !important;
+}
+.kt-group {
+  font-weight: 700;
+  color: var(--kt-ink);
+}
+.kt-group-sub {
+  margin-top: 4px;
+  max-width: 210px;
+  font-size: 14px;
+  color: var(--kt-muted);
+  white-space: normal;
+}
+.kt-free-label {
+  color: var(--kt-text);
+}
+
+.kt-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.kt-ph__badge {
+  height: 22px;
+  display: flex;
+  align-items: center;
+}
+.kt-ph__date {
+  font-weight: 700;
+  color: var(--kt-ink);
+}
+.kt-ph__sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--kt-muted);
+}
+
+.kt-table td.kt-past,
+.kt-table td.kt-past * {
+  color: var(--kt-past);
+}
+.kt-table th.kt-past .kt-ph__date {
+  color: var(--kt-past);
+}
+.kt-table .kt-now {
+  background-color: var(--kt-mint) !important;
+}
+.kt-table .kt-mine {
+  background-color: var(--kt-mine) !important;
+  font-weight: 700;
+  color: var(--kt-ink);
+}
+.kt-table td.kt-mine {
+  font-size: 20px;
+}
+.kt-table .n-data-table-td,
+.kt-table .n-data-table-th {
+  font-size: 16px;
+}
+.kt-table td:not(.kt-col-group):not(.kt-col-label) {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Periodaj kartoj (telefono) ---------- */
+.kt-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kt-cards .kt-card {
+  margin: 0 !important;
+  padding: 12px 14px !important;
+  border: 1px solid var(--kt-line) !important;
+  border-radius: 12px;
+}
+.kt-cards .kt-card--now {
+  background: var(--kt-mint);
+  border: 2px solid var(--kt-green) !important;
+}
+.kt-card__head {
+  display: flex;
+  flex-direction: column;
+}
+.kt-card__date {
+  font-weight: 700;
+  color: var(--kt-ink);
+}
+.kt-card__sub {
+  font-size: 14px;
+  color: var(--kt-muted);
+}
+.kt-card--past .kt-card__date {
+  color: var(--kt-past);
+}
+
+.kt-mini {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  /* La retejo donas al ĉiuj tabeloj blankan fonon kaj grizajn kadrojn (style/css/tables.css). */
+  background: transparent;
+}
+.kt-mini th,
+.kt-mini td {
+  padding: 6px;
+  text-align: right;
+  border: 0;
+  border-top: 1px solid var(--kt-line);
+}
+.kt-mini thead th {
+  border-top: 0;
+  font-size: 14px;
+  color: var(--kt-muted);
+}
+.kt-mini tbody th[scope='row'] {
+  text-align: left;
+  font-weight: 400;
+  padding-left: 12px;
+}
+.kt-mini__group th {
+  text-align: left !important;
+  padding: 12px 0 2px !important;
+  border-top: 2px solid var(--kt-line);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--kt-green);
+}
+.kt-mini__sub {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--kt-muted);
+}
+.kt-mini .kt-mine {
+  background: var(--kt-mine);
+  font-weight: 700;
+  color: var(--kt-ink);
+}
+.kt-mini__free {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 2px solid var(--kt-line);
+  font-size: 14px;
+}
+.kt-mini__free strong {
+  font-size: 16px;
+  color: var(--kt-ink);
+  white-space: nowrap;
+}
+
+/* ---------- Notoj sub la tabelo ---------- */
+.kt-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--kt-muted);
+}
+
+/* ---------- Kartoj kaj Pliaj informoj ---------- */
+.kt-grid {
+  display: grid;
+  gap: 14px;
+}
+.kt-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.kt-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+.kt-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.kt-cardbox {
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--kt-mint);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kt-cardbox__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--kt-green);
+}
+.kt-cardbox__head h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--kt-ink);
+}
+.kt-info .kt-cardbox__head {
+  color: var(--kt-green-title);
+  margin-bottom: 6px;
+}
+
+/* ---------- Templinio ---------- */
+.kt-tl {
+  background: var(--kt-green);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 32px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.kt-tl__title {
+  margin: 0;
+  font-family: var(--kt-font-heading);
+  font-weight: 600;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.kt-tl__h {
+  display: grid;
+  row-gap: 10px;
+}
+.kt-tl__phase {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.kt-tl__phase--main {
+  color: #ffffff;
+}
+.kt-tl__phase--optional {
+  color: var(--kt-mint-line);
+}
+.kt-tl__node {
+  position: relative;
+  height: 18px;
+}
+.kt-tl__node::before {
+  /* linio */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 7px;
+  height: 4px;
+  background: var(--kt-lime);
+}
+.kt-tl__node--first::before {
+  border-radius: 4px 0 0 4px;
+}
+.kt-tl__node--optional::before {
+  height: 0;
+  background: none;
+  border-top: 4px dashed var(--kt-mint-line);
+}
+.kt-tl__node--end::before {
+  display: none;
+}
+.kt-tl__node::after {
+  /* punkto */
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--kt-green);
+  border: 3px solid var(--kt-lime);
+}
+.kt-tl__node--optional::after {
+  border-color: var(--kt-mint-line);
+}
+.kt-tl__node--end::after {
+  top: 0;
+  width: 18px;
+  height: 18px;
+  background: var(--kt-lime);
+}
+.kt-tl__text {
+  font-size: 15px;
+  color: #e6f5ec;
+  padding-right: 18px;
+}
+.kt-tl__text--end {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.kt-tl__v {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.kt-tl__v li {
+  position: relative;
+  padding: 0 0 14px 32px;
+}
+.kt-tl__v li::before {
+  /* vertikala linio */
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--kt-lime);
+}
+.kt-tl__v li:first-child::before {
+  top: 9px;
+}
+.kt-tl__v li:last-child::before {
+  bottom: auto;
+  height: 9px;
+}
+.kt-tl__v li.kt-tl__v--optional::before {
+  width: 0;
+  background: none;
+  border-left: 4px dashed var(--kt-mint-line);
+}
+.kt-tl__vphase {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 12px !important;
+}
+.kt-tl__vphase::after {
+  /* markilo de fazo */
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 18px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--kt-lime);
+}
+.kt-tl__vphase.kt-tl__v--optional {
+  color: var(--kt-mint-line);
+}
+.kt-tl__vphase.kt-tl__v--optional::after {
+  background: var(--kt-mint-line);
+}
+.kt-tl__vstep {
+  font-size: 16px;
+  color: #e6f5ec;
+}
+.kt-tl__vstep::after {
+  /* punkto */
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--kt-green);
+  border: 3px solid var(--kt-lime);
+}
+.kt-tl__vstep.kt-tl__v--optional::after {
+  border-color: var(--kt-mint-line);
+}
+.kt-tl__vstep--end {
+  font-weight: 700;
+  color: #ffffff;
+  padding-bottom: 0 !important;
+}
+.kt-tl__vstep--end::after {
+  left: 0;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  background: var(--kt-lime);
+}
+
+@media (max-width: 999px) {
+  .kt-tl__h {
+    display: none;
+  }
+  .kt-tl__v {
+    display: block;
+  }
+}
+
+/* ---------- Landolistoj kaj kontakto ---------- */
+.kt-contact {
+  padding-top: 20px;
+  border-top: 1px solid var(--kt-line);
+}
+
+/* ---------- Telefono ---------- */
+@media (max-width: 767px) {
+  .kt-page {
+    gap: 28px;
+    font-size: 16px;
+  }
+  .kt-lead {
+    font-size: 17px;
+  }
+  .kt-h2 {
+    font-size: 24px;
+  }
+  .kt-section {
+    gap: 12px;
+  }
+  .kt-persona {
+    padding: 18px;
+    border-radius: 14px;
+  }
+  .kt-persona__title {
+    font-size: 18px;
+  }
+  .kt-persona .kt-btn {
+    width: 100%;
+  }
+  .kt-grid--4,
+  .kt-grid--3,
+  .kt-grid--2 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .kt-grid--3 {
+    gap: 16px;
+  }
+  .kt-cardbox {
+    padding: 16px;
+  }
+  .kt-cardbox__head h3 {
+    font-size: 16px;
+  }
+  .kt-tl {
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+  .kt-tl__title {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .kt-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Naive UI aldonas spacon super la kaplinio de ne-unuaj elementoj; ĉe kartoj ni ne volas tion. */
+.kt-cards .n-collapse-item .n-collapse-item__header {
+  padding-top: 0 !important;
+}
+
+/* Eksplicitaj vicoj de la horizontala templinio (la lasta kolumno ne havas etikedon de fazo). */
+.kt-tl__node {
+  grid-row: 2;
+}
+.kt-tl__text {
+  grid-row: 3;
+}
