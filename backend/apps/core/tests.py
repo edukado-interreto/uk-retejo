@@ -2,30 +2,32 @@ import pytest
 
 pytestmark = pytest.mark.django_db
 
-
-def combine(char: str, name: str, actions: list[str]):
-    return (char.join([t for t in [name, action] if t]) for action in actions)
-
-
 # fmt: off
 MCP_TOOLS = {
-    "whoami": [""],
-    "schema": ["list", "detail"],
-    "api": ["schema", "call"],
-    "pages": ["list", "find", "detail", "create", "update", "delete"],
-    "pages_actions": [
-        "delete", "publish", "unpublish", "copy", "move", "revert",
-        "convert_alias", "create_alias", "copy_for_translation"
-    ],
-    "pages_revisions": ["list", "detail"],
-    "images": ["list", "detail", "create", "update", "delete"],
-    "documents": ["list", "detail", "create", "update", "delete"],
-    "snippets": ["list", "detail", "create", "update", "delete"],
-    "snippets_revisions": ["list", "detail"],
-    "snippets_actions": ["delete", "publish", "unpublish", "revert", "copy_for_translation"],
-    "redirects": ["list", "find", "detail", "create", "update", "delete"],
-    "sites": ["list", "detail", "create", "update", "delete"],
-    "locales": ["list", "detail", "create", "update", "delete"],
+    "whoami",
+    "schema_list", "schema_detail",
+    "api_schema", "api_call",
+    "pages_list", "pages_find", "pages_detail",
+    "pages_create", "pages_update", "pages_delete",
+    "pages_actions_delete", "pages_actions_publish", "pages_actions_unpublish",
+    "pages_actions_copy", "pages_actions_move", "pages_actions_revert",
+    "pages_actions_convert_alias", "pages_actions_create_alias",
+    "pages_actions_copy_for_translation",
+    "pages_revisions_list", "pages_revisions_detail",
+    "images_list", "images_detail", "images_create", "images_update", "images_delete",
+    "documents_list", "documents_detail",
+    "documents_create", "documents_update", "documents_delete",
+    "snippets_list", "snippets_detail",
+    "snippets_create", "snippets_update", "snippets_delete",
+    "snippets_actions_delete",
+    "snippets_revisions_list", "snippets_revisions_detail",
+    "snippets_actions_publish", "snippets_actions_unpublish",
+    "snippets_actions_revert", "snippets_actions_copy_for_translation",
+    "redirects_list", "redirects_find", "redirects_detail",
+    "redirects_create", "redirects_update", "redirects_delete",
+    "sites_list", "sites_detail", "sites_create", "sites_update", "sites_delete",
+    "locales_list", "locales_detail",
+    "locales_create", "locales_update", "locales_delete",
 }
 # fmt: on
 
@@ -41,7 +43,21 @@ def test_api_v3_openapi_schema(client):
     assert schema["info"]["title"] == "Wagtail API"
 
 
+@pytest.mark.parametrize(
+    "schema_name, fields",
+    [
+        ("HomePageSchema", {"event", "hero", "body"}),
+        ("SimplePageSchema", {"header_image", "body"}),
+        ("EventeSiteRootSchema", {"redirect_to_page", "redirect_to_url"}),
+    ],
+)
+def test_api_v3_page_api_fields(client, schema_name, fields):
+    schemas = client.get("/api/v3/openapi.json").json()["components"]["schemas"]
+    assert fields <= schemas[schema_name]["properties"].keys()
+
+
 def test_mcp_route_is_available(client):
+    # GET is not allowed, MCP only accepts POST
     assert client.get("/mcp").status_code == 405
 
 
@@ -55,8 +71,4 @@ def test_mcp_list_capabilities(client, api_token):
     assert response.status_code == 200
 
     result = response.json()["result"]
-    assert {tool["name"] for tool in result["tools"]} == {
-        item
-        for name, actions in MCP_TOOLS.items()
-        for item in combine("_", name, actions)
-    }
+    assert [tool["name"] for tool in result["tools"]] == MCP_TOOLS
