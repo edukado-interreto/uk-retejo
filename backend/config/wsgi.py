@@ -7,9 +7,13 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
+import faulthandler
 import os
+import signal
 
 from django.core.wsgi import get_wsgi_application
+
+faulthandler.register(signal.SIGUSR1, all_threads=True)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
