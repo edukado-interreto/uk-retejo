@@ -1,6 +1,8 @@
 import pytest
+from django.conf import settings
 
 pytestmark = pytest.mark.django_db
+needs_mcp = pytest.mark.skipif(not settings.MCP_ENABLED, reason="MCP_ENABLED is off")
 
 # fmt: off
 MCP_TOOLS = [
@@ -56,11 +58,13 @@ def test_api_v3_page_api_fields(client, schema_name, fields):
     assert fields <= schemas[schema_name]["properties"].keys()
 
 
+@needs_mcp
 def test_mcp_route_is_available(client):
     # GET is not allowed, MCP only accepts POST
     assert client.get("/mcp").status_code == 405
 
 
+@needs_mcp
 def test_mcp_list_capabilities(client, api_token):
     data = {"jsonrpc": "2.0", "id": 1, "method": "tools/list"}
     headers = {
@@ -71,4 +75,4 @@ def test_mcp_list_capabilities(client, api_token):
     assert response.status_code == 200
 
     result = response.json()["result"]
-    assert [tool["name"] for tool in result["tools"]] == MCP_TOOLS
+    assert {tool["name"] for tool in result["tools"]} == MCP_TOOLS

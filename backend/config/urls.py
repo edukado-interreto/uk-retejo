@@ -76,7 +76,7 @@ urlpatterns = [
     re_path("404/?.*", page_not_found, {"exception": Http404("Page not found")}),
     path("500", server_error),
     path("api/v3/", api_v3.urls),
-    path("mcp", include("wagtail_mcp.urls")),
+    *([path("mcp", include("wagtail_mcp.urls"))] if settings.MCP_ENABLED else []),
     path("", include(wagtail_urls)),
 ]
 

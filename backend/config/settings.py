@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     "wagtail.contrib.table_block",
     "wagtail.contrib.typed_table_block",
     "wagtail.api.v3",
-    "wagtail_mcp",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -67,6 +66,11 @@ INSTALLED_APPS = [
     "apps.registration",
     "apps.search",
 ]
+
+# MCP server for AI agents, on top of the API v3
+MCP_ENABLED = config("MCP_ENABLED", False)
+if MCP_ENABLED:
+    INSTALLED_APPS.insert(INSTALLED_APPS.index("wagtail.api.v3") + 1, "wagtail_mcp")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
