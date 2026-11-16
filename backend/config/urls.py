@@ -11,7 +11,6 @@ from pattern_library import urls as pattern_library_urls
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.admin.auth import require_admin_access
-from wagtail.api.v3.urls import api as api_v3
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
@@ -75,8 +74,8 @@ urlpatterns = [
     *debug_urlpatterns(),
     re_path("404/?.*", page_not_found, {"exception": Http404("Page not found")}),
     path("500", server_error),
-    path("api/v3/", api_v3.urls),
-    *([path("mcp", include("wagtail_mcp.urls"))] if settings.MCP_ENABLED else []),
+    # API v3 with the Evente blocks, and the MCP server when installed
+    path("", include("evente.api.urls")),
     path("", include(wagtail_urls)),
 ]
 

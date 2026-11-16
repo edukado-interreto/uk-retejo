@@ -66,6 +66,8 @@ class ExcursionTableBlock(TypedTableBlock):
 
 
 class Excursions(StructBlock):
+    """The table of excursions by day, with the rest day highlighted in colour."""
+
     table = ExcursionTableBlock()
 
     rest_day = IntegerBlock(label=_("Rest day"), default=5)

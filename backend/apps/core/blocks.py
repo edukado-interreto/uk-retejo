@@ -26,6 +26,8 @@ class TimelineEventBlock(StructBlock):
 
 
 class TimelineBlock(StreamBlock):
+    """Dated events shown on a vertical timeline, e.g. the steps before the congress."""
+
     events = TimelineEventBlock(blank=True, required=False)
 
     class Meta:
@@ -55,6 +57,8 @@ class ProgramProposalItemBlock(StructBlock):
 
 
 class ProgramProposalBlock(StreamBlock):
+    """The programme proposals, grouped under day titles, as a presentation list."""
+
     title_day = ProgramProposalTitleBlock(blank=True, required=False)
     program_type = ProgramProposalItemBlock(blank=True, required=False)
 

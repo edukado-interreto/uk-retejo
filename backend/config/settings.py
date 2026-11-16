@@ -1,3 +1,4 @@
+from importlib.util import find_spec
 from itertools import product
 from pathlib import Path
 
@@ -69,9 +70,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-# MCP server for AI agents, on top of the API v3
+# MCP server for AI agents, on top of the API v3 (wagtail-evente[mcp]).
+# Without the package, evente's system check warns instead of failing at startup.
 MCP_ENABLED = config("MCP_ENABLED", False)
-if MCP_ENABLED:
+if MCP_ENABLED and find_spec("wagtail_mcp"):
     INSTALLED_APPS.insert(INSTALLED_APPS.index("wagtail.api.v3") + 1, "wagtail_mcp")
 
 MIDDLEWARE = [

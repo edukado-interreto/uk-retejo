@@ -14,7 +14,11 @@ class CoreAppConfig(AppConfig):
         the connections (the test Client used by wagtail_mcp disconnects
         close_old_connections). They stay idle in Postgres until garbage collected.
         """
+        from django.apps import apps
         from django.db import connections
+
+        if not apps.is_installed("wagtail_mcp"):
+            return
         from wagtail_mcp import dispatch
 
         if getattr(dispatch.DjangoClient.request, "_closes_connections", False):

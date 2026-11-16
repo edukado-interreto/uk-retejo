@@ -13,6 +13,8 @@ class VueModule(models.TextChoices):
 
 
 class VueJsBlock(StructBlock):
+    """Embeds a Vue.js module of the registration app (uk-aligxilo), e.g. the registration form."""
+
     vue_module = ChoiceBlock(VueModule.choices, default=VueModule.REGISTRATION)
 
     class Meta:

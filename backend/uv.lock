@@ -1704,7 +1704,6 @@ dependencies = [
     { name = "toml-decouple" },
     { name = "wagtail" },
     { name = "wagtail-custom-code-editor" },
-    { name = "wagtail-mcp" },
     { name = "wagtailmenus" },
 ]
 
@@ -1718,9 +1717,10 @@ dev = [
     { name = "pytest" },
     { name = "pytest-django" },
     { name = "ruff" },
+    { name = "wagtail-mcp" },
 ]
 prod = [
-    { name = "wagtail-evente" },
+    { name = "wagtail-evente", extra = ["mcp"] },
 ]
 
 [package.metadata]
@@ -1738,7 +1738,6 @@ requires-dist = [
     { name = "toml-decouple", specifier = ">=0.11.0" },
     { name = "wagtail", specifier = ">=8.0,<9" },
     { name = "wagtail-custom-code-editor", specifier = ">=1.0.7" },
-    { name = "wagtail-mcp", specifier = ">=0.3.0" },
     { name = "wagtailmenus", specifier = ">=4.0.5" },
 ]
 
@@ -1752,8 +1751,9 @@ dev = [
     { name = "pytest", specifier = ">=9.2.0" },
     { name = "pytest-django", specifier = ">=4.14.0" },
     { name = "ruff", specifier = ">=0.15.7" },
+    { name = "wagtail-mcp", specifier = ">=0.3.0" },
 ]
-prod = [{ name = "wagtail-evente", specifier = ">=0.12", index = "https://pypi.ikso.net/simple" }]
+prod = [{ name = "wagtail-evente", extras = ["mcp"], specifier = ">=0.16", index = "https://pypi.ikso.net/simple" }]
 
 [[package]]
 name = "urllib3"
@@ -1821,18 +1821,24 @@ sdist = { url = "https://files.pythonhosted.org/packages/d8/9c/fee85c5dfb19cd510
 
 [[package]]
 name = "wagtail-evente"
-version = "0.15.13"
+version = "0.16.0"
 source = { registry = "https://pypi.ikso.net/simple" }
 dependencies = [
     { name = "pypdfium2" },
     { name = "python-slugify" },
+    { name = "pyyaml" },
     { name = "wagtail" },
     { name = "wagtail-custom-code-editor" },
     { name = "wagtailmenus" },
 ]
-sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.15.13.tar.gz", hash = "sha256:aa441a4021d1e50ab7c3d0446fd72a3233ab242d6bca56fb9f27d943ba562749" }
+sdist = { url = "https://pypi.ikso.net/packages/wagtail_evente-0.16.0.tar.gz", hash = "sha256:05d109ed4712f42bd9f05f0fc3fb420281c06b3c20622fe405eccfd46d6c236f" }
 wheels = [
-    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.15.13-py3-none-any.whl", hash = "sha256:1c802f0508a7a36b95cf8fc51649169790d9f05c82a4ebcf3a4123ffd0d26c34" },
+    { url = "https://pypi.ikso.net/packages/wagtail_evente-0.16.0-py3-none-any.whl", hash = "sha256:8196bce2a57354d536bd4c8b937e4e82d4df136400172d414be18001d5e051f1" },
+]
+
+[package.optional-dependencies]
+mcp = [
+    { name = "wagtail-mcp" },
 ]
 
 [[package]]
