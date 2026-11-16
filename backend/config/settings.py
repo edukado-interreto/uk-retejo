@@ -28,7 +28,14 @@ CSRF_TRUSTED_ORIGINS = config(
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
+# Own apps first: their templates, static files and translations take precedence,
+# the project's over evente's
 INSTALLED_APPS = [
+    "apps.core",
+    "apps.program",
+    "apps.registration",
+    "apps.search",
+    "evente",
     "django_extensions",
     "django_vite",
     "wagtail.contrib.forms",
@@ -60,11 +67,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "evente",
-    "apps.core",
-    "apps.program",
-    "apps.registration",
-    "apps.search",
 ]
 
 # MCP server for AI agents, on top of the API v3

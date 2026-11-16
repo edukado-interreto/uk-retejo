@@ -1,0 +1,11 @@
+{% extends "evente/404.html" %}
+{% load i18n %}
+
+{% block error_help %}
+<p class="mb-10 text-base text-grey-1">
+  {% translate "Did you arrive through a link we sent you?" %}
+  {% blocktranslate trimmed with email="kongresoj@co.uea.org" %}
+    Write to <a class="text-primary hover:underline" href="mailto:{{ email }}">{{ email }}</a>.
+  {% endblocktranslate %}
+</p>
+{% endblock %}

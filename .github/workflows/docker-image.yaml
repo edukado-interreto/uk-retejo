@@ -64,6 +64,13 @@ jobs:
             ghcr.io/${{ github.repository }}/django:${{ steps.gen_tags.outputs.COMMIT_HASH }}
             ghcr.io/${{ github.repository }}/django:${{ steps.gen_tags.outputs.SHORT_COMMIT_HASH }}
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    permissions: {}
+
+    steps:
       - name: Trigger Arcane redeploy
         # https://docker.ikso.net/settings/webhooks
         # https://github.com/edukado-interreto/uk-retejo/settings/secrets/actions

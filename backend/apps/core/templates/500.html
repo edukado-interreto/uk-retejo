@@ -1,0 +1,10 @@
+{% extends "evente/500.html" %}
+{% load i18n %}
+
+{% block error_help %}
+<p class="mt-10 text-base text-grey-1">
+  {% blocktranslate trimmed with email="kongresoj@co.uea.org" %}
+    If the problem persists, write to <a class="text-primary hover:underline" href="mailto:{{ email }}">{{ email }}</a>.
+  {% endblocktranslate %}
+</p>
+{% endblock %}

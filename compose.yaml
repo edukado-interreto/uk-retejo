@@ -22,7 +22,7 @@ services:
       - USER_ID=$USER_ID
       - GROUP_ID=$GROUP_ID
       - PYPI_PASSWORD=$PYPI_PASSWORD
-    command: /bin/sh -c "./manage.py migrate && exec ${DJANGO_RUNSERVER:-granian config.wsgi:application}"
+    command: ${DJANGO_RUNSERVER:-granian config.wsgi:application}
     user: $USER_ID:$GROUP_ID
     secrets:
       - POSTGRES_PASSWORD

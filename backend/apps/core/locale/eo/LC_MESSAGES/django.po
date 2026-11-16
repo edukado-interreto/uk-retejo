@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: uk-retejo/core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 18:12+0100\n"
+"POT-Creation-Date: 2026-11-16 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,6 +56,28 @@ msgstr "enhavo"
 #: apps/core/models.py
 msgid "Simple page"
 msgstr "Simpla paĝo"
+
+#: apps/core/templates/404.html
+msgid "Did you arrive through a link we sent you?"
+msgstr "Ĉu vi alvenis per ligilo, kiun ni sendis al vi?"
+
+#: apps/core/templates/404.html
+#, python-format
+msgid ""
+"Write to <a class=\"text-primary hover:underline\" href=\"mailto:"
+"%(email)s\">%(email)s</a>."
+msgstr ""
+"Skribu al <a class=\"text-primary hover:underline\" href=\"mailto:"
+"%(email)s\">%(email)s</a>."
+
+#: apps/core/templates/500.html
+#, python-format
+msgid ""
+"If the problem persists, write to <a class=\"text-primary hover:underline\" "
+"href=\"mailto:%(email)s\">%(email)s</a>."
+msgstr ""
+"Se la problemo daŭras, skribu al <a class=\"text-primary hover:underline\" "
+"href=\"mailto:%(email)s\">%(email)s</a>."
 
 #: apps/core/wagtail_hooks.py
 msgid "Pattern library"
