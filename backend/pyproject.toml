@@ -48,6 +48,9 @@ ignore = ["E731", "RUF012", "SIM102"]  # lambda/def, Class mutable attr, combine
 [tool.ruff.lint.isort]
 known-third-party = ["django", "wagtail"]
 
+[tool.djangofmt]
+indent-width = 2
+
 [tool.mypy]
 plugins = ["mypy_django_plugin.main"]
 mypy_path = "stubs"
