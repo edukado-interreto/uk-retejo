@@ -52,7 +52,7 @@ def checkcode(request: HttpRequest):
                     "isMember": choice([True, False]),
                     "countryCategory": choice(["A", "B", "C", "D"]),
                     "countryMembershipCategory": randint(1, 4),
-                    "ageGroup": random_age_group,
+                    "ageGroup": random_age_group(),
                     "specialCategory": None,
                     "discount": 0,
                 },

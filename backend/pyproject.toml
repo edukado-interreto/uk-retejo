@@ -29,6 +29,7 @@ dev = [
   "faker>=40.4.0",
   "granian[reload]>=2.8.5",
   "pytest>=9.2.0",
+  "pytest-cov>=7.1.0",
   "pytest-django>=4.14.0",
   "ruff>=0.15.7",
   # In dev, wagtail-evente comes from the symlink: its mcp extra is listed here
@@ -41,6 +42,25 @@ prod = [
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["tests.py", "test_*.py"]
+testpaths = ["apps", "config"]
+# Test modules share names across apps (test_blocks.py, test_views.py)
+addopts = "--import-mode=importlib"
+
+[tool.coverage.run]
+source = ["apps", "config"]
+branch = true
+omit = [
+  "*/migrations/*",
+  "*/test_*.py",
+  # Evaluated once at startup, its branches depend on the environment
+  "config/settings.py",
+]
+
+[tool.coverage.report]
+fail_under = 95
+show_missing = true
+skip_covered = true
+skip_empty = true
 
 [tool.ruff.lint]
 ignore = ["E731", "RUF012", "SIM102"]  # lambda/def, Class mutable attr, combine if

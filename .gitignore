@@ -11,3 +11,5 @@ demo
 .vite/
 !**/.keep
 *-dump.sql.xz
+.coverage
+htmlcov/

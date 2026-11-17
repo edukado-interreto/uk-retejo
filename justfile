@@ -55,6 +55,11 @@ fontawesome:
     cp {{fa_module}}/css/all.min.css {{fa_static}}/css/all.min.css
     cp -r {{fa_module}}/webfonts {{fa_static}}/
 
+# Run the backend tests with coverage, e.g. `just test -x apps/core`
+[group('django')]
+test *args:
+    {{dc_exec}} pytest --cov {{args}}
+
 [group('django')]
 superuser:
     {{django}} createsuperuser
