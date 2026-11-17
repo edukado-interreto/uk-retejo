@@ -1,10 +1,6 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
-
 from wagtail.models.pages import Page
-
-
-from wsgiref.headers import Headers
 
 # To enable logging of search queries for use with the "Promoted search results" module
 # <https://docs.wagtail.org/en/stable/reference/contrib/searchpromotions.html>
@@ -20,7 +16,8 @@ def search(request):
 
     # Search
     if search_query:
-        search_results = Page.objects.live().search(search_query)
+        # PageManager is built by from_queryset(), not understood by zuban
+        search_results = Page.objects.live().search(search_query)  # type: ignore[attr-defined]
 
         # To log this query for use with the "Promoted search results" module:
 

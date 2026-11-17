@@ -1,7 +1,6 @@
 from django.core.files.storage import storages
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect
-from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import cache_page
 from django.views.static import serve
 from wagtail.embeds.embeds import get_embed

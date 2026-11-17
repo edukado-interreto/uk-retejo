@@ -34,7 +34,8 @@ def weight_choice(collection, weights):
     return choices(collection, weights, k=1)[0]
 
 
-def current_year(year, today=date.today()) -> int:
+def current_year(year, today: date | None = None) -> bool:
+    today = today or date.today()
     # Ni diru ke turndato estas 1-a de septembro, ~122 tagoj ĝis fino de jaro
     remainder = timedelta(365 - (date(1905, 9, 1) - date(1905, 1, 1)).days)
     try:

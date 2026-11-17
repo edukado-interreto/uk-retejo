@@ -1,6 +1,7 @@
 from importlib.util import find_spec
 from itertools import product
 from pathlib import Path
+from typing import Any
 
 from dj_database_url import parse as db_url_parse
 from django.utils.translation import gettext_lazy as _
@@ -130,7 +131,7 @@ APPEND_SLASH = False
 DJANGO_ADMIN_URL = config("DJANGO_ADMIN_URL", "django-admin")
 WAGTAIL_ADMIN_URL = config("WAGTAIL_ADMIN_URL", "admin")
 
-TEMPLATES = [
+TEMPLATES: list[dict[str, Any]] = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "APP_DIRS": True,
@@ -243,7 +244,18 @@ WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.databa
 # This can be omitted to allow all files, but note that this may present a security risk
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
-WAGTAILDOCS_EXTENSIONS = "csv docx odt pdf pptx key rtf txt xlsx zip".split()
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "odt",
+    "pdf",
+    "pptx",
+    "key",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]
 # https://docs.wagtail.org/en/stable/topics/writing_templates.html#responsive-embeds
 WAGTAILEMBEDS_RESPONSIVE_HTML = True  # CSS class .responsive-object
 

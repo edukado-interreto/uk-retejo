@@ -53,10 +53,19 @@ indent-width = 2
 
 [tool.mypy]
 plugins = ["mypy_django_plugin.main"]
-mypy_path = "stubs"
+
+[[tool.mypy.overrides]]
+# wagtail-mcp is untyped
+module = "evente.mcp.tools"
+disable_error_code = ["untyped-decorator"]
 
 [tool.django-stubs]
 django_settings_module = "config.settings"
+
+[tool.ty.rules]
+# Wagtail blocks declare `class Meta:` without inheriting the parent’s Meta,
+# which ty reports as an invalid override (false positive for this pattern)
+incompatible-attribute-override = "ignore"
 
 [tool.uv.sources]
 wagtail-evente = { index = "pypi-ikso" }

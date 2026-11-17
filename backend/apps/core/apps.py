@@ -32,8 +32,9 @@ class CoreAppConfig(AppConfig):
             finally:
                 connections.close_all()
 
-        request_and_close._closes_connections = True
-        dispatch.DjangoClient.request = request_and_close
+        # Monkeypatching a method: not expressible for type checkers
+        request_and_close._closes_connections = True  # type: ignore
+        dispatch.DjangoClient.request = request_and_close  # type: ignore[method-assign]
 
 
 class CustomImagesAppConfig(WagtailImagesAppConfig):

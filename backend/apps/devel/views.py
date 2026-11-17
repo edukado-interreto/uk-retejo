@@ -50,7 +50,7 @@ def checkcode(request: HttpRequest):
                     "missingFields": random_missing_fields(),
                     "isRegistered": choice([True, False]),
                     "isMember": choice([True, False]),
-                    "countryCategory": choice("A B C D".split()),
+                    "countryCategory": choice(["A", "B", "C", "D"]),
                     "countryMembershipCategory": randint(1, 4),
                     "ageGroup": random_age_group,
                     "specialCategory": None,

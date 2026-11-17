@@ -3,18 +3,14 @@ __all__ = [
     "AGE_GROUP_WEIGHTS",
     "COUNTRIES",
     "COUNTRY_WEIGHTS",
-    "MISSING_FIELDS",
     "LOCALES_BY_COUNTRY",
+    "MISSING_FIELDS",
 ]
 
 AGE_GROUPS = ["child", "youth", "membershipyouth", "adult", None]
 AGE_GROUP_WEIGHTS = [5, 15, 15, 60, 5]
 
-COUNTRIES = (
-    "AL AM AO AR AT AU BE BG BI BJ BO BR BY CA CD CH CN CU CZ DE DK "
-    "EE ES FI FR GA GB GH GR HK HR HU IE IL IR IS IT JP KR LT LU LV "
-    "MG MN MX NL NO NP NZ PK PL RO RS RU SE SI SK TG TR TW TZ UA US"
-).split()
+COUNTRIES = ["AL", "AM", "AO", "AR", "AT", "AU", "BE", "BG", "BI", "BJ", "BO", "BR", "BY", "CA", "CD", "CH", "CN", "CU", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GA", "GB", "GH", "GR", "HK", "HR", "HU", "IE", "IL", "IR", "IS", "IT", "JP", "KR", "LT", "LU", "LV", "MG", "MN", "MX", "NL", "NO", "NP", "NZ", "PK", "PL", "RO", "RS", "RU", "SE", "SI", "SK", "TG", "TR", "TW", "TZ", "UA", "US"]
 COUNTRY_WEIGHTS = [
     1, 3, 4, 2, 18, 3, 25, 5, 7, 2, 1, 33, 2, 19, 10, 23, 43, 8, 133, 123,
     14, 5, 30, 13, 98, 1, 20, 1, 1, 1, 12, 47, 2, 3, 1, 1, 29, 27, 36, 18, 8,
