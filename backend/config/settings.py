@@ -89,6 +89,7 @@ MIDDLEWARE = [
     "evente.middleware.CurrentEventMiddleware",
 ]
 
+CACHES: dict[str, dict[str, Any]]
 
 if DEBUG:
     INSTALLED_APPS = [
@@ -123,6 +124,18 @@ if DEBUG:
         f"http{secure}://{host}:5173"
         for secure, host in product(("", "s"), ALLOWED_HOSTS)
     ]
+
+# Production only: diskcache-oxide is embedded in each process,
+# all Granian workers share the directory on the local volume at CACHE_DIR.
+if ENVIRONMENT.is_production:
+    CACHES = {
+        "default": {
+            "BACKEND": "diskcache_oxide.DjangoCache",
+            "LOCATION": config("CACHE_DIR", "/cache/default"),
+            "TIMEOUT": 600,
+            "OPTIONS": {"durable": True, "size_limit": 2 * 1024**3},
+        },
+    }
 
 ROOT_URLCONF = "config.urls"
 # URLs without trailing slash, see also WAGTAIL_APPEND_SLASH

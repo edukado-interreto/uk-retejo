@@ -1,8 +1,12 @@
 # check=skip=SecretsUsedInArgOrEnv
 ARG PYTHON_VERSION=3.14
 ARG UV_VERSION=0.12.24
+# diskcache-oxide needs rustc >= 1.99 to build from source
+ARG RUST_VERSION=1.100
 
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv-cli
+
+FROM rust:${RUST_VERSION}-alpine AS rust-toolchain
 
 
 
@@ -59,6 +63,17 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_PROJECT_ENVIRONMENT=/opt/venv
 
 WORKDIR $HOME
+
+# diskcache-oxide ships only an sdist (no musllinux wheel), so it is built here and
+# needs rustc >= 1.99, newer than Alpine's packaged rust (1.91). The toolchain comes
+# from the official image, so maturin finds cargo on PATH instead of downloading
+# rustup (which fails on Alpine). Build-only: none of this reaches the runtime image.
+COPY --from=rust-toolchain /usr/local/cargo /usr/local/cargo
+COPY --from=rust-toolchain /usr/local/rustup /usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo \
+    RUSTUP_HOME=/usr/local/rustup \
+    PATH="/usr/local/cargo/bin:$PATH"
+RUN apk add --no-cache build-base
 
 COPY --from=lock-export /requirements.txt /tmp/requirements.txt
 RUN --mount=type=cache,target=/root/.cache/uv \
