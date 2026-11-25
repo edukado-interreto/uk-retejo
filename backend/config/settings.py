@@ -137,6 +137,11 @@ if ENVIRONMENT.is_production:
         },
     }
 
+# Lifetime of the {% wagtailpagecache %} fragments, 0 = off. They are invalidated
+# when content changes (CACHE_BURST, see apps/core/cache.py), the lifetime only
+# bounds what the signals miss (bulk updates, direct SQL).
+TEMPLATE_CACHE_TTL = 48 * 3600 if ENVIRONMENT.is_production else 0
+
 ROOT_URLCONF = "config.urls"
 # URLs without trailing slash, see also WAGTAIL_APPEND_SLASH
 APPEND_SLASH = False

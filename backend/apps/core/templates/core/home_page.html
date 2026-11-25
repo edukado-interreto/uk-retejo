@@ -1,9 +1,11 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtail_cache %}
 
 {% block body_class %}homepage{% endblock %}
 
 {% block content %}
+  {% wagtailpagecache TEMPLATE_CACHE_TTL home CACHE_BURST %}
   {% for block in page.hero %}{% include_block block %}{% endfor %}
   {% for block in page.body %}{% include_block block %}{% endfor %}
+  {% endwagtailpagecache %}
 {% endblock content %}

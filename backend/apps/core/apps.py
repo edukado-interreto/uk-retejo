@@ -8,7 +8,8 @@ class CoreAppConfig(AppConfig):
     default = True
 
     def ready(self):
-        """Close the DB connections opened by the MCP tools.
+        """Invalidate the template cache on content changes (see .cache) and close
+        the DB connections opened by the MCP tools.
 
         The MCP SDK runs the tools in worker threads, where Django never closes
         the connections (the test Client used by wagtail_mcp disconnects
@@ -16,6 +17,10 @@ class CoreAppConfig(AppConfig):
         """
         from django.apps import apps
         from django.db import connections
+
+        from .cache import connect_signals
+
+        connect_signals()
 
         if not apps.is_installed("wagtail_mcp"):
             return

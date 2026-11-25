@@ -9,6 +9,7 @@ from django.urls import clear_url_caches
 from wagtail.models import Site
 from wagtailmenus.models import FlatMenu
 
+from apps.core.cache import cache_burst
 from config import context_processors, error_tracking
 from config.logs import PROD_LOGGING
 from config.storage import StaticFilesStorage, vite_prefix
@@ -65,6 +66,7 @@ def test_context_processor(rf, settings):
     assert context["flat_menus"] == ["kapo", "piedo"]
     assert context["ENVIRONMENT"] == settings.ENVIRONMENT
     assert context["GOATCOUNTER_URL"] == "https://uk.goatcounter.com"
+    assert context["CACHE_BURST"] == cache_burst()
 
 
 def test_setup_bugsink(monkeypatch):

@@ -3,6 +3,7 @@ from datetime import timedelta
 from types import ModuleType
 
 import pytest
+from django.core.cache import cache
 from django.utils.timezone import now
 from wagtail.models import APIToken, Page, Site
 
@@ -14,6 +15,14 @@ from evente.models import Event, EventeSiteRoot
 def media_root(settings, tmp_path):
     """Uploads and renditions go to a temporary directory, never to ../assets."""
     settings.MEDIA_ROOT = tmp_path
+
+
+@pytest.fixture(autouse=True)
+def clear_cache():
+    """Template fragments and CACHE_BURST live in the cache, keep tests isolated."""
+    cache.clear()
+    yield
+    cache.clear()
 
 
 @pytest.fixture

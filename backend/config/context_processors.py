@@ -2,12 +2,15 @@ from django.conf import settings
 from wagtail.models import Site
 from wagtailmenus.models import FlatMenu
 
-EXPORTED_SETTINGS = ["ENVIRONMENT", "GOATCOUNTER_URL"]
+from apps.core.cache import cache_burst
+
+EXPORTED_SETTINGS = ["ENVIRONMENT", "GOATCOUNTER_URL", "TEMPLATE_CACHE_TTL"]
 
 
 def app(request):
     return {
         "flat_menus": get_menu_handles(request),
+        "CACHE_BURST": cache_burst(),
         **{s: getattr(settings, s, None) for s in EXPORTED_SETTINGS},
     }
 

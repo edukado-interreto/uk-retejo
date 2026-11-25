@@ -1,4 +1,4 @@
-{% load i18n static wagtailcore_tags wagtailuserbar django_vite menu_tags evente_tags %}{% load_current_settings as event_settings %}<!DOCTYPE html>
+{% load i18n static wagtail_cache wagtailcore_tags wagtailuserbar django_vite menu_tags evente_tags %}{% load_current_settings as event_settings %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8">
@@ -41,7 +41,12 @@
     {% include "evente/snippets/preloader.html" %}
   {% endif %}
   {% include "evente/snippets/scroll_top.html" only %}
-  {% include "evente/header/header.html" %}
+  {# Same keys as {% wagtailpagecache %}, which fails on the DummyEventPage of 404, 500 and search: #}
+  {# page.cache_key is then empty, those pages share one entry. Menus mark the current page as active. #}
+  {% wagtail_site as current_site %}
+  {% wagtailcache TEMPLATE_CACHE_TTL header LANGUAGE_CODE CACHE_BURST page.cache_key current_site.pk %}
+    {% include "evente/header/header.html" %}
+  {% endwagtailcache %}
 
   {% block main %}
     <main class="{% block main_class %}{% endblock %}" style="{% block main_style %}min-height: 60vh{% endblock %}">
@@ -49,7 +54,9 @@
     </main>
   {% endblock %}
 
-  {% include "evente/footer/footer.html" %}
+  {% wagtailcache TEMPLATE_CACHE_TTL footer LANGUAGE_CODE CACHE_BURST page.cache_key current_site.pk %}
+    {% include "evente/footer/footer.html" %}
+  {% endwagtailcache %}
 
   {# Global javascript #}
 
