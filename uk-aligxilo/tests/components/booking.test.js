@@ -21,7 +21,9 @@ async function mountEdit(options) {
   return { app, form }
 }
 
-describe("booking", () => {
+// Skipped while FormBooking.vue is limited to the invitation letter: hotels, trips and
+// banquet are kept aside in FormBookingCopy.vue. Restore with `describe` once they are back.
+describe.skip("booking", () => {
   const { formOptions } = fixtures.loaddata
   const priceRows = (form) => form.findComponent(FormBookingPrice).findAll("tr").length
 

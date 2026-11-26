@@ -1,8 +1,23 @@
 import { describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 
-import { flagEmoji, scrollTo } from "@/helpers/functions.js"
+import { flagEmoji, registrationIdFromUrl, scrollTo } from "@/helpers/functions.js"
 import mixins from "@/mixins.js"
+
+describe("registrationIdFromUrl", () => {
+  it.each([
+    ["/mendilo/abc123", "abc123"],
+    ["/2027/mendilo/abc123/", "abc123"],
+    ["/2027/mendilo-sekreta/abc123/", "abc123"],
+    ["/2027/mendilo", null],
+    ["/2027/mendilo-sekreta/", null],
+    ["/2027/aligxilo/abc123/", null],
+    ["/2027/ne-mendilo/abc123/", null],
+  ])("reads the ID in %s", (path, id) => {
+    window.history.replaceState({}, "", path)
+    expect(registrationIdFromUrl()).toBe(id)
+  })
+})
 
 describe("flagEmoji", () => {
   it("turns a country code into its two regional indicator symbols", () => {

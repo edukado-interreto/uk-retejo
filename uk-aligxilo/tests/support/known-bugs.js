@@ -2,6 +2,7 @@
 // fails as soon as the warning disappears, so remove the entry once the bug is fixed.
 import { expectConsole } from "./console.js"
 
+// Only for the full booking form (FormBookingCopy.vue), see booking.test.js
 export function expectBookingWarnings() {
   expectConsole(
     /Failed to resolve component: router-link/,
@@ -17,12 +18,5 @@ export function expectUndeclaredMembershipCategory() {
   expectConsole(
     /Property "countryMembershipCategoryFromDB" was accessed during render but is not defined/,
     "MainForm.vue assigns countryMembershipCategoryFromDB but does not declare it in data()",
-  )
-}
-
-export function expectInvitationDisabledProp() {
-  expectConsole(
-    /Invalid prop: type check failed for prop "disabled". Expected Boolean, got String/,
-    "FormInvitation.vue passes the birth date string to <n-date-picker :disabled>",
   )
 }

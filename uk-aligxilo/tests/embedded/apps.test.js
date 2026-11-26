@@ -9,7 +9,6 @@ import Participants from "@/embedded/Participants.vue"
 import Price from "@/embedded/Price.vue"
 import Registration from "@/embedded/Registration.vue"
 import { mockApi, requests } from "../support/api.js"
-import { expectBookingWarnings } from "../support/known-bugs.js"
 import { mountApp, settle } from "../support/mount.js"
 
 describe("Registration", () => {
@@ -36,7 +35,6 @@ describe("Participants", () => {
 
 describe("Edit", () => {
   it("renders the edit form with the booking part", async () => {
-    expectBookingWarnings()
     window.history.replaceState({}, "", "/mendilo/abc123")
     const wrapper = await mountApp(Edit)
     await vi.waitFor(() => expect(wrapper.findComponent(FormBooking).exists()).toBe(true))

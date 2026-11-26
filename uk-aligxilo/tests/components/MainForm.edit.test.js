@@ -6,12 +6,10 @@ import FormPayment from "@/components/form/parts/FormPayment.vue"
 import MainForm from "@/components/MainForm.vue"
 import Edit from "@/embedded/Edit.vue"
 import { fixtures, requests } from "../support/api.js"
-import { expectBookingWarnings } from "../support/known-bugs.js"
 import { mountApp, settle } from "../support/mount.js"
 
 describe("MainForm (edit mode)", () => {
   async function mountEdit(options) {
-    expectBookingWarnings()
     window.history.replaceState({}, "", "/mendilo/y2eig1xo0ib6ws50ya694o205dtv869o6")
     const app = await mountApp(Edit, options)
     const form = app.findComponent(MainForm)
@@ -30,7 +28,7 @@ describe("MainForm (edit mode)", () => {
     })
     expect(form.props("edit")).toBe(true)
     expect(form.vm.form.persona_nomo).toBe(fixtures.registration.registration.persona_nomo)
-    expect(form.findComponent(FormBooking).find(".n-radio-group").exists()).toBe(true)
+    expect(form.findComponent(FormBooking).find("#invitationNeeded").exists()).toBe(true)
     expect(form.findComponent(FormPayment).isVisible()).toBe(false)
   })
 
