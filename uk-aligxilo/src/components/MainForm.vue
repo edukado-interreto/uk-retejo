@@ -119,8 +119,8 @@
       <form-booking
         v-model="form"
         :default-data="defaultData"
-        :food-type-required="foodTypeRequired"
-        :foodTypeCompanionRequired="foodTypeCompanionRequired"
+        :food-type-required="false"
+        :foodTypeCompanionRequired="false"
       />
     </template>
 
@@ -252,30 +252,30 @@ export default {
         volas_membrigxi: !this.edit && this.form.membreco === this.formOptions.boolValues.no,
         membreco_tipo: !this.edit && this.form.volas_membrigxi === this.formOptions.boolValues.yes,
 
-        mangxotipo: this.edit && this.foodTypeRequired,
-        mangxotipo_kunlogxanto: this.edit && this.foodTypeCompanionRequired,
-        ak_cxambro: this.edit && !!this.form.ak,
-        ak_kunlogxanto2:
-          this.edit &&
-          !!this.form.ak &&
-          (this.akPeopleInRoom > 2 || (this.akPeopleInRoom == 2 && !this.form.ak_kunlogxanto)),
-        pk_cxambro: this.edit && this.form.pk,
-        pk_kunlogxanto2:
-          this.edit &&
-          !!this.form.pk &&
-          (this.pkPeopleInRoom > 2 || (this.pkPeopleInRoom == 2 && !this.form.pk_kunlogxanto)),
-        hotelo_cxambro: this.edit && !!this.form.hotelo,
-        hotelo_alternativo: this.edit && !!this.form.hotelo,
-        hotelo_de: this.edit && !!this.form.hotelo,
-        hotelo_gxis: this.edit && !!this.form.hotelo,
-        hotelo_kunlogxanto2:
-          this.edit &&
-          !!this.form.hotelo &&
-          this.hotelPayForRoom &&
-          (this.hotelPeopleInRoom > 2 || (this.hotelPeopleInRoom == 2 && !this.form.hotelo_kunlogxanto)),
-        sxtataneco: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
-        pasporto: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
-        eldoninto_pasporto: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
+        // mangxotipo: this.edit && this.foodTypeRequired,
+        // mangxotipo_kunlogxanto: this.edit && this.foodTypeCompanionRequired,
+        // ak_cxambro: this.edit && !!this.form.ak,
+        // ak_kunlogxanto2:
+        //   this.edit &&
+        //   !!this.form.ak &&
+        //   (this.akPeopleInRoom > 2 || (this.akPeopleInRoom == 2 && !this.form.ak_kunlogxanto)),
+        // pk_cxambro: this.edit && this.form.pk,
+        // pk_kunlogxanto2:
+        //   this.edit &&
+        //   !!this.form.pk &&
+        //   (this.pkPeopleInRoom > 2 || (this.pkPeopleInRoom == 2 && !this.form.pk_kunlogxanto)),
+        // hotelo_cxambro: this.edit && !!this.form.hotelo,
+        // hotelo_alternativo: this.edit && !!this.form.hotelo,
+        // hotelo_de: this.edit && !!this.form.hotelo,
+        // hotelo_gxis: this.edit && !!this.form.hotelo,
+        // hotelo_kunlogxanto2:
+        //   this.edit &&
+        //   !!this.form.hotelo &&
+        //   this.hotelPayForRoom &&
+        //   (this.hotelPeopleInRoom > 2 || (this.hotelPeopleInRoom == 2 && !this.form.hotelo_kunlogxanto)),
+        // sxtataneco: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
+        // pasporto: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
+        // eldoninto_pasporto: this.edit && !!(this.form.hotelo || this.form.ak_cxambro || this.form.pk_cxambro),
       };
 
       // In edit mode: all non-editable fields are made non-mandatory to avoid potential bugs

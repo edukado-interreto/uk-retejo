@@ -22,3 +22,12 @@ export function flagEmoji(countryCode) {
     .map((char) => 127397 + char.charCodeAt());
   return String.fromCodePoint(...codePoints);
 }
+
+/**
+ * ID of the registration in the booking form URL, or null if missing.
+ * Works on every page whose slug starts with "mendilo": `/mendilo/<id>`, `/mendilo-sekreta/<id>`…
+ */
+export function registrationIdFromUrl() {
+  const match = /\/mendilo[\w-]*\/(?<id>\w+)/.exec(window.location.pathname);
+  return match === null ? null : match.groups.id;
+}

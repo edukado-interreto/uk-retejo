@@ -42,7 +42,7 @@
               id="birthDate"
               type="date"
               value-format="yyyy-MM-dd"
-              :disabled="form.naskigxdato"
+              :disabled="!!form.naskigxdato"
             />
           </n-form-item-gi>
           <n-gi>
@@ -67,87 +67,63 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 import { NFormItemGi } from 'naive-ui';
+import axios from 'axios';
+import downloadFile from 'downloadjs';
 import SlideTransition from '@/components/ui/SlideTransition.vue';
 import SelectInput from '@/components/form/fields/SelectInput.vue';
 import TextInput from '@/components/form/fields/TextInput.vue';
-import { mapGetters } from 'vuex';
-import axios from 'axios';
-import download from 'downloadjs';
-import { flagEmoji } from '@/helpers/functions';
+import { flagEmoji, registrationIdFromUrl } from '@/helpers/functions';
 
-export default {
-  name: 'FormInvitation',
-  components: { SlideTransition, SelectInput, TextInput, NFormItemGi },
-  props: {
-    modelValue: Object,
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return {
-      invitationNeeded: false,
-      passportValidFrom: null,
-      passportValidTo: null,
-      birthDate: null,
-      loading: false,
-      defaultName: null,
-    };
-  },
-  computed: {
-    ...mapGetters(['countries']),
-    countryOptions() {
-      return Object.keys(this.countries).map((key) => {
-        return { value: key, label: flagEmoji(key) + ' ' + this.countries[key].name };
-      });
-    },
-    canSubmit() {
-      return (
-        this.form.pasporto && this.passportValidFrom && this.passportValidTo && this.birthDate && this.form.sxtataneco
-      );
-    },
-    form: {
-      get() {
-        return this.modelValue;
+const form = defineModel({ type: Object, required: true });
+
+const store = useStore();
+
+const invitationNeeded = ref(false);
+const passportValidFrom = ref(null);
+const passportValidTo = ref(null);
+const birthDate = ref(form.value.naskigxdato || null);
+const loading = ref(false);
+const defaultName = `${form.value.persona_nomo} ${form.value.familia_nomo}`.trim();
+
+if (!form.value.sxtataneco) {
+  form.value.sxtataneco = form.value.lando;
+}
+
+const countryOptions = computed(() => {
+  const countries = store.getters.countries;
+  return Object.keys(countries).map((key) => ({ value: key, label: `${flagEmoji(key)} ${countries[key].name}` }));
+});
+
+const canSubmit = computed(
+  () =>
+    form.value.pasporto && passportValidFrom.value && passportValidTo.value && birthDate.value && form.value.sxtataneco,
+);
+
+const download = () => {
+  loading.value = true;
+  return axios
+    .post(
+      '/invitation',
+      {
+        id: registrationIdFromUrl(),
+        passportNumber: form.value.pasporto,
+        passportValidFrom: passportValidFrom.value,
+        passportValidTo: passportValidTo.value,
+        birthDate: birthDate.value,
+        country: form.value.sxtataneco,
       },
-      set(value) {
-        this.$emit('update:modelValue', value);
-      },
-    },
-  },
-  methods: {
-    download() {
-      this.loading = true;
-      axios
-        .post(
-          '/invitation',
-          {
-            id: this.$route.params.id,
-            passportNumber: this.form.pasporto,
-            passportValidFrom: this.passportValidFrom,
-            passportValidTo: this.passportValidTo,
-            birthDate: this.birthDate,
-            country: this.form.sxtataneco,
-          },
-          { responseType: 'blob' },
-        )
-        .then((response) => {
-          download(response.data, `Invitletero ${this.defaultName}.pdf`);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-  },
-  created() {
-    if (!this.form.sxtataneco) {
-      this.form.sxtataneco = this.form.lando;
-    }
-    if (this.form.naskigxdato) {
-      this.birthDate = this.form.naskigxdato;
-    }
-    this.defaultName = (this.form.persona_nomo + ' ' + this.form.familia_nomo).trim();
-  },
+      { responseType: 'blob' },
+    )
+    .then((response) => {
+      downloadFile(response.data, `Invitletero ${defaultName}.pdf`);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 </script>
 

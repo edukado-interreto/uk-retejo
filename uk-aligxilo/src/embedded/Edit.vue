@@ -16,6 +16,7 @@ import { useStore } from 'vuex';
 import axios from 'axios';
 import BaseApp from './BaseApp.vue';
 import MainForm from '@/components/MainForm.vue';
+import { registrationIdFromUrl } from '@/helpers/functions.js';
 
 const loading = ref(true);
 
@@ -47,15 +48,15 @@ const fetchData = (id) => {
     });
 };
 
-const match = /mendilo\/(?<id>\w+)/.exec(window.location.pathname);
-if (match === null) {
+const id = registrationIdFromUrl();
+if (id === null) {
   errorTitle.value = 'Mankanta identigilo';
   errorMessage.value = 'Se vi volas mendi servojn, bonvolu uzi la ligilon, kiu estis sendita al vi per retpoŝto.';
 } else {
   useStore()
     .dispatch('loaddata')
     .then(() => {
-      fetchData(match.groups.id);
+      fetchData(id);
     });
 }
 </script>
