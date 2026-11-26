@@ -1,7 +1,8 @@
 <template>
+  <n-h3>Partneraj rabatoj</n-h3>
   <partner-discount-codes />
 
-  <n-h4>Invitilo</n-h4>
+  <n-h3 id="invitilo">Invitilo</n-h3>
   <form-invitation v-model="form" />
 </template>
 

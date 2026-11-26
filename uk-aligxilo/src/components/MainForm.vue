@@ -114,7 +114,7 @@
     </div>
 
     <template v-if="edit">
-      <n-h3 id="mendilo">Mendilo</n-h3>
+      <n-h2 id="mendilo">Mendilo</n-h2>
 
       <form-booking
         v-model="form"
